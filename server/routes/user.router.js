@@ -1,6 +1,6 @@
 const express = require('express');
 const encryptLib = require('../modules/encryption');
-const Person = require('../models/Person');
+const User = require('../models/User');
 const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
@@ -22,10 +22,12 @@ router.get('/', (req, res) => {
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
+  const family = req.body.family;
   const password = encryptLib.encryptPassword(req.body.password);
 
-  const newPerson = new Person({ username, password });
-  newPerson.save()
+
+  const newUser = new User({ username, family, password });
+  newUser.save()
     .then(() => { res.sendStatus(201); })
     .catch((err) => { next(err); });
 });

@@ -2,14 +2,15 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
     console.log('LoginController created');
     var self = this;
     self.user = {
-      username: '',
-      password: ''
+        username: '',
+        family:'',
+        password: ''
     };
     self.message = '';
 
     self.login = function() {
       if(self.user.username === '' || self.user.password === '') {
-        self.message = "Enter your username and password!";
+	      self.message = "Choose a username and password!";
       } else {
         console.log('sending to server...', self.user);
         $http.post('/api/user/login', self.user).then(
@@ -31,12 +32,13 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
     };
 
     self.registerUser = function() {
-      if(self.user.username === '' || self.user.password === '') {
-        self.message = "Choose a username and password!";
+      if(self.user.username === '' || self.user.password === '' || self.user.family === '') {
+	      self.message = "Username, family and password must all be entered!";
+
       } else {
-        console.log('sending to server...', self.user);
-        $http.post('/api/user/register', self.user).then(function(response) {
-          console.log('success');
+            console.log('sending to server...', self.user);
+            $http.post('/api/user/register', self.user).then(function(response) {
+            	console.log('success');
           $location.path('/home');
         },
         function(response) {
