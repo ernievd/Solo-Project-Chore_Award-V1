@@ -1,0 +1,34 @@
+{
+  "name": "prime-passport-local-strategy",
+  "version": "1.0.0",
+  "description": "passport authentication and authorization",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrimeAcademy/prime-passport-local-strategy.git"
+  },
+  "author": "Prime Digital Academy Faculty",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PrimeAcademy/prime-passport-local-strategy/issues"
+  },
+  "homepage": "https://github.com/PrimeAcademy/prime-passport-local-strategy#readme",
+  "dependencies": {
+    "angular": "^1.6.7",
+    "angular-route": "^1.6.7",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "bootstrap": "^3.3.7",
+    "cookie-session": "^2.0.0-beta.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "jquery": "^3.2.1",
+    "mongoose": "^4.13.6",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
