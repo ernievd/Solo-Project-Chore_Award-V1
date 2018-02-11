@@ -14,12 +14,12 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
       templateUrl: '/views/templates/register.html',
       controller: 'LoginController as vm'
     })
-    .when('/user', {
-      templateUrl: '/views/templates/user.html',
-      controller: 'UserController as vm',
+    .when('/parentUser', {
+      templateUrl: '/views/templates/parentUser.html',
+      controller: 'ParentUserController as vm',
       resolve: {
-        getuser: function (UserService) {
-          return UserService.getuser();
+        getuser: function (ParentUserService) {
+          return ParentUserService.getuser();
         }
       }
     })
@@ -27,8 +27,8 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
       templateUrl: '/views/templates/info.html',
       controller: 'InfoController as vm',
       resolve: {
-        getuser: function (UserService) {
-          return UserService.getuser();
+        getuser: function (ParentUserService) {
+          return ParentUserService.getuser();
         }
       }
     })

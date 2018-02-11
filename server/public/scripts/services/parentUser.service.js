@@ -1,5 +1,5 @@
-myApp.service('UserService', ['$http', '$location', function ($http, $location) {
-  console.log('UserService Loaded');
+myApp.service('ParentUserService', ['$http', '$location', function ($http, $location) {
+  console.log('ParentUserService Loaded');
   
   var self = this;
 
@@ -23,7 +23,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         // user has no session, bounce them back to the login page
         $location.path("/home");
       });
-  }
+  };
 
   self.logout = function () {
     $http.get('/api/user/logout')
