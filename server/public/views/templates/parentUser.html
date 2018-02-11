@@ -1,14 +1,44 @@
 <div ng-include="'views/partials/nav.html'"></div>
+<!--<div class="container">-->
+
+<!--<h1 id="welcome" class="lead">Welcome, {{vm.userObject.userName}}!</h1>-->
+<!--<button class="btn btn-default" ng-click="vm.parentUserService.logout()">Log Out</button>-->
+<!--</div>-->
+
 <div class="container">
 
-    <h1 id="welcome" class="lead">Welcome, {{vm.userObject.userName}}!</h1>
-    <button class="btn btn-default" ng-click="vm.parentUserService.logout()">Log Out</button>
-</div>
+	<div class="container">
+		<h1 class="lead">Add Task</h1>
+		<h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>
+		<form ng-submit="vm.registerUser()">
+			<div>
+				<label for="task">Task:</label>
+				<input type="text" ng-model="vm.user.task" />
+			</div>
+			<div>
+				<label for="assignToChild">Child to assign:</label>
+				<input type="assignToChild" ng-model="vm.user.assignToChild" />
+			</div>
+			<div>
+				<label for="category">Category:</label>
+				<input type="category" ng-model="vm.user.category" />
+			</div>
+			<div>
+				<label for="dueDate">Date:</label>
+				<input type="dueDate" ng-model="vm.user.dueDate" />
+			</div>
+			<div>
+				<label for="pointValue">pointValue:</label>
+				<input type="pointValue" ng-model="vm.user.pointValue" />
+			</div>
+			<input class="btn btn-default" type="submit" name="submit" value="Register" />
+			<a href="#home">Cancel</a>
+		</form>
 
-<div class="container">
+	</div>
 
-	<h1 id="addNewTask" class="lead">Welcome, {{vm.userObject.userName}}</h1>
-	<button class="btn btn-default" ng-click="vm.parentUserService.logout()">Log Out</button>
+
+	<button class="btn btn-default" ng-click="vm.parentUserService.logout()">Add Task</button>
 </div>
 
 
