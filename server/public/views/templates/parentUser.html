@@ -10,35 +10,35 @@
 	<div class="container">
 		<h1 class="lead">Add Task</h1>
 		<h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>
-		<form ng-submit="vm.registerUser()">
+		<form ng-submit="vm.addTaskToDatabase()">
 			<div>
 				<label for="task">Task:</label>
-				<input type="text" ng-model="vm.user.task" />
+				<input type="text" ng-model="vm.task.taskName" />
 			</div>
 			<div>
 				<label for="assignToChild">Child to assign:</label>
-				<input type="assignToChild" ng-model="vm.user.assignToChild" />
+				<input type="assignToChild" ng-model="vm.task.childName" />
 			</div>
 			<div>
 				<label for="category">Category:</label>
-				<input type="category" ng-model="vm.user.category" />
+				<input type="category" ng-model="vm.task.category" />
 			</div>
 			<div>
 				<label for="dueDate">Date:</label>
-				<input type="dueDate" ng-model="vm.user.dueDate" />
+				<input type="dueDate" ng-model="vm.task.dueDate" />
 			</div>
 			<div>
 				<label for="pointValue">pointValue:</label>
-				<input type="pointValue" ng-model="vm.user.pointValue" />
+				<input type="pointValue" ng-model="vm.task.pointValue" />
 			</div>
-			<input class="btn btn-default" type="submit" name="submit" value="Register" />
+			<input class="btn btn-default" type="submit" name="submit" value="Add Task" />
 			<a href="#home">Cancel</a>
 		</form>
 
 	</div>
+	<button class="btn btn-default" ng-click="vm.addTaskToDatabase()">Test task</button>-->
 
-
-	<button class="btn btn-default" ng-click="vm.parentUserService.logout()">Add Task</button>
+	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>
 
 

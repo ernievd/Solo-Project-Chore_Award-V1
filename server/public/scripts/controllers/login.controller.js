@@ -1,9 +1,10 @@
 myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', function($http, $location, ParentUserService) {
     console.log('LoginController created');
-    var self = this;
+    let self = this;
     self.user = {
         username: '',
         family:'',
+	    role:'',
         password: ''
     };
     self.message = '';
@@ -36,6 +37,8 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 	      self.message = "Username, family and password must all be entered!";
 
       } else {
+      	    // a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
+      	    self.user.role = 'parent';
             console.log('sending to server...', self.user);
             $http.post('/api/user/register', self.user).then(function(response) {
             	console.log('success');

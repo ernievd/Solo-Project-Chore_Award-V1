@@ -1,7 +1,7 @@
 myApp.service('ParentUserService', ['$http', '$location', function ($http, $location) {
   console.log('ParentUserService Loaded');
   
-  var self = this;
+  let self = this;
 
   self.userObject = {};
 
@@ -22,6 +22,7 @@ myApp.service('ParentUserService', ['$http', '$location', function ($http, $loca
       function(response) {
         // user has no session, bounce them back to the login page
         $location.path("/home");
+
       });
   };
 
@@ -35,5 +36,30 @@ myApp.service('ParentUserService', ['$http', '$location', function ($http, $loca
       console.log('logged out error');
       $location.path("/home");
     });
-  }
+  };
+
+
+	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
+    self.addTaskToDatabase = function (dataObj) {
+	    //Add the user to the object so we have that user that added the task
+        dataObj.assignedby = self.userObject.userName;
+        //if parent added then confirmed is true - ** TODO- Check later to see if a parent role or child role
+	    dataObj.confirmed = true;
+	    //new task therefore completed is false
+	    dataObj.completed = false;
+	    //TODO - where to I get the proper user_id?
+	    dataObj.user_id = 1;
+	    console.log('sending to server...', dataObj);
+	    $http.post('/api/user/addTask', dataObj).then(function(response) {
+			    console.log('success');
+			    //Keeping this for now. Used to redirect if you want after the post
+			    // $location.path('/home');
+		    },
+		    function(response) {
+			    console.log('error');
+			    self.message = "Something went wrong. Please try again."
+		    });
+
+
+    }
 }]);
