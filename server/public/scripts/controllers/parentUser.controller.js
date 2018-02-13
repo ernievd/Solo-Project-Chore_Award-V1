@@ -25,4 +25,5 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 		}
 	}
 
+
 }]);

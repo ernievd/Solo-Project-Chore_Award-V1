@@ -1,45 +1,9 @@
 <div ng-include="'views/partials/nav.html'"></div>
-<!--<div class="container">-->
-
-<!--<h1 id="welcome" class="lead">Welcome, {{vm.userObject.userName}}!</h1>-->
-<!--<button class="btn btn-default" ng-click="vm.parentUserService.logout()">Log Out</button>-->
-<!--</div>-->
-
-<!--<div class="container">-->
-	<!--<div class="row">-->
-	<!--<table style="width:100%">-->
-		<!--<tr>-->
-			<!--<th>Child</th>-->
-			<!--<th>Task</th>-->
-			<!--<th>Category</th>-->
-			<!--<th>Due Date</th>-->
-			<!--<th>Assigned By</th>-->
-			<!--<th>Point Value</th>-->
-			<!--<th>Confirmed</th>-->
-			<!--<th>Completed</th>-->
-		<!--</tr>-->
-		<!--<tr>-->
-			<!--<td>Jill</td>-->
-			<!--<td>Smith</td>-->
-			<!--<td>50</td>-->
-		<!--</tr>-->
-	<!--</table>-->
-	<!--</div>-->
-<!--</div>-->
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<!--<div ng-repeat="task in vm.parentUserService.taskObject" class="well col-md-12">-->
-				<!--<p>Task: {{task.taskname}}</p>-->
-				<!--<p>Child: {{task.assignedto}}</p>-->
-				<!--<p>Category: {{task.category}}</p>-->
-				<!--<p>Due Date: {{task.duedate}}</p>-->
-				<!--<p>Assigned By: {{task.assignedby}}</p>-->
-				<!--<p>Point Value: {{task.pointvalue}}</p>-->
-				<!--<p>Confirmed: {{task.confirmed}}</p>-->
-				<!--<p>Completed: {{task.completed}}</p>-->
-
+			<h1 class="text-center" style="font-size:200%;">Task List</h1>
 				<table class="table table-striped col-md-12">
 					<thead>
 						<tr>
@@ -80,36 +44,51 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="container" >
 
-		<h1 class="lead">Add Task</h1>
-		<h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>
-		<form ng-submit="vm.addTaskToDatabase()">
-			<div>
-				<label for="task">Task:</label>
-				<input type="text" ng-model="vm.task.taskName" />
-			</div>
-			<div>
-				<label for="assignToChild">Child to assign:</label>
-				<input type="assignToChild" ng-model="vm.task.childName" />
-			</div>
+	<div class="container form-group row input-group">
+		<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
+		<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
+		<!--TODO - add popup when a field is empty-->
+		<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
 
-			<div>
-				<label for="category">Category:</label>
-				<input type="category" ng-model="vm.task.category" />
-			</div>
-			<div>
-				<label for="dueDate">Date:</label>
-				<input type="dueDate" ng-model="vm.task.dueDate" />
-			</div>
-			<div>
-				<label for="pointValue">pointValue:</label>
-				<input type="pointValue" ng-model="vm.task.pointValue" />
-			</div>
-			<input class="btn btn-default" type="submit" name="submit" value="Add Task" />
-			<a href="#home">Cancel</a>
-		</form>
-	<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>
+		<div class="col-md-2" >
+			<input type="text" class="form-control" name="task" value="" placeholder="Task description" ng-model="vm.task.taskName">
+		</div>
+
+		<div class="col-md-2" >
+				<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
+			<select required ng-model="vm.task.childName">
+				<option value="" disabled selected hidden>Assigned Child</option>
+				<option value="Corbin">Corbin</option>
+				<option value="Paige">Paige</option>
+			</select>
+		</div>
+
+		<div class="col-md-2" >
+			<select required ng-model="vm.task.category">
+				<!--TODO - capitalize output-->
+				<option value="" disabled selected hidden>Category</option>
+				<option value="chore">Chore</option>
+				<option value="homework">Homework</option>
+				<option value="outside">Outside Play</option>
+			</select>
+		</div>
+
+		<div class="col-md-2" >
+			<input type="date" class="form-control" name="category" value="" placeholder="dueDate" ng-model="vm.task.dueDate">
+		</div>
+
+		<div class="col-md-2" >
+			<input type="number" class="form-control" name="pointValue" value="" placeholder="Point Value" ng-model="vm.task.pointValue">
+		</div>
+
+		<div class="col-md-2">
+			<span class="btn btn-primary" ng-click="vm.addTaskToDatabase()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
+		</div>
+	</div>
+
+	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
 
 	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>
