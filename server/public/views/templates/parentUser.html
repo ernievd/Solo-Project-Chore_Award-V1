@@ -88,9 +88,45 @@
 		</div>
 	</div>
 
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+
+
+	<div class="container" >
+
+		<div class="container form-group row input-group">
+			<h1 class="text-center" style="font-size:160%;">Add a User</h1>
+			<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
+			<!--TODO - add popup when a field is empty-->
+			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+
+			<div class="col-md-3" >
+			<input type="text" class="form-control" name="username" value="" placeholder="User Name" ng-model="vm.parentUserService.addUserObject.username">
+			</div>
+
+			<div class="col-md-3" >
+				<input type="text" class="form-control" name="password" value="" placeholder="password" ng-model="vm.parentUserService.addUserObject.password">
+			</div>
+
+
+			<div class="col-md-3" >
+				<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
+				<select required ng-model="vm.parentUserService.addUserObject.role">
+					<option value="" disabled selected hidden>User Role</option>
+					<option value="child">Child</option>
+					<option value="parent">Parent</option>
+				</select>
+			</div>
+
+			<div class="col-md-3">
+				<span class="btn btn-primary" ng-click="vm.parentUserService.addUser(vm.parentUserService.addUserObject.role)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add User</span>
+			</div>
+		</div>
+
+		<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+
+		<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
 
 	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>
 
 
+</div>

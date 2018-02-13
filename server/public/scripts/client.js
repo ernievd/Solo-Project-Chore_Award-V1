@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute']);
+let myApp = angular.module('myApp', ['ngRoute']);
 
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
@@ -23,6 +23,7 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         }
       }
     })
+
     .when('/info', {
       templateUrl: '/views/templates/info.html',
       controller: 'InfoController as vm',

@@ -45,7 +45,6 @@ router.get('/gettasks', (req, res) => {
 			console.log('error on find: ', error);
 			res.sendStatus(500);
 		} else {
-			console.log('found task Documents: ', foundTasks);
 			res.send(foundTasks);
 		}
 	}); // end find
