@@ -5,9 +5,83 @@
 <!--<button class="btn btn-default" ng-click="vm.parentUserService.logout()">Log Out</button>-->
 <!--</div>-->
 
+<!--<div class="container">-->
+	<!--<div class="row">-->
+	<!--<table style="width:100%">-->
+		<!--<tr>-->
+			<!--<th>Child</th>-->
+			<!--<th>Task</th>-->
+			<!--<th>Category</th>-->
+			<!--<th>Due Date</th>-->
+			<!--<th>Assigned By</th>-->
+			<!--<th>Point Value</th>-->
+			<!--<th>Confirmed</th>-->
+			<!--<th>Completed</th>-->
+		<!--</tr>-->
+		<!--<tr>-->
+			<!--<td>Jill</td>-->
+			<!--<td>Smith</td>-->
+			<!--<td>50</td>-->
+		<!--</tr>-->
+	<!--</table>-->
+	<!--</div>-->
+<!--</div>-->
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<!--<div ng-repeat="task in vm.parentUserService.taskObject" class="well col-md-12">-->
+				<!--<p>Task: {{task.taskname}}</p>-->
+				<!--<p>Child: {{task.assignedto}}</p>-->
+				<!--<p>Category: {{task.category}}</p>-->
+				<!--<p>Due Date: {{task.duedate}}</p>-->
+				<!--<p>Assigned By: {{task.assignedby}}</p>-->
+				<!--<p>Point Value: {{task.pointvalue}}</p>-->
+				<!--<p>Confirmed: {{task.confirmed}}</p>-->
+				<!--<p>Completed: {{task.completed}}</p>-->
+
+				<table class="table table-striped col-md-12">
+					<thead>
+						<tr>
+							<th>Task</th>
+							<th>Child</th>
+							<th>Category</th>
+							<th>Due Date</th>
+							<th>Assigned By</th>
+							<th>Point Value</th>
+							<th>Confirmed</th>
+							<th>Completed</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="task in vm.parentUserService.taskObject">
+							<!--<th scope="row">1</th>-->
+							<td>{{task.taskname}}</td>
+							<td>{{task.assignedto}}</td>
+							<td>{{task.category}}</td>
+							<td>{{task.duedate}}</td>
+							<td>{{task.assignedby}}</td>
+							<td>{{task.pointvalue}}</td>
+							<td>{{task.confirmed}}</td>
+							<td>{{task.completed}}</td>
+						</tr>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox"> Check me out
+							</label>
+						</div>
+					</tbody>
+				</table>
+				<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
+				<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
+				<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
+
+		</div>
+	</div>
+</div>
+
 <div class="container">
 
-	<div class="container">
 		<h1 class="lead">Add Task</h1>
 		<h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>
 		<form ng-submit="vm.addTaskToDatabase()">
@@ -19,6 +93,7 @@
 				<label for="assignToChild">Child to assign:</label>
 				<input type="assignToChild" ng-model="vm.task.childName" />
 			</div>
+
 			<div>
 				<label for="category">Category:</label>
 				<input type="category" ng-model="vm.task.category" />
@@ -34,9 +109,7 @@
 			<input class="btn btn-default" type="submit" name="submit" value="Add Task" />
 			<a href="#home">Cancel</a>
 		</form>
-
-	</div>
-	<button class="btn btn-default" ng-click="vm.addTaskToDatabase()">Test task</button>-->
+	<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>
 
 	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>

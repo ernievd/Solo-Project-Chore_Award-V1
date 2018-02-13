@@ -37,6 +37,19 @@ router.post('/register', (req, res, next) => {
     .catch((err) => { next(err); });
 });
 
+// Get all the tasks in the database
+router.get('/gettasks', (req, res) => {
+	// Game is a reference to the collection when finding things in the DB
+	Tasks.find({}, (error, foundTasks) => {
+		if (error) {
+			console.log('error on find: ', error);
+			res.sendStatus(500);
+		} else {
+			console.log('found task Documents: ', foundTasks);
+			res.send(foundTasks);
+		}
+	}); // end find
+}); // end route
 
 // Handles POST request with new task
 router.post('/addTask', (req, res, next) => {
@@ -50,7 +63,6 @@ router.post('/addTask', (req, res, next) => {
 	// confirmed is true if the parent assigns it
 	const confirmed = req.body.confirmed;
 	const completed = req.body.completed;
-
 
 	const newTask = new Tasks({ taskname, category, duedate, assignedto, assignedby, pointvalue, confirmed, completed});
 	 newTask.save()

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/PrimeAcademy/prime-passport-local-strategy#readme",
   "dependencies": {
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0",
     "angular": "^1.6.7",
     "angular-route": "^1.6.7",
     "bcrypt": "^1.0.3",
@@ -26,7 +27,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
-    "jquery": "^3.2.1",
+    "jquery": "^3.3.1",
     "mongoose": "^4.13.6",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
