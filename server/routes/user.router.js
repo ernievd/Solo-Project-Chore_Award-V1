@@ -85,4 +85,28 @@ router.get('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+// /updateTask/${editTaskObj._id}
+router.put('/updateTask/:id', (req, res) => {
+
+	console.log('req.params.id is :', req.params.id);
+	console.log('req.body is : ', req.body);
+	let taskId = req.params.id;
+	let taskToUpdate = req.body;
+	// update in collection
+	Tasks.findByIdAndUpdate(
+		{"_id": taskId},
+		{$set: taskToUpdate},
+		(error, updatedDocument) => {
+			if (error) {
+				console.log('error on task update: ', error);
+				res.sendStatus(500);
+			} else {
+				// console.log('Document before it was updated!: ', updatedDocument);
+				res.sendStatus(200);
+			}
+		}
+	)
+
+});
+
 module.exports = router;

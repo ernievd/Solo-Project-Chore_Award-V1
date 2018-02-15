@@ -1,7 +1,8 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
-<div class="container">
-	<div class="row">
+	<!--Tasks listing table-->
+	<div class="container">
+		<div class="row">
 		<div class="col-md-12">
 			<h1 class="text-center" style="font-size:200%;">Task List</h1>
 				<table class="table table-striped col-md-12">
@@ -15,6 +16,7 @@
 							<th>Point Value</th>
 							<th>Confirmed</th>
 							<th>Completed</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -23,11 +25,23 @@
 							<td>{{task.taskname}}</td>
 							<td>{{task.assignedto}}</td>
 							<td>{{task.category}}</td>
-							<td>{{task.duedate}}</td>
+							<td>{{ task.duedate | date:'MM/dd/yyyy' }}</td>
 							<td>{{task.assignedby}}</td>
 							<td>{{task.pointvalue}}</td>
-							<td>{{task.confirmed}}</td>
-							<td>{{task.completed}}</td>
+							<td>
+								<label class="radio-inline">
+									<input type="checkbox" ng-model="task.confirmed" value="task.confirmed" ng-checked="task.confirmed"/>
+								</label>
+							</td>
+							<td>
+								<div>
+									<label class="radio-inline">
+										<input type="checkbox" ng-model="task.completed" value="task.completed" ng-checked="task.completed"/>
+									</label>
+								</div>
+							</td>
+							<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditTaskView({task})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</span>
+							</td>
 						</tr>
 						<div class="checkbox">
 							<label>
@@ -40,13 +54,13 @@
 				<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
 				<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
 
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="container" >
-
-	<div class="container form-group row input-group">
+	<!--Add a task-->
+	<div class="container" >
+		<div class="container form-group row input-group">
 		<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
 		<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
 		<!--TODO - add popup when a field is empty-->
@@ -87,8 +101,9 @@
 			<span class="btn btn-primary" ng-click="vm.addTaskToDatabase()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
 		</div>
 	</div>
+	</div>
 
-
+	<!--Add a user-->
 	<div class="container" >
 
 		<div class="container form-group row input-group">
@@ -98,7 +113,7 @@
 			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
 
 			<div class="col-md-3" >
-			<input type="text" class="form-control" name="username" value="" placeholder="User Name" ng-model="vm.parentUserService.addUserObject.username">
+				<input type="text" class="form-control" name="username" value="" placeholder="User Name" ng-model="vm.parentUserService.addUserObject.username">
 			</div>
 
 			<div class="col-md-3" >
@@ -128,4 +143,3 @@
 </div>
 
 
-</div>

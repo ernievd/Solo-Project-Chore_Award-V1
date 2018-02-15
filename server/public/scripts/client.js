@@ -15,14 +15,23 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
       controller: 'LoginController as vm'
     })
     .when('/parentUser', {
-      templateUrl: '/views/templates/parentUser.html',
-      controller: 'ParentUserController as vm',
-      resolve: {
-        getuser: function (ParentUserService) {
-          return ParentUserService.getuser();
-        }
-      }
-    })
+	  templateUrl: '/views/templates/parentUser.html',
+	  controller: 'ParentUserController as vm',
+	  resolve: {
+		  getuser: function (ParentUserService) {
+			  return ParentUserService.getuser();
+		  }
+	  }
+  })
+	  .when('/editTask', {
+		  templateUrl: '/views/templates/editTask.html',
+		  controller: 'ParentUserController as vm',
+		  resolve: {
+			  getuser: function (ParentUserService) {
+				  return ParentUserService.getuser();
+			  }
+		  }
+	  })
 
     .when('/info', {
       templateUrl: '/views/templates/info.html',

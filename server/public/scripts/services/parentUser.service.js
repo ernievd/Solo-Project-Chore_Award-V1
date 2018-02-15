@@ -1,11 +1,11 @@
-myApp.service('ParentUserService', ['$http', '$location', function ($http, $location) {
+myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($http, $location, $filter) {
   console.log('ParentUserService Loaded');
-  
   let self = this;
 
   self.userObject = {};
   self.taskObject = {};
   self.addUserObject = {};
+  self.editTaskObject = {};
 
   // ask the server if this user is logged in
   self.getuser = function () {
@@ -109,4 +109,29 @@ myApp.service('ParentUserService', ['$http', '$location', function ($http, $loca
 				});
 		}
 	}
+
+	self.changeToEditTaskView = function(editTaskObj) {
+		console.log('The task object is :', editTaskObj);
+		$location.path('/editTask');
+		self.editTaskObject = editTaskObj.task;
+		console.log('The self editTask object is ******:', self.editTaskObject);
+		self.editTaskObject.duedate = $filter('date')(self.editTaskObject.duedate, "MM-dd-yyyy");
+		self.editTaskObject.duedate = new Date(self.editTaskObject.duedate);
+		// var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
+		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
+	};
+
+	self.updateTask = function(){
+		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+			.then(function (response) {
+				// console.log('get response', response);
+				//Update the task list
+				self.getTasks();
+				$location.path('/parentUser');
+			})
+			.catch(function (response) {
+				console.log('error on put with updating task', response);
+			});
+	}
+
 }]);
