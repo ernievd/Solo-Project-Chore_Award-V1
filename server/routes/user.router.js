@@ -109,4 +109,19 @@ router.put('/updateTask/:id', (req, res) => {
 
 });
 
+router.delete('/deleteTask/:id', (req, res) => {
+	Tasks.findByIdAndRemove(
+		{"_id": req.params.id},
+		(error, deletedTask) =>{
+			if(error){
+				console.log('error on remove:', error);
+				res.sendStatus(500);
+			} else{
+				console.log('task removed:', deletedTask);
+				res.sendStatus(200);
+			}
+		}
+	)
+})
+
 module.exports = router;

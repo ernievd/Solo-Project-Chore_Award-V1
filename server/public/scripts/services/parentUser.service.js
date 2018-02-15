@@ -108,7 +108,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					self.message = "Something went wrong. Please try again."
 				});
 		}
-	}
+	};
 
 	self.changeToEditTaskView = function(editTaskObj) {
 		console.log('The task object is :', editTaskObj);
@@ -132,6 +132,23 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
+	};
+
+	self.deleteTask = function(){
+		if (confirm("Confirm delete")) {
+			$http.delete(`/api/user/deleteTask/${self.editTaskObject._id}`, self.editTaskObject)
+				.then(function (response) {
+					//Update the task list
+					console.log('Delete Success:', response);
+					self.getTasks();
+					$location.path('/parentUser');
+				})
+				.catch(function (response) {
+					console.log('error on Delete', response);
+				});
+		} else {
+			txt = "You pressed Cancel!";
+		}
 	}
 
 }]);
