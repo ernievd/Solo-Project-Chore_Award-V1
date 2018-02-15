@@ -43,11 +43,6 @@
 							<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditTaskView({task})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</span>
 							</td>
 						</tr>
-						<div class="checkbox">
-							<label>
-								<input type="checkbox"> Check me out
-							</label>
-						</div>
 					</tbody>
 				</table>
 				<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
@@ -70,14 +65,18 @@
 			<input type="text" class="form-control" name="task" value="" placeholder="Task description" ng-model="vm.task.taskName">
 		</div>
 
-		<div class="col-md-2" >
-				<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
-			<select required ng-model="vm.task.childName">
-				<option value="" disabled selected hidden>Assigned Child</option>
-				<option value="Corbin">Corbin</option>
-				<option value="Paige">Paige</option>
-			</select>
-		</div>
+		<!--<div class="col-md-2" >-->
+			<!--<select required ng-model="vm.task.childName">-->
+				<!--<option value="" disabled selected hidden>Assigned Child</option>-->
+				<!--<option ng-repeat="child in vm.parentUserService.childrenArray" value="{{child.username}}">{{child.username}}</option>-->
+			<!--</select>-->
+		<!--</div>-->
+			<div class="col-md-2" >
+				<select required ng-model="vm.childUserIndex">
+					<option value="" disabled selected hidden>Assigned Child</option>
+					<option ng-repeat="child in vm.parentUserService.childrenArray" value={{$index}}>{{child.username}}</option>
+				</select>
+			</div>
 
 		<div class="col-md-2" >
 			<select required ng-model="vm.task.category">

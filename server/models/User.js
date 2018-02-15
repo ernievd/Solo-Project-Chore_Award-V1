@@ -10,7 +10,7 @@ const PersonSchema = new Schema({
 	password: { type: String, required: true },
 	points_earned: { type: Number, required: false },
 	award_id: { type: Schema.Types.ObjectId, ref: 'awards' },
-	tasks: { type: Schema.Types.ObjectId, ref: 'tasks' }
+	tasks: [{ type: Schema.Types.ObjectId, ref: 'tasks' }]
 });
 
 

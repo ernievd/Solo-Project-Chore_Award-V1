@@ -2,13 +2,14 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
   console.log('ParentUserService Loaded');
   let self = this;
 
-  self.userObject = {};
-  self.taskObject = {};
-  self.addUserObject = {};
-  self.editTaskObject = {};
+    self.userObject = {};
+    self.taskObject = {};
+    self.addUserObject = {};
+    self.editTaskObject = {};
+    self.childrenArray = [];
 
-  // ask the server if this user is logged in
-  self.getuser = function () {
+    // ask the server if this user is logged in
+	self.getuser = function () {
     $http.get('/api/user')
       .then(function (response) {
         if (response.data.username) {
@@ -32,7 +33,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
       });
   };
 
-  self.logout = function () {
+    self.logout = function () {
     $http.get('/api/user/logout')
       .then(function (response) {
         console.log('logged out');
@@ -66,10 +67,10 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	    dataObj.confirmed = true;
 	    //new task therefore completed is false
 	    dataObj.completed = false;
-	    //TODO - where to I get the proper user_id?
-	    dataObj.user_id = 1;
+
 	    console.log('sending to server...', dataObj);
-	    $http.post('/api/user/addTask', dataObj).then(function(response) {
+	    //$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+	    $http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function(response) {
 	    	//update the tasks listed in the DOM
 	    	self.getTasks();
 	    	console.log('success');
@@ -101,6 +102,8 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			console.log('sending to server self.addUserObject...', self.addUserObject);
 			$http.post('/api/user/register', self.addUserObject).then(function(response) {
 					console.log('success on addUser post');
+					// Update user list object
+					self.getChildrenUsers();
 					$location.path('/parentUser');
 				},
 				function(response) {
@@ -149,6 +152,30 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		} else {
 			txt = "You pressed Cancel!";
 		}
-	}
+	};
 
+	self.getChildrenUsers = function () {
+		//Clear the array so we do not keep appending it
+		self.childrenArray = [];
+		$http.get('/api/user/getChildrenUsers')
+			.then(function (response) {
+					console.log('all users response.data is :', response.data);
+					for (let i = 0; i < response.data.length; i++){
+						if (response.data[i].role ==='child') {
+							//Populate childrenObject for later use
+							self.childrenArray.push(response.data[i]);
+						}
+					}
+					console.log('all children are  :', self.childrenArray);
+
+				},
+				function(response) {
+					console.log('error in getting users from the router :', response);
+				});
+	};
+
+	self.getChildrenUsers();
 }]);
+
+
+

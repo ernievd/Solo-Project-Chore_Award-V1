@@ -51,7 +51,7 @@ router.get('/gettasks', (req, res) => {
 }); // end route
 
 // Handles POST request with new task
-router.post('/addTask', (req, res, next) => {
+router.post('/addTask/:userId', (req, res, next) => {
 	console.log('in the router - req.body is :', req.body);
 	const taskname = req.body.taskName;
 	const category = req.body.category;
@@ -62,13 +62,36 @@ router.post('/addTask', (req, res, next) => {
 	// confirmed is true if the parent assigns it
 	const confirmed = req.body.confirmed;
 	const completed = req.body.completed;
-
-	const newTask = new Tasks({ taskname, category, duedate, assignedto, assignedby, pointvalue, confirmed, completed});
-	 newTask.save()
-	 	.then(() => { res.sendStatus(201); })
-	 	.catch((err) => { next(err); });
+	const taskId = req.body._id;
+	const newTask = new Tasks({taskname, category, duedate, assignedto, assignedby, pointvalue, confirmed, completed});
+	newTask.save((error, taskDoc) => {
+		if (error) {
+			res.sendStatus(500);
+		} else {
+			console.log('saved new task: ', taskDoc);
+			console.log('-----------------------------');
+			console.log('req.params.userId is ***', req.params.userId);
+			// added the new rating, add it to the game document
+			console.log('taskDoc._id is :',taskDoc._id);
+			User.findByIdAndUpdate(
+				{
+					"_id": req.params.userId
+				},
+				{$push: {tasks: taskDoc._id}},
+				(pusherror, doc) => {
+					if (pusherror) {
+						console.log('error on push to user task array: ', pusherror);
+						res.sendStatus(500);
+					} else {
+						console.log('updated user document: ', doc);
+						console.log('-----------------------------');
+						res.sendStatus(201);
+					}
+				}
+			);
+		}
+	});
 });
-
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
@@ -87,7 +110,6 @@ router.get('/logout', (req, res) => {
 
 // /updateTask/${editTaskObj._id}
 router.put('/updateTask/:id', (req, res) => {
-
 	console.log('req.params.id is :', req.params.id);
 	console.log('req.body is : ', req.body);
 	let taskId = req.params.id;
@@ -122,6 +144,17 @@ router.delete('/deleteTask/:id', (req, res) => {
 			}
 		}
 	)
-})
+});
+
+router.get('/getChildrenUsers', (req, res) => {
+	User.find({}, (error, foundTasks) => {
+		if (error) {
+			console.log('error on find: ', error);
+			res.sendStatus(500);
+		} else {
+			res.send(foundTasks);
+		}
+	}); // end find
+}); // end route
 
 module.exports = router;
