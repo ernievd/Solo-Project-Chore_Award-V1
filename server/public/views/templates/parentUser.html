@@ -54,6 +54,7 @@
 	</div>
 
 	<!--Add a task-->
+	<form name="parentTask">
 	<div class="container" >
 		<div class="container form-group row input-group">
 		<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
@@ -73,7 +74,7 @@
 		<!--</div>-->
 			<div class="col-md-2" >
 				<select required ng-model="vm.childUserIndex">
-					<option value="" disabled selected hidden>Assigned Child</option>
+					<option value="" disabled selected>Assigned Child</option>
 					<option ng-repeat="child in vm.parentUserService.childrenArray" value={{$index}}>{{child.username}}</option>
 				</select>
 			</div>
@@ -97,10 +98,12 @@
 		</div>
 
 		<div class="col-md-2">
-			<span class="btn btn-primary" ng-click="vm.addTaskToDatabase()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
+			<span class="btn btn-primary" ng-click="vm.addTaskToDatabase(); child.userName = null"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
+			{{f = forecast[day.iso]; ""}}
 		</div>
 	</div>
 	</div>
+	</form>
 
 	<!--Add a user-->
 	<div class="container" >
@@ -112,17 +115,17 @@
 			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
 
 			<div class="col-md-3" >
-				<input type="text" class="form-control" name="username" value="" placeholder="User Name" ng-model="vm.parentUserService.addUserObject.username">
+				<input type="text" class="form-control" name="username" value="" placeholder="User Name" ng-model="vm.addUserObject.username">
 			</div>
 
 			<div class="col-md-3" >
-				<input type="text" class="form-control" name="password" value="" placeholder="password" ng-model="vm.parentUserService.addUserObject.password">
+				<input type="text" class="form-control" name="password" value="" placeholder="password" ng-model="vm.addUserObject.password">
 			</div>
 
 
 			<div class="col-md-3" >
 				<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
-				<select required ng-model="vm.parentUserService.addUserObject.role">
+				<select required ng-model="vm.addUserObject.role">
 					<option value="" disabled selected hidden>User Role</option>
 					<option value="child">Child</option>
 					<option value="parent">Parent</option>
@@ -130,7 +133,7 @@
 			</div>
 
 			<div class="col-md-3">
-				<span class="btn btn-primary" ng-click="vm.parentUserService.addUser(vm.parentUserService.addUserObject.role)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add User</span>
+				<span class="btn btn-primary" ng-click="vm.addUser(vm.addUserObject.role)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add User</span>
 			</div>
 		</div>
 

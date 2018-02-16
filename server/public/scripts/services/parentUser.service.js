@@ -1,4 +1,4 @@
-myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($http, $location, $filter) {
+myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($http, $location, $filter, ) {
   console.log('ParentUserService Loaded');
   let self = this;
 
@@ -19,7 +19,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
           self.userObject.userName = response.data.username;
           self.userObject.family = response.data.family;
           self.userObject.role = response.data.role;
-          console.log('User Data: ', self.userObject.userName);
+          // console.log('User Data: ', self.userObject.userName);
         } else {
           // unlikely to get here, but if we do, bounce them back to the login page
           $location.path("/home");
@@ -48,7 +48,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	self.getTasks = function () {
 		$http.get('/api/user/gettasks')
 			.then(function (response) {
-					console.log('response.data received in getTasks is :', response.data);
+					// console.log('response.data received in getTasks is :', response.data);
 					self.taskObject = response.data;
 				},
 				function(response) {
@@ -74,7 +74,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	    	//update the tasks listed in the DOM
 	    	self.getTasks();
 	    	console.log('success');
-
 			    //Keeping this for now. Used to redirect if you want after the post
 			    // $location.path('/home');
 		    },
@@ -85,39 +84,45 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
     };
 
-	self.addUser = function(role) {
-		console.log('sending to server self.addUserObject...', self.addUserObject);
-		console.log('sending to server self.userObject...', self.userObject);
-		console.log('sending to server self...', self);
+	let promise =
+		self.addUser = function (role) {
+			// console.log('sending to server self.addUserObject...', self.addUserObject);
+			// console.log('sending to server self.userObject...', self.userObject);
+			// console.log('sending to server self...', self);
 
-		if(self.addUserObject.username === '' || self.addUserObject.password === '') {
-			//TODO - change this message to a popup - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
-			self.message = "Username and password must all be entered!";
+			if (self.addUserObject.username === '' || self.addUserObject.password === '') {
+				//TODO - change this message to a popup - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+				self.message = "Username and password must all be entered!";
 
-		} else {
-			// a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
-			self.addUserObject.role = role;
-			self.addUserObject.family = self.userObject.family;
+			} else {
+				// a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
+				self.addUserObject.role = role;
+				self.addUserObject.family = self.userObject.family;
 
-			console.log('sending to server self.addUserObject...', self.addUserObject);
-			$http.post('/api/user/register', self.addUserObject).then(function(response) {
-					console.log('success on addUser post');
-					// Update user list object
-					self.getChildrenUsers();
-					$location.path('/parentUser');
-				},
-				function(response) {
-					console.log('error');
-					self.message = "Something went wrong. Please try again."
-				});
-		}
-	};
+				// console.log('sending to server self.addUserObject...', self.addUserObject);
+				$http.post('/api/user/register', self.addUserObject).then(function (response) {
+						console.log('success on addUser post');
+						// Update user list object
+						self.getChildrenUsers();
+						$location.path('/parentUser');
+					},
+					function (response) {
+						console.log('error');
+						self.message = "Something went wrong. Please try again."
+					});
+			}
+			return promise;
+		};
+
+
+
+
 
 	self.changeToEditTaskView = function(editTaskObj) {
-		console.log('The task object is :', editTaskObj);
+		// console.log('The task object is :', editTaskObj);
 		$location.path('/editTask');
 		self.editTaskObject = editTaskObj.task;
-		console.log('The self editTask object is ******:', self.editTaskObject);
+		// console.log('The self editTask object is ******:', self.editTaskObject);
 		self.editTaskObject.duedate = $filter('date')(self.editTaskObject.duedate, "MM-dd-yyyy");
 		self.editTaskObject.duedate = new Date(self.editTaskObject.duedate);
 		// var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
@@ -159,14 +164,14 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		self.childrenArray = [];
 		$http.get('/api/user/getChildrenUsers')
 			.then(function (response) {
-					console.log('all users response.data is :', response.data);
+					// console.log('all users response.data is :', response.data);
 					for (let i = 0; i < response.data.length; i++){
 						if (response.data[i].role ==='child') {
 							//Populate childrenObject for later use
 							self.childrenArray.push(response.data[i]);
 						}
 					}
-					console.log('all children are  :', self.childrenArray);
+					// console.log('all children are  :', self.childrenArray);
 
 				},
 				function(response) {

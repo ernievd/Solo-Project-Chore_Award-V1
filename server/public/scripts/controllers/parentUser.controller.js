@@ -3,8 +3,18 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 	//taskName, childName, dueDate, assignedBy, pointValue
 
 	let self = this;
+	self.childrenArray = [];
+
 	self.parentUserService = ParentUserService;
 	self.userObjectObject = ParentUserService.userObject;
+
+	self.addUser = function(role){
+		ParentUserService.addUserObject = self.addUserObject;
+		self.parentUserService.addUser(role);
+		//Add .then to this
+		self.addUserObject = {};
+	};
+
 	self.task = {
 		taskName: '',
 		childName: '',
@@ -13,9 +23,9 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 		// assignedBy: '',
 		pointValue: '',
 	};
-	self.addTaskToDatabase =function () {
-		console.log('childUserIndex is :', self.childUserIndex);
-		console.log('self.task object is : ', self.task);
+	self.addTaskToDatabase = function () {
+		// console.log('childUserIndex is :', self.childUserIndex);
+		// console.log('self.task object is : ', self.task);
 		index = self.childUserIndex;
 
 		self.task.childName = self.parentUserService.childrenArray[index].username;
@@ -26,6 +36,11 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 		}
 		else {
 			self.parentUserService.addTaskToDatabase(self.task);
+			//clear the fields TODO - set up a promise
+			self.task = {};
+			self.childUserIndex = null;
+			// self.parentTask.$setPristine();
+
 		}
 	}
 
