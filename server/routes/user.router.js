@@ -42,6 +42,23 @@ router.post('/register', (req, res, next) => {
 					res.sendStatus(500);
 				}
 				else {
+					console.log('userDoc._Id in update user is :', userDoc._id);
+					User.findByIdAndUpdate(
+						{
+							"_id": userDoc._id
+						},
+						{$push: {award_id: awardDoc._id}},
+						(pusherror, doc) => {
+							if (pusherror) {
+								console.log('error on push : ', pusherror);
+								res.sendStatus(500);
+							} else {
+								console.log('updated user document: ', doc);
+								console.log('-----------------------------');
+								res.sendStatus(201);
+							}
+						}
+					);
 					//update user collection with the award id
 					//award_id: { type: Schema.Types.ObjectId, ref: 'awards' },
 				}
