@@ -144,4 +144,40 @@
 	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>
 
+	<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center" style="font-size:200%;">Awards</h1>
+			<table class="table table-striped col-md-12">
+				<thead>
+				<tr>
+					<th>Child</th>
+					<th>Award Name</th>
+					<th>Picture link</th>
+					<th>Points Needed</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+
+				<tr ng-repeat="child in vm.parentUserService.childrenArray">
+					<td>{{child.username}}</td>
+					<td>{{child.awardname}}</td>
+					<td>{{child.pictureLink}}</td>
+					<td>{{child.pointsNeeded}}</td>
+					<td><span class="btn btn-primary" ng-click="vm.editAward(child._id)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</span></td>
+					<!--<td>{{award.pointValue}}</td>-->
+					<!--<td>{{award.link}}</td>-->
+					<!--<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>-->
+				</tr>
+				</tbody>
+			</table>
+			<!--<td ng-if = "user.role==='child'">{{user.role}}</td>-->
+			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
+			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
+			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
+
+		</div>
+	</div>
+</div>
 
