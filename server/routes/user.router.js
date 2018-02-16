@@ -190,14 +190,25 @@ router.delete('/deleteTask/:id', (req, res) => {
 });
 
 router.get('/getChildrenUsers', (req, res) => {
-	User.find({}, (error, foundTasks) => {
+
+	User.find({}).populate({ path: 'award_id', model: Awards}).exec( (error, foundUsers) => {
 		if (error) {
 			console.log('error on find: ', error);
 			res.sendStatus(500);
 		} else {
-			res.send(foundTasks);
+			console.log('found user Documents: ', foundUsers);
+			res.send(foundUsers);
 		}
-	}); // end find
+	})
+
+	// User.find({}, (error, foundTasks) => {
+	// 	if (error) {
+	// 		console.log('error on find: ', error);
+	// 		res.sendStatus(500);
+	// 	} else {
+	// 		res.send(foundTasks);
+	// 	}
+	// }); // end find
 }); // end route
 
 module.exports = router;

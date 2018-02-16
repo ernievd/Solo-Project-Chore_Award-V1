@@ -116,8 +116,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 
 
-
-
 	self.changeToEditTaskView = function(editTaskObj) {
 		// console.log('The task object is :', editTaskObj);
 		$location.path('/editTask');
@@ -171,7 +169,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 							self.childrenArray.push(response.data[i]);
 						}
 					}
-					// console.log('all children are  :', self.childrenArray);
+					console.log('all children are  :', self.childrenArray);
 
 				},
 				function(response) {
