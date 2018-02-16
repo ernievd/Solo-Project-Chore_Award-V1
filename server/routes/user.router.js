@@ -35,7 +35,19 @@ router.post('/register', (req, res, next) => {
 			res.sendStatus(500);
 		}
 		else {
-			const newAward = new Awards({'awardname: None assigned, pointvalue: 0'});
+			//Also update the award collection
+			const newAward = new Awards({awardname: 'Nothing chosen', pointvalue: 0, link: ''});
+			newAward.save((error, awardDoc) =>{
+				if (error) {
+					res.sendStatus(500);
+				}
+				else {
+					//update user collection with the award id
+					//award_id: { type: Schema.Types.ObjectId, ref: 'awards' },
+				}
+
+			})
+
 			// awardname: { type: Number, required: true },
 			// pointvalue: { type: Number, required: true },
 			// link: { type: String, required: false }
