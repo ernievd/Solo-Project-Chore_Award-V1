@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 // Mongoose Schema
 const AwardsSchema = new Schema({
-	awardname: { type: Number, required: true },
+	awardname: { type: String, required: true },
 	pointvalue: { type: Number, required: true },
-	link: { type: String, required: true }
+	link: { type: String, required: false }
 });
 
 

@@ -2,10 +2,8 @@ const express = require('express');
 const encryptLib = require('../modules/encryption');
 const User = require('../models/User');
 const userStrategy = require('../strategies/user.strategy');
-
-//for addTask
 const Tasks = require('../models/Tasks');
-
+const Awards = require('../models/Awards');
 
 const router = express.Router();
 
@@ -32,10 +30,25 @@ router.post('/register', (req, res, next) => {
   const points_earned = 0;
 
   const newUser = new User({ username, family, role, password, points_earned});
-  newUser.save()
-    .then(() => { res.sendStatus(201); })
-    .catch((err) => { next(err); });
+	newUser.save((error, userDoc) => {
+		if (error) {
+			res.sendStatus(500);
+		}
+		else {
+			const newAward = new Awards({'awardname: None assigned, pointvalue: 0'});
+			// awardname: { type: Number, required: true },
+			// pointvalue: { type: Number, required: true },
+			// link: { type: String, required: false }
+
+
+		}
+	})
+
 });
+
+
+
+
 
 // Get all the tasks in the database
 router.get('/gettasks', (req, res) => {
@@ -67,7 +80,8 @@ router.post('/addTask/:userId', (req, res, next) => {
 	newTask.save((error, taskDoc) => {
 		if (error) {
 			res.sendStatus(500);
-		} else {
+		}
+		else {
 			console.log('saved new task: ', taskDoc);
 			console.log('-----------------------------');
 			console.log('req.params.userId is ***', req.params.userId);
