@@ -1,5 +1,5 @@
 myApp.controller('TaskController', ['TaskService', function(TaskService) {
-	console.log('ParentUserController created');
+	console.log('TaskController created');
 	var self = this;
 	self.taskService = TaskService;
 	self.taskObject = TaskService.taskObject;

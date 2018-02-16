@@ -42,6 +42,16 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         }
       }
     })
+
+	  .when('/logout', {
+		  templateUrl: '/views/templates/logout.html',
+		  controller: 'TaskController as vm',
+		  resolve: {
+			  getuser: function (ParentUserService) {
+				  return ParentUserService.getuser();
+			  }
+		  }
+	  })
     .otherwise({
       template: '<h1>404</h1>'
     });

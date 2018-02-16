@@ -11,7 +11,7 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 	self.addUser = function(role){
 		ParentUserService.addUserObject = self.addUserObject;
 		self.parentUserService.addUser(role);
-		//Add .then to this
+		//Add a promise and .then to this
 		self.addUserObject = {};
 	};
 
