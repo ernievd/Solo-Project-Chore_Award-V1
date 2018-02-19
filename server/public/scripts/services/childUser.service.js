@@ -50,12 +50,13 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 	};
 
 	self.getTasks = function () {
+		//Clear out the array before we load it
 		$http.get('/api/user/gettasks')
 			.then(function (response) {
 					// console.log('response.data received in getTasks is :', response.data);
 					 console.log('In GETTASKS - self.userObject is :', self.userObject);
 					// console.log('response.data name received in getTasks is :', response.data[0].assignedto)
-
+					self.taskArray = [];
 					//Loop to find only what the child user is responsible for
 					for (i=0; i< response.data.length; i++){
 						 console.log('response.data name received in getTasks is :', response.data[0].assignedto);

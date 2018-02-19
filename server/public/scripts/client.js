@@ -29,6 +29,8 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 			controller: 'ChildUserController as vm',
 			resolve: {
 				getuser: function (ChildUserService) {
+					// update the task list before loading
+					ChildUserService.getTasks();
 					return ChildUserService.getuser();
 					//####get child user to check!!!!!
 

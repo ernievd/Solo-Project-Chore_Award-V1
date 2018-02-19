@@ -3,11 +3,13 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 	//taskName, childName, dueDate, assignedBy, pointValue
 
 	let self = this;
-	self.userArray = [];
 
 	self.childUserService = ChildUserService;
 	self.userObjectObject = ChildUserService.userObject;
-
+	//
+	// self.childUserService.taskArray = [];
+	// self.childUserService.getTasks();
+	// //reload the tasks on each page load
 
 	self.task = {
 		taskName: '',

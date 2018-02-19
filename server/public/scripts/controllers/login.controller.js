@@ -1,4 +1,4 @@
-myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', function ($http, $location, ParentUserService) {
+myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 'ChildUserService', function ($http, $location, ParentUserService, ChildUserService) {
 	console.log('LoginController created');
 	let self = this;
 	self.user = {
@@ -23,7 +23,11 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 						console.log('response.data is ', response.data);
 						//Direct the home page based on user
 						if (response.data.role === 'parent'){$location.path('/parentUser');}
-						else {$location.path('/childUser');}
+						else {
+							//refresh the tasks before we load the child user page
+							ChildUserService.getTasks();
+							$location.path('/childUser');
+						}
 					}
 					else {
 						console.log('failure error: ', response);
