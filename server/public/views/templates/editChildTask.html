@@ -1,0 +1,100 @@
+<div ng-include="'views/partials/nav.html'"></div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center" style="font-size:200%;">Edit Task</h1>
+			<table class="table table-striped col-md-12">
+				<thead>
+				<tr>
+					<th>Task</th>
+					<th>Child</th>
+					<th>Category</th>
+					<th>Due Date</th>
+					<th>Assigned By</th>
+					<th>Point Value</th>
+					<th>Confirmed</th>
+					<th>Completed</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<!--<th scope="row">1</th>-->
+					<td>
+						<input type="text" class="form-control" name="task" value=""
+						       placeholder="{{vm.childUserService.editTaskObject.taskname}}"
+						       ng-model="vm.childUserService.editTaskObject.taskname">
+					</td>
+					<td>
+						<select required ng-model="vm.childUserService.editTaskObject.assignedto">
+							<option selected="{{vm.childUserService.editTaskObject.assignedto}}"></option>
+							<option value="Corbin">Corbin</option>
+							<option value="Paige">Paige</option>
+						</select>
+					</td>
+					<td>
+						<select required ng-model="vm.parentUserService.editTaskObject.category">
+							<!--TODO - capitalize output-->
+							<option selected="{{vm.parentUserService.editTaskObject.category}}"></option>
+							<option value="chore">Chore</option>
+							<option value="homework">Homework</option>
+							<option value="outside">Outside Play</option>
+						</select>
+					</td>
+					<td>
+						<input type="date" class="form-control" name="category" value=""
+						       placeholder="{{vm.parentUserService.editTaskObject.duedate}}"
+						       ng-model="vm.parentUserService.editTaskObject.duedate">
+					</td>
+					<td>
+						<input type="text" class="form-control" name="assignedby" value=""
+						       placeholder="{{vm.parentUserService.editTaskObject.assignedby}}"
+						       ng-model="vm.parentUserService.editTaskObject.assignedby">
+					</td>
+					<td>
+						<input type="number" class="form-control" name="pointValue" value=""
+						       placeholder="{{vm.parentUserService.editTaskObject.pointvalue}}"
+						       ng-model="vm.parentUserService.editTaskObject.pointvalue">
+					</td>
+					<td>
+						<div class="radio-inline">
+							<label class="radio-inline">
+								<input type="checkbox" ng-model="vm.parentUserService.editTaskObject.confirmed"
+								       value="vm.parentUserService.editTaskObject.confirmed"
+								       ng-checked="vm.parentUserService.editTaskObject.confirmed"/>
+							</label>
+						</div>
+					</td>
+					<td>
+						<label class="radio-inline">
+							<input type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed"
+							       value="vm.parentUserService.editTaskObject.completed"
+							       ng-checked="vm.parentUserService.editTaskObject.completed"/>
+						</label>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
+			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
+			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
+
+		</div>
+	</div>
+</div>
+
+<div class="container col-md-12 text-center">
+	<span class="btn btn-primary" ng-click="vm.parentUserService.updateTask()"><span
+			class="glyphicon glyphicon-edit"></span> Update Task</span>
+	<span class="btn btn-primary" ng-click="vm.parentUserService.deleteTask()"><span
+			class="glyphicon glyphicon-remove-sign"></span> Delete Task</span>
+</div>
+<br>
+<br>
+
+<div class="container col-md-12 text-center">
+	<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>
+</div>
+
+

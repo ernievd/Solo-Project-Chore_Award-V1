@@ -6,7 +6,7 @@ myApp.service('TaskService', ['$http', '$location', function ($http, $location) 
 	self.taskObject = {};
 
 	// ask the server if this user is logged in
-	self.getuser = function () {
+	self.checkParentUser = function () {
 		$http.get('/api/user')
 			.then(function (response) {
 					if (response.data.username) {

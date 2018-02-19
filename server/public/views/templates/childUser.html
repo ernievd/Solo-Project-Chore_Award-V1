@@ -1,8 +1,9 @@
-<div ng-include="'views/partials/nav.html'"></div>
+<div ng-include="'views/partials/childNav.html'"></div>
 
 
-<div> <p>{{vm.parentUserService.userObject}}</p></div>
-<div> <p>{{vm.parentUserService.userArray}}</p></div>
+<!--<div> <p>{{vm.childUserService.userObject}}</p></div>-->
+<!--<div> <p>{{vm.childUserService.userArray}}</p></div>-->
+<!--<div> <p>{{vm.childUserService.userObject.tasks}}</p></div>-->
 
 <!--Tasks listing table-->
 <div class="container">
@@ -24,7 +25,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="task in vm.parentUserService.taskObject">
+				<tr ng-repeat="task in vm.childUserService.taskArray">
 					<!--<th scope="row">1</th>-->
 					<td>{{task.taskname}}</td>
 					<td>{{task.assignedto}}</td>
@@ -46,7 +47,7 @@
 							</label>
 						</div>
 					</td>
-					<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditTaskView({task})"><span
+					<td><span class="btn btn-primary" ng-click="vm.childUserService.changeToEditTaskView({task})"><span
 							class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</span>
 					</td>
 				</tr>
@@ -77,13 +78,13 @@
 			<!--<div class="col-md-2" >-->
 			<!--<select required ng-model="vm.task.childName">-->
 			<!--<option value="" disabled selected hidden>Assigned Child</option>-->
-			<!--<option ng-repeat="child in vm.parentUserService.userArray" value="{{child.username}}">{{child.username}}</option>-->
+			<!--<option ng-repeat="child in vm.childUserService.userArray" value="{{child.username}}">{{child.username}}</option>-->
 			<!--</select>-->
 			<!--</div>-->
 			<div class="col-md-2">
 				<select required ng-model="vm.childUserIndex">
 					<option value="" disabled selected>Assigned Child</option>
-					<option ng-repeat="child in vm.parentUserService.userArray" value={{$index}}>
+					<option ng-repeat="child in vm.childUserService.userArray" value={{$index}}>
 						{{child.username}}
 					</option>
 				</select>
@@ -153,11 +154,11 @@
 		</div>
 	</div>
 
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+	<!--<button class="btn btn-default" ng-click="vm.childUserService.getTasks()">Get tasks</button>-->
 
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+	<!--<button class="btn btn-default" ng-click="vm.childUserService.getTasks()">Get tasks</button>-->
 
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
+	<!--<button class="btn btn-default" ng-click="vm.childUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>
 
 <!--Awards section-->
@@ -176,14 +177,14 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="child in vm.parentUserService.userArray">
+				<tr ng-repeat="child in vm.childUserService.userArray">
 					<td>{{child.username}}</td>
 					<td>{{child.award_id[0].awardname}}</td>
 					<td>{{child.award_id[0].link}}</td>
 					<td>{{child.award_id[0].pointvalue}}</td>
-					<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditView({child})"><span
+					<td><span class="btn btn-primary" ng-click="vm.childUserService.changeToEditView({child})"><span
 							class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</span></td>
-					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
+					<!--ng-click="vm.childUserService.changeToEditTaskView({task})-->
 					<!--<td>{{award.pointValue}}</td>-->
 					<!--<td>{{award.link}}</td>-->changeToEditView
 					<!--<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>-->

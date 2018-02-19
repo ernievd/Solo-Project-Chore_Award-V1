@@ -26,10 +26,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 
 		.when('/childUser', {
 			templateUrl: '/views/templates/childUser.html',
-			controller: 'ParentUserController as vm',
+			controller: 'ChildUserController as vm',
 			resolve: {
-				getuser: function (ParentUserService) {
-					return ParentUserService.getuser();
+				getuser: function (ChildUserService) {
+					return ChildUserService.getuser();
 					//####get child user to check!!!!!
 
 				}
@@ -42,6 +42,16 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 			resolve: {
 				getuser: function (ParentUserService) {
 					return ParentUserService.getuser();
+				}
+			}
+		})
+
+		.when('/editChildTask', {
+			templateUrl: '/views/templates/editTask.html',
+			controller: 'ChildUserController as vm',
+			resolve: {
+				getuser: function (ChildUserService) {
+					return ChildUserService.getuser();
 				}
 			}
 		})
