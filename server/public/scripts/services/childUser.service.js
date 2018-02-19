@@ -10,6 +10,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 	self.userArray = [];
 	self.taskArray = [];
 
+
 	// ask the server if this user is logged in
 	self.getuser = function () {
 		$http.get('/api/user')
@@ -145,35 +146,22 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
 	};
 
-	self.updateTask = function () {
+	self.updateTask = function (editTaskObj) {
+		self.editTaskObject = editTaskObj.task;
+		console.log('SELF.EDITTASKOBJECT is - ', self.editTaskObject.completed);
+		self.editTaskObject.completed = !self.editTaskObject.completed;
+		console.log('SELF.EDITTASKOBJECT after flip is - ', self.editTaskObject.completed);
 		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				// console.log('get response', response);
 				//Update the task list
 				self.getTasks();
-				$location.path('/parentUser');
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
 	};
 
-	self.deleteTask = function () {
-		if (confirm("Confirm delete")) {
-			$http.delete(`/api/user/deleteTask/${self.editTaskObject._id}`, self.editTaskObject)
-				.then(function (response) {
-					//Update the task list
-					console.log('Delete Success:', response);
-					self.getTasks();
-					$location.path('/parentUser');
-				})
-				.catch(function (response) {
-					console.log('error on Delete', response);
-				});
-		} else {
-			txt = "You pressed Cancel!";
-		}
-	};
 
 	self.getUsers = function () {
 		//Clear the array so we do not keep appending it

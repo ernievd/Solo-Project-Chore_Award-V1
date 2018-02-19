@@ -56,19 +56,16 @@
 							</label>
 						</div>
 					</td>
-					<td><span class="btn btn-primary" ng-click="vm.childUserService.changeToEditTaskView({task})"><span
-							class="glyphicon glyphicon-edit" aria-hidden="true"></span> Mark as Completed</span>
+					<td><span class="btn btn-primary" ng-click="vm.childUserService.updateTask({task})">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Mark as Completed</span>
 					</td>
 				</tr>
 				</tbody>
 			</table>
-			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
-
 		</div>
 	</div>
 </div>
+
 
 <!--Add a task-->
 <form name="parentTask">
