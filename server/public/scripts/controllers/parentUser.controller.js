@@ -3,7 +3,7 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	//taskName, childName, dueDate, assignedBy, pointValue
 
 	let self = this;
-	self.childrenArray = [];
+	self.userArray = [];
 	self.award = {ernie:'ernie'};
 
 	self.parentUserService = ParentUserService;
@@ -29,8 +29,8 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 		// console.log('self.task object is : ', self.task);
 		index = self.childUserIndex;
 
-		self.task.childName = self.parentUserService.childrenArray[index].username;
-		self.task.user_id = self.parentUserService.childrenArray[index]._id;
+		self.task.childName = self.parentUserService.userArray[index].username;
+		self.task.user_id = self.parentUserService.userArray[index]._id;
 		if (self.task.taskName === '' || self.task.childName === '' || self.task.category === '' || self.task.dueDate === ''
 			|| self.task.pointValue === '') {
 			self.message = "All task fields must be be completed";

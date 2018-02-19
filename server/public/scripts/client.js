@@ -23,6 +23,19 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 				}
 			}
 		})
+
+		.when('/childUser', {
+			templateUrl: '/views/templates/childUser.html',
+			controller: 'ParentUserController as vm',
+			resolve: {
+				getuser: function (ParentUserService) {
+					return ParentUserService.getuser();
+					//####get child user to check!!!!!
+
+				}
+			}
+		})
+
 		.when('/editTask', {
 			templateUrl: '/views/templates/editTask.html',
 			controller: 'ParentUserController as vm',

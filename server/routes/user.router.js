@@ -138,8 +138,14 @@ router.post('/addTask/:userId', (req, res, next) => {
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-	res.sendStatus(200);
+	// res.sendStatus(200);
+
+	//Changes to now send req.user which has all the user info
+	res.send(req.user);
+	console.log('req.user is :', req.user);
+
 });
+
 
 // clear all server session information about this user
 router.get('/logout', (req, res) => {
@@ -186,7 +192,7 @@ router.delete('/deleteTask/:id', (req, res) => {
 	)
 });
 
-router.get('/getChildrenUsers', (req, res) => {
+router.get('/getUsers', (req, res) => {
 
 	User.find({}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 		if (error) {

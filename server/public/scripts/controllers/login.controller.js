@@ -16,11 +16,16 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 			console.log('sending to server...', self.user);
 			$http.post('/api/user/login', self.user).then(
 				function (response) {
-					if (response.status == 200) {
-						console.log('success: ', response.data);
-						// location works with SPA (ng-route)
-						$location.path('/parentUser');
-					} else {
+					console.log('******response is: ', response);
+
+					if (response.status === 200) {
+						console.log('success: ', response);
+						console.log('response.data is ', response.data);
+						//Direct the home page based on user
+						if (response.data.role === 'parent'){$location.path('/parentUser');}
+						else {$location.path('/childUser');}
+					}
+					else {
 						console.log('failure error: ', response);
 						self.message = "Incorrect credentials. Please try again.";
 					}

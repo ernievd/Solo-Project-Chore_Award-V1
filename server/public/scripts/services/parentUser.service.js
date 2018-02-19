@@ -7,20 +7,19 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	self.addUserObject = {};
 	self.editTaskObject = {};
 	self.awardObject = {};
-	self.childrenArray = [];
+	self.userArray = [];
 
 	// ask the server if this user is logged in
 	self.getuser = function () {
 		$http.get('/api/user')
 			.then(function (response) {
-					if (response.data.username) {
-						// user has a current session on the server
-
+					if (response.data.username && response.data.role ==='parent' ) {
+						// user has a current session on the server and is of type parent
+						console.log('*** In getuser - response.data.role is :', response.data.role);
 						//Populate userObject for later use
 						self.userObject.userName = response.data.username;
 						self.userObject.family = response.data.family;
 						self.userObject.role = response.data.role;
-						// console.log('User Data: ', self.userObject.userName);
 					} else {
 						// unlikely to get here, but if we do, bounce them back to the login page
 						$location.path("/home");
@@ -105,7 +104,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				$http.post('/api/user/register', self.addUserObject).then(function (response) {
 						console.log('success on addUser post');
 						// Update user list object
-						self.getChildrenUsers();
+						self.getUsers();
 						$location.path('/parentUser');
 					},
 					function (response) {
@@ -158,19 +157,19 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		}
 	};
 
-	self.getChildrenUsers = function () {
+	self.getUsers = function () {
 		//Clear the array so we do not keep appending it
-		self.childrenArray = [];
-		$http.get('/api/user/getChildrenUsers')
+		self.userArray = [];
+		$http.get('/api/user/getUsers')
 			.then(function (response) {
 					// console.log('all users response.data is :', response.data);
 					for (let i = 0; i < response.data.length; i++) {
 						if (response.data[i].role === 'child') {
 							//Populate childrenObject for later use
-							self.childrenArray.push(response.data[i]);
+							self.userArray.push(response.data[i]);
 						}
 					}
-					// console.log('all children are  :', self.childrenArray);
+					// console.log('all children are  :', self.userArray);
 
 				},
 				function (response) {
@@ -178,7 +177,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				});
 	};
 
-	self.getChildrenUsers();
+	self.getUsers();
 
 	self.changeToEditView = function(award){
 		self.awardObject = award.child;
