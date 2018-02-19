@@ -1,6 +1,6 @@
-myApp.controller('TaskController', ['TaskService', function(TaskService) {
+myApp.controller('TaskController', ['TaskService', function (TaskService) {
 	console.log('TaskController created');
-	var self = this;
+	let self = this;
 	self.taskService = TaskService;
 	self.taskObject = TaskService.taskObject;
 }]);

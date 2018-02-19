@@ -1,14 +1,15 @@
-myApp.controller('ParentUserController', ['ParentUserService', function(ParentUserService) {
+myApp.controller('ParentUserController', ['ParentUserService' , '$location', function (ParentUserService, $location) {
 	console.log('ParentUserController created');
 	//taskName, childName, dueDate, assignedBy, pointValue
 
 	let self = this;
 	self.childrenArray = [];
+	self.award = {ernie:'ernie'};
 
 	self.parentUserService = ParentUserService;
 	self.userObjectObject = ParentUserService.userObject;
 
-	self.addUser = function(role){
+	self.addUser = function (role) {
 		ParentUserService.addUserObject = self.addUserObject;
 		self.parentUserService.addUser(role);
 		//Add a promise and .then to this
@@ -18,8 +19,8 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 	self.task = {
 		taskName: '',
 		childName: '',
-        category: '',
-		dueDate:'',
+		category: '',
+		dueDate: '',
 		// assignedBy: '',
 		pointValue: '',
 	};
@@ -42,7 +43,18 @@ myApp.controller('ParentUserController', ['ParentUserService', function(ParentUs
 			// self.parentTask.$setPristine();
 
 		}
-	}
+	};
 
+	// self.changeToEditView = function(award){
+	// 	self.parentUserService.awardObject = award;
+	// 	self.award = award;
+	// 	$location.path('/editAward');
+	// 	console.log('self.award object is :', self.award);
+	// };
+
+	// self.editAward = function (awardObject) {
+	// 	$location.path('/parentUser');
+	// 	self.parentUserService.editAward(awardObject);
+	// }
 
 }]);

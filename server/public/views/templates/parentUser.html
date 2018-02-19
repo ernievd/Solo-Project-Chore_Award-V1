@@ -1,151 +1,163 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
 <!--Tasks listing table-->
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
 		<div class="col-md-12">
 			<h1 class="text-center" style="font-size:200%;">Task List</h1>
-				<table class="table table-striped col-md-12">
-					<thead>
-						<tr>
-							<th>Task</th>
-							<th>Child</th>
-							<th>Category</th>
-							<th>Due Date</th>
-							<th>Assigned By</th>
-							<th>Point Value</th>
-							<th>Confirmed</th>
-							<th>Completed</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="task in vm.parentUserService.taskObject">
-							<!--<th scope="row">1</th>-->
-							<td>{{task.taskname}}</td>
-							<td>{{task.assignedto}}</td>
-							<td>{{task.category}}</td>
-							<td>{{ task.duedate | date:'MM/dd/yyyy' }}</td>
-							<td>{{task.assignedby}}</td>
-							<td>{{task.pointvalue}}</td>
-							<td>
-								<label class="radio-inline">
-									<input type="checkbox" ng-model="task.confirmed" value="task.confirmed" ng-checked="task.confirmed"/>
-								</label>
-							</td>
-							<td>
-								<div>
-									<label class="radio-inline">
-										<input type="checkbox" ng-model="task.completed" value="task.completed" ng-checked="task.completed"/>
-									</label>
-								</div>
-							</td>
-							<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditTaskView({task})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-				<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-				<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
+			<table class="table table-striped col-md-12">
+				<thead>
+				<tr>
+					<th>Task</th>
+					<th>Child</th>
+					<th>Category</th>
+					<th>Due Date</th>
+					<th>Assigned By</th>
+					<th>Point Value</th>
+					<th>Confirmed</th>
+					<th>Completed</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="task in vm.parentUserService.taskObject">
+					<!--<th scope="row">1</th>-->
+					<td>{{task.taskname}}</td>
+					<td>{{task.assignedto}}</td>
+					<td>{{task.category}}</td>
+					<td>{{ task.duedate | date:'MM/dd/yyyy' }}</td>
+					<td>{{task.assignedby}}</td>
+					<td>{{task.pointvalue}}</td>
+					<td>
+						<label class="radio-inline">
+							<input type="checkbox" ng-model="task.confirmed" value="task.confirmed"
+							       ng-checked="task.confirmed"/>
+						</label>
+					</td>
+					<td>
+						<div>
+							<label class="radio-inline">
+								<input type="checkbox" ng-model="task.completed" value="task.completed"
+								       ng-checked="task.completed"/>
+							</label>
+						</div>
+					</td>
+					<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditTaskView({task})"><span
+							class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</span>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
+			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
+			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
 
-			</div>
 		</div>
 	</div>
+</div>
 
 <!--Add a task-->
-	<form name="parentTask">
-	<div class="container" >
+<form name="parentTask">
+	<div class="container">
 		<div class="container form-group row input-group">
-		<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
-		<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
-		<!--TODO - add popup when a field is empty-->
-		<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
-
-		<div class="col-md-2" >
-			<input type="text" class="form-control" name="task" value="" placeholder="Task description" ng-model="vm.task.taskName">
-		</div>
-
-		<!--<div class="col-md-2" >-->
-			<!--<select required ng-model="vm.task.childName">-->
-				<!--<option value="" disabled selected hidden>Assigned Child</option>-->
-				<!--<option ng-repeat="child in vm.parentUserService.childrenArray" value="{{child.username}}">{{child.username}}</option>-->
-			<!--</select>-->
-		<!--</div>-->
-			<div class="col-md-2" >
-				<select required ng-model="vm.childUserIndex">
-					<option value="" disabled selected>Assigned Child</option>
-					<option ng-repeat="child in vm.parentUserService.childrenArray" value={{$index}}>{{child.username}}</option>
-				</select>
-			</div>
-
-		<div class="col-md-2" >
-			<select required ng-model="vm.task.category">
-				<!--TODO - capitalize output-->
-				<option value="" disabled selected hidden>Category</option>
-				<option value="chore">Chore</option>
-				<option value="homework">Homework</option>
-				<option value="outside">Outside Play</option>
-			</select>
-		</div>
-
-		<div class="col-md-2" >
-			<input type="date" class="form-control" name="category" value="" placeholder="dueDate" ng-model="vm.task.dueDate">
-		</div>
-
-		<div class="col-md-2" >
-			<input type="number" class="form-control" name="pointValue" value="" placeholder="Point Value" ng-model="vm.task.pointValue">
-		</div>
-
-		<div class="col-md-2">
-			<span class="btn btn-primary" ng-click="vm.addTaskToDatabase(); child.userName = null"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
-			{{f = forecast[day.iso]; ""}}
-		</div>
-	</div>
-	</div>
-	</form>
-
-<!--Add a user-->
-	<div class="container" >
-
-		<div class="container form-group row input-group">
-			<h1 class="text-center" style="font-size:160%;">Add a User</h1>
+			<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
 			<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
 			<!--TODO - add popup when a field is empty-->
 			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
 
-			<div class="col-md-3" >
-				<input type="text" class="form-control" name="username" value="" placeholder="User Name" ng-model="vm.addUserObject.username">
+			<div class="col-md-2">
+				<input type="text" class="form-control" name="task" value="" placeholder="Task description"
+				       ng-model="vm.task.taskName">
 			</div>
 
-			<div class="col-md-3" >
-				<input type="text" class="form-control" name="password" value="" placeholder="password" ng-model="vm.addUserObject.password">
-			</div>
-
-
-			<div class="col-md-3" >
-				<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
-				<select required ng-model="vm.addUserObject.role">
-					<option value="" disabled selected hidden>User Role</option>
-					<option value="child">Child</option>
-					<option value="parent">Parent</option>
+			<!--<div class="col-md-2" >-->
+			<!--<select required ng-model="vm.task.childName">-->
+			<!--<option value="" disabled selected hidden>Assigned Child</option>-->
+			<!--<option ng-repeat="child in vm.parentUserService.childrenArray" value="{{child.username}}">{{child.username}}</option>-->
+			<!--</select>-->
+			<!--</div>-->
+			<div class="col-md-2">
+				<select required ng-model="vm.childUserIndex">
+					<option value="" disabled selected>Assigned Child</option>
+					<option ng-repeat="child in vm.parentUserService.childrenArray" value={{$index}}>
+						{{child.username}}
+					</option>
 				</select>
 			</div>
 
-			<div class="col-md-3">
-				<span class="btn btn-primary" ng-click="vm.addUser(vm.addUserObject.role)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add User</span>
+			<div class="col-md-2">
+				<select required ng-model="vm.task.category">
+					<!--TODO - capitalize output-->
+					<option value="" disabled selected hidden>Category</option>
+					<option value="chore">Chore</option>
+					<option value="homework">Homework</option>
+					<option value="outside">Outside Play</option>
+				</select>
+			</div>
+
+			<div class="col-md-2">
+				<input type="date" class="form-control" name="category" value="" placeholder="dueDate"
+				       ng-model="vm.task.dueDate">
+			</div>
+
+			<div class="col-md-2">
+				<input type="number" class="form-control" name="pointValue" value="" placeholder="Point Value"
+				       ng-model="vm.task.pointValue">
+			</div>
+
+			<div class="col-md-2">
+				<span class="btn btn-primary" ng-click="vm.addTaskToDatabase(); child.userName = null"><span
+						class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
+				{{f = forecast[day.iso]; ""}}
 			</div>
 		</div>
+	</div>
+</form>
 
-		<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+<!--Add a user-->
+<div class="container">
 
-		<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+	<div class="container form-group row input-group">
+		<h1 class="text-center" style="font-size:160%;">Add a User</h1>
+		<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
+		<!--TODO - add popup when a field is empty-->
+		<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+
+		<div class="col-md-3">
+			<input type="text" class="form-control" name="username" value="" placeholder="User Name"
+			       ng-model="vm.addUserObject.username">
+		</div>
+
+		<div class="col-md-3">
+			<input type="text" class="form-control" name="password" value="" placeholder="password"
+			       ng-model="vm.addUserObject.password">
+		</div>
+
+
+		<div class="col-md-3">
+			<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
+			<select required ng-model="vm.addUserObject.role">
+				<option value="" disabled selected hidden>User Role</option>
+				<option value="child">Child</option>
+				<option value="parent">Parent</option>
+			</select>
+		</div>
+
+		<div class="col-md-3">
+			<span class="btn btn-primary" ng-click="vm.addUser(vm.addUserObject.role)"><span
+					class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add User</span>
+		</div>
+	</div>
+
+	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
+
+	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
 
 	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
 </div>
 
 <!--Awards section-->
-	<div class="container">
+<div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h1 class="text-center" style="font-size:200%;">Awards</h1>
@@ -160,15 +172,16 @@
 				</tr>
 				</thead>
 				<tbody>
-<p>{{vm.parentUserService.childrenArray[0].award_id[0].awardname}}</p>
 				<tr ng-repeat="child in vm.parentUserService.childrenArray">
 					<td>{{child.username}}</td>
-					<td>{{child.awardname}}</td>
-					<td>{{child.pictureLink}}</td>
-					<td>{{child.pointsNeeded}}</td>
-					<td><span class="btn btn-primary" ng-click="vm.editAward(child._id)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</span></td>
+					<td>{{child.award_id[0].awardname}}</td>
+					<td>{{child.award_id[0].link}}</td>
+					<td>{{child.award_id[0].pointvalue}}</td>
+					<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditView({child})"><span
+							class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</span></td>
+					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
 					<!--<td>{{award.pointValue}}</td>-->
-					<!--<td>{{award.link}}</td>-->
+					<!--<td>{{award.link}}</td>-->changeToEditView
 					<!--<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>-->
 				</tr>
 				</tbody>

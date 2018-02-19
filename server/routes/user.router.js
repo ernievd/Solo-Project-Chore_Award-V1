@@ -9,35 +9,35 @@ const router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/', (req, res) => {
-  // check if logged in
-  if (req.isAuthenticated()) {
-    // send back user object from database
-    res.send(req.user);
-  } else {
-    // failure best handled on the server. do redirect here.
-    res.sendStatus(403);
-  }
+	// check if logged in
+	if (req.isAuthenticated()) {
+		// send back user object from database
+		res.send(req.user);
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
 });
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
-  const username = req.body.username;
-  const family = req.body.family;
-  const role = req.body.role;
-  const password = encryptLib.encryptPassword(req.body.password);
-  const points_earned = 0;
+	const username = req.body.username;
+	const family = req.body.family;
+	const role = req.body.role;
+	const password = encryptLib.encryptPassword(req.body.password);
+	const points_earned = 0;
 
-  const newUser = new User({ username, family, role, password, points_earned});
+	const newUser = new User({username, family, role, password, points_earned});
 	newUser.save((error, userDoc) => {
 		if (error) {
 			res.sendStatus(500);
 		}
 		else {
-			//Also update the award collection
+			//Also update the award collection with default values
 			const newAward = new Awards({awardname: 'Nothing chosen', pointvalue: 0, link: ''});
-			newAward.save((error, awardDoc) =>{
+			newAward.save((error, awardDoc) => {
 				if (error) {
 					res.sendStatus(500);
 				}
@@ -76,9 +76,6 @@ router.post('/register', (req, res, next) => {
 });
 
 
-
-
-
 // Get all the tasks in the database
 router.get('/gettasks', (req, res) => {
 	// Game is a reference to the collection when finding things in the DB
@@ -115,7 +112,7 @@ router.post('/addTask/:userId', (req, res, next) => {
 			console.log('-----------------------------');
 			console.log('req.params.userId is ***', req.params.userId);
 			// added the new rating, add it to the game document
-			console.log('taskDoc._id is :',taskDoc._id);
+			console.log('taskDoc._id is :', taskDoc._id);
 			User.findByIdAndUpdate(
 				{
 					"_id": req.params.userId
@@ -141,14 +138,14 @@ router.post('/addTask/:userId', (req, res, next) => {
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-  res.sendStatus(200);
+	res.sendStatus(200);
 });
 
 // clear all server session information about this user
 router.get('/logout', (req, res) => {
-  // Use passport's built-in method to log out the user
-  req.logout();
-  res.sendStatus(200);
+	// Use passport's built-in method to log out the user
+	req.logout();
+	res.sendStatus(200);
 });
 
 // /updateTask/${editTaskObj._id}
@@ -177,11 +174,11 @@ router.put('/updateTask/:id', (req, res) => {
 router.delete('/deleteTask/:id', (req, res) => {
 	Tasks.findByIdAndRemove(
 		{"_id": req.params.id},
-		(error, deletedTask) =>{
-			if(error){
+		(error, deletedTask) => {
+			if (error) {
 				console.log('error on remove:', error);
 				res.sendStatus(500);
-			} else{
+			} else {
 				console.log('task removed:', deletedTask);
 				res.sendStatus(200);
 			}
@@ -191,24 +188,38 @@ router.delete('/deleteTask/:id', (req, res) => {
 
 router.get('/getChildrenUsers', (req, res) => {
 
-	User.find({}).populate({ path: 'award_id', model: Awards}).exec( (error, foundUsers) => {
+	User.find({}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 		if (error) {
 			console.log('error on find: ', error);
 			res.sendStatus(500);
 		} else {
-			console.log('found user Documents: ', foundUsers);
+			// console.log('found user Documents: ', foundUsers);
 			res.send(foundUsers);
 		}
 	})
 
-	// User.find({}, (error, foundTasks) => {
-	// 	if (error) {
-	// 		console.log('error on find: ', error);
-	// 		res.sendStatus(500);
-	// 	} else {
-	// 		res.send(foundTasks);
-	// 	}
-	// }); // end find
 }); // end route
+
+router.put('/editAward/', (req, res) => {
+	console.log('EDIT AWARD req.params.id is :', req.body.award_id[0]._id);
+	console.log('EDIT AWARD req.body is : ', req.body);
+	let awardId = req.body.award_id[0]._id;
+	let awardToUpdate = req.body.award_id[0];
+	// update in collection
+	Awards.findByIdAndUpdate(
+		{"_id": awardId},
+		{$set: awardToUpdate},
+		(error, updatedDocument) => {
+			if (error) {
+				console.log('error on award update: ', error);
+				res.sendStatus(500);
+			} else {
+				console.log('Document before it was updated!: ', updatedDocument);
+				res.sendStatus(200);
+			}
+		}
+	)
+
+});
 
 module.exports = router;

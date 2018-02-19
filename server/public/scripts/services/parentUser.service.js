@@ -1,49 +1,50 @@
-myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($http, $location, $filter, ) {
-  console.log('ParentUserService Loaded');
-  let self = this;
+myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($http, $location, $filter,) {
+	console.log('ParentUserService Loaded');
+	let self = this;
 
-    self.userObject = {};
-    self.taskObject = {};
-    self.addUserObject = {};
-    self.editTaskObject = {};
-    self.childrenArray = [];
+	self.userObject = {};
+	self.taskObject = {};
+	self.addUserObject = {};
+	self.editTaskObject = {};
+	self.awardObject = {};
+	self.childrenArray = [];
 
-    // ask the server if this user is logged in
+	// ask the server if this user is logged in
 	self.getuser = function () {
-    $http.get('/api/user')
-      .then(function (response) {
-        if (response.data.username) {
-          // user has a current session on the server
+		$http.get('/api/user')
+			.then(function (response) {
+					if (response.data.username) {
+						// user has a current session on the server
 
-	        //Populate userObject for later use
-          self.userObject.userName = response.data.username;
-          self.userObject.family = response.data.family;
-          self.userObject.role = response.data.role;
-          // console.log('User Data: ', self.userObject.userName);
-        } else {
-          // unlikely to get here, but if we do, bounce them back to the login page
-          $location.path("/home");
-        }
-      },
-      // error response of unauthorized (403)
-      function(response) {
-        // user has no session, bounce them back to the login page
-        $location.path("/home");
+						//Populate userObject for later use
+						self.userObject.userName = response.data.username;
+						self.userObject.family = response.data.family;
+						self.userObject.role = response.data.role;
+						// console.log('User Data: ', self.userObject.userName);
+					} else {
+						// unlikely to get here, but if we do, bounce them back to the login page
+						$location.path("/home");
+					}
+				},
+				// error response of unauthorized (403)
+				function (response) {
+					// user has no session, bounce them back to the login page
+					$location.path("/home");
 
-      });
-  };
+				});
+	};
 
-    self.logout = function () {
-    $http.get('/api/user/logout')
-      .then(function (response) {
-        console.log('logged out');
-        $location.path("/home");
-      },
-    function(response) {
-      console.log('logged out error');
-      $location.path("/home");
-    });
-  };
+	self.logout = function () {
+		$http.get('/api/user/logout')
+			.then(function (response) {
+					console.log('logged out');
+					$location.path("/home");
+				},
+				function (response) {
+					console.log('logged out error');
+					$location.path("/home");
+				});
+	};
 
 	self.getTasks = function () {
 		$http.get('/api/user/gettasks')
@@ -51,7 +52,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					// console.log('response.data received in getTasks is :', response.data);
 					self.taskObject = response.data;
 				},
-				function(response) {
+				function (response) {
 					console.log('error in getting tasks from the router :', response);
 				});
 	};
@@ -60,30 +61,31 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	self.getTasks();
 
 	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
-    self.addTaskToDatabase = function (dataObj) {
-	    //Add the user to the object so we have that user that added the task
-        dataObj.assignedby = self.userObject.userName;
-        //if parent added then confirmed is true - ** TODO- Check later to see if a parent role or child role
-	    dataObj.confirmed = true;
-	    //new task therefore completed is false
-	    dataObj.completed = false;
+	self.addTaskToDatabase = function (dataObj) {
+		//Add the user to the object so we have that user that added the task
+		dataObj.assignedby = self.userObject.userName;
+		//if parent added then confirmed is true - ** TODO- Check later to see if a parent role or child role
+		dataObj.confirmed = true;
+		//new task therefore completed is false
+		dataObj.completed = false;
 
-	    console.log('sending to server...', dataObj);
-	    //$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
-	    $http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function(response) {
-	    	//update the tasks listed in the DOM
-	    	self.getTasks();
-	    	console.log('success');
-			    //Keeping this for now. Used to redirect if you want after the post
-			    // $location.path('/home');
-		    },
-		    function(response){
-	    	    console.log('error');
-	    	    self.message = "Something went wrong. Please try again."
-	    });
+		// console.log('sending to server...', dataObj);
+		//$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+		$http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function (response) {
+				//update the tasks listed in the DOM
+				self.getTasks();
+				console.log('success');
+				//Keeping this for now. Used to redirect if you want after the post
+				// $location.path('/home');
+			},
+			function (response) {
+				console.log('error');
+				self.message = "Something went wrong. Please try again."
+			});
 
-    };
+	};
 
+	//add user
 	let promise =
 		self.addUser = function (role) {
 			// console.log('sending to server self.addUserObject...', self.addUserObject);
@@ -115,8 +117,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		};
 
 
-
-	self.changeToEditTaskView = function(editTaskObj) {
+	self.changeToEditTaskView = function (editTaskObj) {
 		// console.log('The task object is :', editTaskObj);
 		$location.path('/editTask');
 		self.editTaskObject = editTaskObj.task;
@@ -127,7 +128,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
 	};
 
-	self.updateTask = function(){
+	self.updateTask = function () {
 		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				// console.log('get response', response);
@@ -140,7 +141,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			});
 	};
 
-	self.deleteTask = function(){
+	self.deleteTask = function () {
 		if (confirm("Confirm delete")) {
 			$http.delete(`/api/user/deleteTask/${self.editTaskObject._id}`, self.editTaskObject)
 				.then(function (response) {
@@ -163,21 +164,51 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		$http.get('/api/user/getChildrenUsers')
 			.then(function (response) {
 					// console.log('all users response.data is :', response.data);
-					for (let i = 0; i < response.data.length; i++){
-						if (response.data[i].role ==='child') {
+					for (let i = 0; i < response.data.length; i++) {
+						if (response.data[i].role === 'child') {
 							//Populate childrenObject for later use
 							self.childrenArray.push(response.data[i]);
 						}
 					}
-					console.log('all children are  :', self.childrenArray);
+					// console.log('all children are  :', self.childrenArray);
 
 				},
-				function(response) {
+				function (response) {
 					console.log('error in getting users from the router :', response);
 				});
 	};
 
 	self.getChildrenUsers();
+
+	self.changeToEditView = function(award){
+		self.awardObject = award.child;
+		$location.path('/editAward');
+		// console.log('self.award object is :', self.awardObject);
+	};
+
+	self.goToParentView = function(){
+		// self.awardObject = award.child;
+		$location.path('/parentUser');
+		// console.log('self.award object is :', self.awardObject);
+	};
+
+	self.editAward = function(){
+		console.log('awardObject is :', self.awardObject);
+		$http.put(`/api/user/editAward/`, self.awardObject)
+			.then(function (response) {
+				self.getTasks();
+				$location.path('/parentUser');
+			})
+				.catch(function (response) {
+					console.log('error on put when editing award', response);
+				});
+	}//End self.editAward
+
+	// self.editAward = function (awardObject) {
+	// 	$location.path('/parentUser');
+	// 	self.parentUserService.editAward(awardObject);
+	//}
+
 }]);
 
 
