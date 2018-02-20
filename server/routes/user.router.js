@@ -156,8 +156,8 @@ router.get('/logout', (req, res) => {
 
 // /updateTask/${editTaskObj._id}
 router.put('/updateTask/:id', (req, res) => {
-	console.log('req.params.id is :', req.params.id);
-	console.log('req.body is : ', req.body);
+	console.log('update task req.params.id is :', req.params.id);
+	console.log('Update task req.body is : ', req.body);
 	let taskId = req.params.id;
 	let taskToUpdate = req.body;
 	// update in collection
@@ -169,6 +169,7 @@ router.put('/updateTask/:id', (req, res) => {
 				console.log('error on task update: ', error);
 				res.sendStatus(500);
 			} else {
+				console.log('it PASSED');
 				// console.log('Document before it was updated!: ', updatedDocument);
 				res.sendStatus(200);
 			}

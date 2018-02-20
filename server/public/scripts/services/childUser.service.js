@@ -163,7 +163,6 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 					self.userObject.points_earned -= self.editTaskObject.pointvalue;
 					console.log('self.userObject.points_earned after subtraction is ', self.userObject.points_earned);
 				}
-				//THEN DO EDITUSER FUNCTION
 				self.editUser();
 				//Update the task list
 				self.getTasks();
@@ -173,13 +172,6 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 			});
 	};
 
-	self.updatePoints = function (points) {
-
-
-		// from user - points_earned
-		// from tasks - pointvalue
-		// from awards - pointvalue
-	};
 
 
 	self.getUsers = function () {
@@ -237,7 +229,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 			.catch(function (response) {
 				console.log('error on put when editing award', response);
 			});
-	}//End self.editAward
+	}//End self.editUser
 	//editUser
 
 }]);

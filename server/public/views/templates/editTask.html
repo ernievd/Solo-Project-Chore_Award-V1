@@ -68,9 +68,7 @@
 					</td>
 					<td>
 						<label class="radio-inline">
-							<input type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed"
-							       value="vm.parentUserService.editTaskObject.completed"
-							       ng-checked="vm.parentUserService.editTaskObject.completed"/>
+							<input type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed" ng-change="vm.parentUserService.completeTask()" value="vm.parentUserService.editTaskObject.completed" ng-checked="vm.parentUserService.editTaskObject.completed"/>
 						</label>
 					</td>
 				</tr>
@@ -86,6 +84,7 @@
 
 
 <div class="container col-md-12 text-center">
+	<!--vm.childUserService.completeTask({task})-->
 	<span class="btn btn-primary" ng-click="vm.parentUserService.updateTask()"><span
 			class="glyphicon glyphicon-edit"></span> Update Task</span>
 	<span class="btn btn-primary" ng-click="vm.parentUserService.deleteTask()"><span
