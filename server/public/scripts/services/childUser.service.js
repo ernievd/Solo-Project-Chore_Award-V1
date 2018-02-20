@@ -81,11 +81,11 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
 	self.addTaskToDatabase = function (dataObj) {
 		//Add the user to the object so we have that user that added the task
-		dataObj.assignedby = self.userObject.userName;
+		// dataObj.assignedby = self.userObject.userName;
 		//if parent added then confirmed is true - ** TODO- Check later to see if a parent role or child role
-		dataObj.confirmed = true;
+		// dataObj.confirmed = true;
 		//new task therefore completed is false
-		dataObj.completed = false;
+		// dataObj.completed = false;
 
 		// console.log('sending to server...', dataObj);
 		//$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
@@ -97,7 +97,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				// $location.path('/home');
 			},
 			function (response) {
-				console.log('error');
+				console.log('error is', response);
 				self.message = "Something went wrong. Please try again."
 			});
 

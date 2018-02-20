@@ -19,15 +19,22 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 		// assignedBy: '',
 		pointValue: '',
 	};
-	self.addTaskToDatabase = function () {
+	self.childAddTaskToDatabase = function () {
 		// console.log('childUserIndex is :', self.childUserIndex);
 		// console.log('self.task object is : ', self.task);
 		index = self.childUserIndex;
 
-		self.task.childName = self.childUserService.userArray[index].username;
-		self.task.user_id = self.childUserService.userArray[index]._id;
-		if (self.task.taskName === '' || self.task.childName === '' || self.task.category === '' || self.task.dueDate === ''
-			|| self.task.pointValue === '') {
+		// self.task.childName = self.childUserService.userArray[index].username;
+		console.log('self.childUserService.userObject is', self.childUserService.userObject);
+		console.log('self.childUserService.userObject name is', self.childUserService.userObject.username);
+
+		self.task.childName = self.childUserService.userObject.username;
+		self.task.user_id = self.childUserService.userObject._id;
+		self.task.pointValue = 0;
+		self.task.assignedby = self.task.childName;
+		self.task.confirmed = false;
+		self.task.completed = false;
+		if (self.task.taskName === '' || self.task.category === '' || self.task.dueDate === '') {
 			self.message = "All task fields must be be completed";
 		}
 		else {
@@ -36,7 +43,6 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 			self.task = {};
 			self.childUserIndex = null;
 			// self.parentTask.$setPristine();
-
 		}
 	};
 

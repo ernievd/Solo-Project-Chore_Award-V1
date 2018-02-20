@@ -68,7 +68,7 @@
 
 
 <!--Add a task-->
-<form name="parentTask">
+<form name="childTask">
 	<div class="container">
 		<div class="container form-group row input-group">
 			<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
@@ -76,27 +76,27 @@
 			<!--TODO - add popup when a field is empty-->
 			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
 
-			<div class="col-md-2">
+			<div class="col-md-3">
 				<input type="text" class="form-control" name="task" value="" placeholder="Task description"
 				       ng-model="vm.task.taskName">
 			</div>
 
-			<!--<div class="col-md-2" >-->
-			<!--<select required ng-model="vm.task.childName">-->
-			<!--<option value="" disabled selected hidden>Assigned Child</option>-->
-			<!--<option ng-repeat="child in vm.childUserService.userArray" value="{{child.username}}">{{child.username}}</option>-->
-			<!--</select>-->
+			<!--<div class="col-md-2">-->
+				<!--<select required ng-model="vm.childUserIndex">-->
+					<!--<option value="" disabled selected>Assigned Child</option>-->
+					<!--<option ng-repeat="child in vm.childUserService.userArray" value={{$index}}>-->
+						<!--{{child.username}}-->
+					<!--</option>-->
+				<!--</select>-->
 			<!--</div>-->
-			<div class="col-md-2">
-				<select required ng-model="vm.childUserIndex">
-					<option value="" disabled selected>Assigned Child</option>
-					<option ng-repeat="child in vm.childUserService.userArray" value={{$index}}>
-						{{child.username}}
-					</option>
-				</select>
-			</div>
 
-			<div class="col-md-2">
+			<!--<div class="col-md-2">-->
+				<!--<input type="Name" class="form-control" name="category" value="" placeholder="vm.childUserService.userObject"-->
+				       <!--ng-model="vm.childUserService.userObject">-->
+			<!--</div>-->
+
+
+			<div class="col-md-3">
 				<select required ng-model="vm.task.category">
 					<!--TODO - capitalize output-->
 					<option value="" disabled selected hidden>Category</option>
@@ -106,20 +106,19 @@
 				</select>
 			</div>
 
-			<div class="col-md-2">
+			<div class="col-md-3">
 				<input type="date" class="form-control" name="category" value="" placeholder="dueDate"
 				       ng-model="vm.task.dueDate">
 			</div>
 
-			<div class="col-md-2">
-				<input type="number" class="form-control" name="pointValue" value="" placeholder="Point Value"
-				       ng-model="vm.task.pointValue">
-			</div>
+			<!--<div class="col-md-2">-->
+				<!--<input type="number" class="form-control" name="pointValue" value="" placeholder="Point Value"-->
+				       <!--ng-model="vm.task.pointValue">-->
+			<!--</div>-->
 
-			<div class="col-md-2">
-				<span class="btn btn-primary" ng-click="vm.addTaskToDatabase(); child.userName = null"><span
+			<div class="col-md-3">
+				<span class="btn btn-primary" ng-click="vm.childAddTaskToDatabase(); child.userName = null"><span
 						class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
-				{{f = forecast[day.iso]; ""}}
 			</div>
 		</div>
 	</div>
