@@ -198,7 +198,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 
 	self.changeToEditView = function(award){
 		self.awardObject = award.child;
-		$location.path('/editAward');
+		$location.path('/editUser');
 		// console.log('self.award object is :', self.awardObject);
 	};
 
@@ -208,9 +208,9 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 		// console.log('self.award object is :', self.awardObject);
 	};
 
-	self.editAward = function(){
+	self.editUser = function(){
 		console.log('awardObject is :', self.awardObject);
-		$http.put(`/api/user/editAward/`, self.awardObject)
+		$http.put(`/api/user/editUser/`, self.awardObject)
 			.then(function (response) {
 				self.getTasks();
 				$location.path('/parentUser');
@@ -218,7 +218,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
 				});
-	}//End self.editAward
+	}//End self.editUser
 
 	self.editUser = function(){
 		console.log('userObject is :', self.userObject);

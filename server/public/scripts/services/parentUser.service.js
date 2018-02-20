@@ -72,8 +72,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		// console.log('sending to server...', dataObj);
 		//$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 		$http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function (response) {
-				//update the tasks listed in the DOM
-				self.getTasks();
 				console.log('success');
 				//Keeping this for now. Used to redirect if you want after the post
 				// $location.path('/home');
@@ -82,7 +80,8 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				console.log('error');
 				self.message = "Something went wrong. Please try again."
 			});
-
+		//update the tasks listed in the DOM
+		self.getTasks();
 	};
 
 	//add user
@@ -141,6 +140,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
+		self.getTasks();
 	};
 
 	self.deleteTask = function () {
@@ -158,6 +158,44 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		} else {
 			txt = "You pressed Cancel!";
 		}
+	};
+
+	self.deleteUser = function (userToDelete) {
+		if (confirm("Confirm delete")) {
+			console.log('##########   Task to Delete is :', userToDelete.tasks);
+			//Delete all associated tasks
+			for (i=0 ; i< userToDelete.tasks.length ; i++) {
+				console.log('##########   Task to Delete is :', userToDelete.tasks[i]);
+				$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
+					.then(function (response) {
+						console.log('Delete Success:', response);
+					})
+					.catch(function (response) {
+						console.log('error on Delete', response);
+					});
+			}
+			//Delete the associated award
+			$http.delete(`/api/user/deleteAward/${userToDelete.award_id[0]._id}`, userToDelete)
+				.then(function (response) {
+					console.log('Delete Success:', response);
+				})
+				.catch(function (response) {
+					console.log('error on Delete', response);
+				});
+
+			//Delete the user
+			$http.delete(`/api/user/deleteUser/${userToDelete._id}`, userToDelete)
+				.then(function (response) {
+					console.log('Delete Success:', response);
+				})
+				.catch(function (response) {
+					console.log('error on Delete', response);
+				});
+		} else {
+			txt = "You pressed Cancel!";
+		}
+		self.getUsers();
+		self.getTasks();
 	};
 
 	self.getUsers = function () {
@@ -184,7 +222,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	self.changeToEditView = function(award){
 		self.awardObject = award.child;
-		$location.path('/editAward');
+		$location.path('/editUser');
 		// console.log('self.award object is :', self.awardObject);
 	};
 
@@ -194,17 +232,18 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		// console.log('self.award object is :', self.awardObject);
 	};
 
-	self.editAward = function(){
+	self.editUser = function(){
+		self.getTasks();
 		console.log('awardObject is :', self.awardObject);
-		$http.put(`/api/user/editAward/`, self.awardObject)
+		$http.put(`/api/user/editUser/`, self.awardObject)
 			.then(function (response) {
 				self.getTasks();
-				$location.path('/parentUser');
+				// $location.path('/parentUser');
 			})
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
 				});
-	}//End self.editAward
+	}//End self.editUser
 
 	self.completeTask = function () {
 		//finduser set up the associated child user to updateUserObject
@@ -251,9 +290,20 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	};
 
-	self.editUser = function(){
-		console.log('self.updateUserObject is :', self.updateUserObject);
-		$http.put(`/api/user/editUser/`, self.updateUserObject)
+	// self.editUser = function(){
+	// 	console.log('self.updateUserObject is :', self.updateUserObject);
+	// 	$http.put(`/api/user/editUser/`, self.updateUserObject)
+	// 		.then(function (response) {
+	// 			self.getTasks();
+	// 		})
+	// 		.catch(function (response) {
+	// 			console.log('error on put when editing user', response);
+	// 		});
+	// }//End self.editUser
+
+	self.editUser = function(editObj){
+		console.log('ernie object is :', editObj);
+		$http.put(`/api/user/editUser/`, editObj)
 			.then(function (response) {
 				self.getTasks();
 			})

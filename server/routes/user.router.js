@@ -91,7 +91,7 @@ router.get('/gettasks', (req, res) => {
 
 // Handles POST request with new task
 router.post('/addTask/:userId', (req, res, next) => {
-	console.log('in the router - req.body is :', req.body);
+	// console.log('in the router - req.body is :', req.body);
 	const taskname = req.body.taskName;
 	const category = req.body.category;
 	const duedate = req.body.dueDate;
@@ -179,6 +179,8 @@ router.put('/updateTask/:id', (req, res) => {
 });
 
 router.delete('/deleteTask/:id', (req, res) => {
+	console.log('in ROUTER TASK DELETE - req.params is :', req.params);
+
 	Tasks.findByIdAndRemove(
 		{"_id": req.params.id},
 		(error, deletedTask) => {
@@ -187,6 +189,39 @@ router.delete('/deleteTask/:id', (req, res) => {
 				res.sendStatus(500);
 			} else {
 				console.log('task removed:', deletedTask);
+				res.sendStatus(200);
+			}
+		}
+	)
+});
+
+router.delete('/deleteUser/:id', (req, res) => {
+	console.log('in ROUTER USER DELETE - req.params is :', req.params);
+	 User.findByIdAndRemove(
+		{"_id": req.params.id},
+		(error, deletedUser) => {
+			if (error) {
+				console.log('error on remove:', error);
+				res.sendStatus(500);
+			} else {
+				console.log('task removed:', deletedUser);
+				res.sendStatus(200);
+			}
+		}
+	)
+});
+
+router.delete('/deleteAward/:id', (req, res) => {
+	console.log('in ROUTER AWARD DELETE - req.params is :', req.params);
+
+	Awards.findByIdAndRemove(
+		{"_id": req.params.id},
+		(error, deletedUser) => {
+			if (error) {
+				console.log('error on remove:', error);
+				res.sendStatus(500);
+			} else {
+				console.log('task removed:', deletedUser);
 				res.sendStatus(200);
 			}
 		}
@@ -207,7 +242,7 @@ router.get('/getUsers', (req, res) => {
 
 }); // end route
 
-router.put('/editAward/', (req, res) => {
+router.put('/edit/', (req, res) => {
 	// console.log('EDIT AWARD req.params.id is :', req.body.award_id[0]._id);
 	// console.log('EDIT AWARD req.body is : ', req.body);
 	let awardId = req.body.award_id[0]._id;
@@ -232,6 +267,7 @@ router.put('/editAward/', (req, res) => {
 router.put('/editUser/', (req, res) => {
 	let userId = req.body._id;
 	let userDataToUpdate = req.body;
+	console.log('####userDataToUpdate is :', userDataToUpdate);
 	// update in collection
 	User.findByIdAndUpdate(
 		{"_id": userId},
@@ -240,7 +276,26 @@ router.put('/editUser/', (req, res) => {
 			if (error) {
 				console.log('error on user update: ', error);
 				res.sendStatus(500);
-			} else {
+			}
+			else {
+
+
+				console.log('**********userDataToUpdate.award_id[0] is :', userDataToUpdate.award_id[0]);
+				Awards.findByIdAndUpdate(
+					{"_id": userDataToUpdate.award_id[0]._id},
+					{$set: userDataToUpdate.award_id[0]},
+					(error, updatedDocument) => {
+						if (error) {
+							console.log('error on award update: ', error);
+							res.sendStatus(500);
+						}
+						// else {
+						// 	// console.log('Document before it was updated!: ', updatedDocument);
+						// 	res.sendStatus(200);
+						// }
+					}
+				);
+
 				console.log('Document before it was updated!: ', updatedDocument);
 				res.sendStatus(200);
 			}
