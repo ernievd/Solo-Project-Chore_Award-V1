@@ -53,8 +53,8 @@ router.post('/register', (req, res, next) => {
 								console.log('error on push : ', pusherror);
 								res.sendStatus(500);
 							} else {
-								console.log('updated user document: ', doc);
-								console.log('-----------------------------');
+								// console.log('updated user document: ', doc);
+								// console.log('-----------------------------');
 								res.sendStatus(201);
 							}
 						}
@@ -108,11 +108,11 @@ router.post('/addTask/:userId', (req, res, next) => {
 			res.sendStatus(500);
 		}
 		else {
-			console.log('saved new task: ', taskDoc);
-			console.log('-----------------------------');
-			console.log('req.params.userId is ***', req.params.userId);
-			// added the new rating, add it to the game document
-			console.log('taskDoc._id is :', taskDoc._id);
+			// console.log('saved new task: ', taskDoc);
+			// console.log('-----------------------------');
+			// console.log('req.params.userId is ***', req.params.userId);
+			// // added the new rating, add it to the game document
+			// console.log('taskDoc._id is :', taskDoc._id);
 			User.findByIdAndUpdate(
 				{
 					"_id": req.params.userId
@@ -123,8 +123,8 @@ router.post('/addTask/:userId', (req, res, next) => {
 						console.log('error on push to user task array: ', pusherror);
 						res.sendStatus(500);
 					} else {
-						console.log('updated user document: ', doc);
-						console.log('-----------------------------');
+						// console.log('updated user document: ', doc);
+						// console.log('-----------------------------');
 						res.sendStatus(201);
 					}
 				}
@@ -142,7 +142,7 @@ router.post('/login', userStrategy.authenticate('local'), (req, res) => {
 
 	//Changes to now send req.user which has all the user info
 	res.send(req.user);
-	console.log('req.user is :', req.user);
+	// console.log('req.user is :', req.user);
 
 });
 
@@ -207,8 +207,8 @@ router.get('/getUsers', (req, res) => {
 }); // end route
 
 router.put('/editAward/', (req, res) => {
-	console.log('EDIT AWARD req.params.id is :', req.body.award_id[0]._id);
-	console.log('EDIT AWARD req.body is : ', req.body);
+	// console.log('EDIT AWARD req.params.id is :', req.body.award_id[0]._id);
+	// console.log('EDIT AWARD req.body is : ', req.body);
 	let awardId = req.body.award_id[0]._id;
 	let awardToUpdate = req.body.award_id[0];
 	// update in collection
@@ -220,12 +220,34 @@ router.put('/editAward/', (req, res) => {
 				console.log('error on award update: ', error);
 				res.sendStatus(500);
 			} else {
-				console.log('Document before it was updated!: ', updatedDocument);
+				// console.log('Document before it was updated!: ', updatedDocument);
 				res.sendStatus(200);
 			}
 		}
 	)
 
 });
+
+router.put('/editUser/', (req, res) => {
+	let userId = req.body._id;
+	let userDataToUpdate = req.body;
+	// update in collection
+	User.findByIdAndUpdate(
+		{"_id": userId},
+		{$set: userDataToUpdate},
+		(error, updatedDocument) => {
+			if (error) {
+				console.log('error on user update: ', error);
+				res.sendStatus(500);
+			} else {
+				console.log('Document before it was updated!: ', updatedDocument);
+				res.sendStatus(200);
+			}
+		}
+	)
+
+
+});
+
 
 module.exports = router;

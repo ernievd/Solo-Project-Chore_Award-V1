@@ -55,20 +55,20 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 		$http.get('/api/user/gettasks')
 			.then(function (response) {
 					// console.log('response.data received in getTasks is :', response.data);
-					 console.log('In GETTASKS - self.userObject is :', self.userObject);
+					//  console.log('In GETTASKS - self.userObject is :', self.userObject);
 					// console.log('response.data name received in getTasks is :', response.data[0].assignedto)
 					self.taskArray = [];
 					//Loop to find only what the child user is responsible for
 					for (i=0; i< response.data.length; i++){
-						 console.log('response.data name received in getTasks is :', response.data[0].assignedto);
-						 console.log('username name received in getTasks is :', self.userObject.username);
+						 // console.log('response.data name received in getTasks is :', response.data[0].assignedto);
+						 // console.log('username name received in getTasks is :', self.userObject.username);
 						if (response.data[i].assignedto === self.userObject.username){
-							console.log('its a match!');
+							// console.log('its a match!');
 							self.taskArray.push(response.data[i]);
 						}
 					}
 					// self.taskObject = response.data;
-					console.log('In get tasks - self.taskArray is :', self.taskArray);
+					// console.log('In get tasks - self.taskArray is :', self.taskArray);
 				},
 				function (response) {
 					console.log('error in getting tasks from the router :', response);
@@ -146,20 +146,39 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
 	};
 
-	self.updateTask = function (editTaskObj) {
+	self.completeTask = function (editTaskObj) {
 		self.editTaskObject = editTaskObj.task;
-		console.log('SELF.EDITTASKOBJECT is - ', self.editTaskObject.completed);
 		self.editTaskObject.completed = !self.editTaskObject.completed;
-		console.log('SELF.EDITTASKOBJECT after flip is - ', self.editTaskObject.completed);
+		console.log('self.editTaskObject.pointvalue is :', self.editTaskObject.pointvalue);
 		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				// console.log('get response', response);
+				if (self.editTaskObject.completed === true){
+					console.log('*********self.userObject.points_earned is ', self.userObject.points_earned);
+					self.userObject.points_earned += self.editTaskObject.pointvalue;
+					console.log('self.userObject.points_earned after addition is ', self.userObject.points_earned);
+				}
+				else{
+					console.log('*********self.userObject.points_earned is ', self.userObject.points_earned);
+					self.userObject.points_earned -= self.editTaskObject.pointvalue;
+					console.log('self.userObject.points_earned after subtraction is ', self.userObject.points_earned);
+				}
+				//THEN DO EDITUSER FUNCTION
+				self.editUser();
 				//Update the task list
 				self.getTasks();
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
+	};
+
+	self.updatePoints = function (points) {
+
+
+		// from user - points_earned
+		// from tasks - pointvalue
+		// from awards - pointvalue
 	};
 
 
@@ -209,10 +228,17 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 	}//End self.editAward
 
-	// self.editAward = function (awardObject) {
-	// 	$location.path('/parentUser');
-	// 	self.parentUserService.editAward(awardObject);
-	//}
+	self.editUser = function(){
+		console.log('userObject is :', self.userObject);
+		$http.put(`/api/user/editUser/`, self.userObject)
+			.then(function (response) {
+				self.getTasks();
+			})
+			.catch(function (response) {
+				console.log('error on put when editing award', response);
+			});
+	}//End self.editAward
+	//editUser
 
 }]);
 
