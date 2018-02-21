@@ -16,7 +16,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			.then(function (response) {
 					if (response.data.username && response.data.role ==='parent' ) {
 						// user has a current session on the server and is of type parent
-						console.log('*** In getuser - response.data.role is :', response.data.role);
 						//Populate userObject for later use
 						self.userObject.userName = response.data.username;
 						self.userObject.family = response.data.family;
@@ -68,6 +67,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		dataObj.confirmed = true;
 		//new task therefore completed is false
 		dataObj.completed = false;
+		dataObj.family = self.userObject.family;
 
 		// console.log('sending to server...', dataObj);
 		//$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
@@ -164,7 +164,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		if (confirm("Confirm delete")) {
 			console.log('##########   Task to Delete is :', userToDelete.tasks);
 			//Delete all associated tasks
-			for (i=0 ; i< userToDelete.tasks.length ; i++) {
+			for (let i=0 ; i< userToDelete.tasks.length ; i++) {
 				console.log('##########   Task to Delete is :', userToDelete.tasks[i]);
 				$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
 					.then(function (response) {
@@ -199,11 +199,11 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	self.getUsers = function () {
-		//Clear the array so we do not keep appending it
-		self.userArray = [];
 		$http.get('/api/user/getUsers')
 			.then(function (response) {
 					// console.log('all users response.data is :', response.data);
+					//Clear the array so we do not keep appending it
+					self.userArray = [];
 					for (let i = 0; i < response.data.length; i++) {
 						if (response.data[i].role === 'child') {
 							//Populate childrenObject for later use
@@ -243,7 +243,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
 				});
-	}//End self.editUser
+	};//End self.editUser
 
 	self.completeTask = function () {
 		//finduser set up the associated child user to updateUserObject
@@ -281,7 +281,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	self.findUser = function (name) {
-		for (i=0; i< self.userArray.length; i++){
+		for (let i=0; i< self.userArray.length; i++){
 			if ( self.userArray[i].username === name){
 				self.updateUserObject = self.userArray[i];
 				console.log('self.updateUserObject is ', self.updateUserObject);

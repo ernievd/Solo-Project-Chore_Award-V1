@@ -89,6 +89,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 
 		// console.log('sending to server...', dataObj);
 		//$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+		dataObj.family = self.userObject.family;
 		$http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function (response) {
 				//update the tasks listed in the DOM
 				self.getTasks();

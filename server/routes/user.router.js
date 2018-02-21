@@ -36,7 +36,7 @@ router.post('/register', (req, res, next) => {
 		}
 		else {
 			//Also update the award collection with default values
-			const newAward = new Awards({awardname: 'Nothing chosen', pointvalue: 0, link: ''});
+			const newAward = new Awards({awardname: 'Nothing chosen', pointvalue: 0, link: '', family: family});
 			newAward.save((error, awardDoc) => {
 				if (error) {
 					res.sendStatus(500);
@@ -79,7 +79,7 @@ router.post('/register', (req, res, next) => {
 // Get all the tasks in the database
 router.get('/gettasks', (req, res) => {
 	// Game is a reference to the collection when finding things in the DB
-	Tasks.find({}, (error, foundTasks) => {
+	Tasks.find({ 'family' : req.user.family}, (error, foundTasks) => {
 		if (error) {
 			console.log('error on find: ', error);
 			res.sendStatus(500);
@@ -102,7 +102,8 @@ router.post('/addTask/:userId', (req, res, next) => {
 	const confirmed = req.body.confirmed;
 	const completed = req.body.completed;
 	const taskId = req.body._id;
-	const newTask = new Tasks({taskname, category, duedate, assignedto, assignedby, pointvalue, confirmed, completed});
+	const family = req.body.family;
+	const newTask = new Tasks({taskname, category, duedate, assignedto, assignedby, pointvalue, confirmed, completed, family});
 	newTask.save((error, taskDoc) => {
 		if (error) {
 			res.sendStatus(500);
@@ -230,7 +231,7 @@ router.delete('/deleteAward/:id', (req, res) => {
 
 router.get('/getUsers', (req, res) => {
 
-	User.find({}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
+	User.find({'family' : req.user.family}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 		if (error) {
 			console.log('error on find: ', error);
 			res.sendStatus(500);

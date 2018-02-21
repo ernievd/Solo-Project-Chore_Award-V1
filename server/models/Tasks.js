@@ -12,7 +12,8 @@ const TasksSchema = new Schema({
 	assignedby: {type: String, required: true},
 	pointvalue: {type: Number, required: true},
 	confirmed: {type: Boolean, required: true},
-	completed: {type: Boolean, required: true}
+	completed: {type: Boolean, required: true},
+	family: {type: String, required: true}
 });
 
 

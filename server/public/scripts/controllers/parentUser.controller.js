@@ -4,10 +4,13 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 
 	let self = this;
 	self.userArray = [];
-	self.award = {ernie:'ernie'};
 
 	self.parentUserService = ParentUserService;
 	self.userObjectObject = ParentUserService.userObject;
+
+	self.parentUserService.getTasks();
+	self.parentUserService.userArray = [];
+	self.parentUserService.getUsers();
 
 	self.addUser = function (role) {
 		ParentUserService.addUserObject = self.addUserObject;
