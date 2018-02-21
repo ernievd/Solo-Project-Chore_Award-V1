@@ -2,13 +2,40 @@ label{margin-left: 20px;}
 #datepicker{width:180px; margin: 0 20px 20px 20px;}
 #datepicker > span:hover{cursor: pointer;}
 
-/*body {*/
-    /*background: url("https://thumbs.dreamstime.com/z/dirty-dishes-pile-white-background-needing-washing-up-household-chore-concept-39104721.jpg") top center;*/
-    /*background-size: cover;*/
-/*}*/
+.ul-nav {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /*background-color: #333;*/
+}
 
+.li-nav {
+    display: inline-block;
+    color: maroon;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size:16px;
+}
+
+div.form {
+    display: block;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.left-pad {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.top-margin {
+    margin-top: 30px;
+}
 .body-login-page {
-    background: url("../assets/Chore-Image.jpg") top center;
+    background: url("../assets/Chore-Image2.jpg") top center;
     background-size: cover;
     height : 100vh;
 }

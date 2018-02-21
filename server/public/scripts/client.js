@@ -57,7 +57,15 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 				}
 			}
 		})
-
+		.when('/parentAddUser', {
+			templateUrl: '/views/templates/parentAddUser.html',
+			controller: 'ParentUserController as vm',
+			resolve: {
+				getuser: function (ParentUserService) {
+					return ParentUserService.getuser();
+				}
+			}
+		})
 		.when('/editChildTask', {
 			templateUrl: '/views/templates/editTask.html',
 			controller: 'ChildUserController as vm',

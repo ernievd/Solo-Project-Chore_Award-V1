@@ -1,6 +1,30 @@
-<div class="container body-login-page ">
-	<h1 class="lead">Login</h1>
-	<h2 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+<!--<div class="container body-login-page ">-->
+	<!--<h1 class="lead">Login</h1>-->
+	<!--<h2 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>-->
+		<!--<form ng-submit="vm.login()">-->
+			<!--<div>-->
+				<!--<label for="username">Username:</label>-->
+				<!--<input type="text" ng-model="vm.user.username"/>-->
+			<!--</div>-->
+			<!--<div>-->
+				<!--<label for="password">Password:</label>-->
+				<!--<input type="password" ng-model="vm.user.password"/>-->
+			<!--</div>-->
+			<!--<div>-->
+				<!--<input class="btn btn-default" type="submit" name="submit" value="Log In"/>-->
+				<!--<a href="#!register">Register</a>-->
+			<!--</div>-->
+		<!--</form>-->
+<!--</div>-->
+
+
+<div class="container body-login-page col-md-12">
+	<div align = "right" style="font-size:19px; margin-top:12px ; margin-right:12px">
+		<a  style="color: brown" href="#!register">Create A New Family Account</a>
+	</div>
+	<h1 class="text-center">Chore Award</h1>
+	<h2 class="text-center">Reward Your Family!</h2>
+	<div class="form">
 		<form ng-submit="vm.login()">
 			<div>
 				<label for="username">Username:</label>
@@ -12,7 +36,11 @@
 			</div>
 			<div>
 				<input class="btn btn-default" type="submit" name="submit" value="Log In"/>
-				<a href="#!register">Register</a>
 			</div>
+			<!--<div >-->
+				<!--<a class="btn btn-default" href="#!register">Create A New Family Account</a>-->
+			<!--</div>-->
 		</form>
+	</div>
+
 </div>

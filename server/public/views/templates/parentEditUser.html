@@ -1,4 +1,4 @@
-<div ng-include="'views/partials/nav.html'"></div>
+<<div ng-include="'views/partials/parent-nav.html'"></div>
 
 
 <!--<div class="container col-md-12 text-center">-->
@@ -34,7 +34,7 @@
 					<td>{{child.award_id[0].link}}</td>
 					<td>{{child.award_id[0].pointvalue}}</td>
 					<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditView({child})"><span
-							class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit User Details</span></td>
+							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Edit</span></td>
 					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
 					<!--<td>{{award.pointValue}}</td>-->
 					<!--<td>{{award.link}}</td>-->
@@ -50,63 +50,3 @@
 		</div>
 	</div>
 </div>
-
-<!--Add a user-->
-<div class="container">
-
-	<div class="container form-group row input-group">
-		<h1 class="text-center" style="font-size:160%;">Add a User</h1>
-		<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
-		<!--TODO - add popup when a field is empty-->
-		<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
-
-		<div class="col-md-3">
-			<input type="text" class="form-control" name="username" value="" placeholder="User Name"
-			       ng-model="vm.addUserObject.username">
-		</div>
-
-		<div class="col-md-3">
-			<input type="text" class="form-control" name="password" value="" placeholder="password"
-			       ng-model="vm.addUserObject.password">
-		</div>
-
-
-		<div class="col-md-3">
-			<!--<input type="text" class="form-control" name="childName" value="" placeholder="Child to assign" ng-model="vm.task.childName">-->
-			<select required ng-model="vm.addUserObject.role">
-				<option value="" disabled selected hidden>User Role</option>
-				<option value="child">Child</option>
-				<option value="parent">Parent</option>
-			</select>
-		</div>
-
-		<div class="col-md-3">
-			<span class="btn btn-primary" ng-click="vm.addUser(vm.addUserObject.role)"><span
-					class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add User</span>
-		</div>
-	</div>
-
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
-
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.getTasks()">Get tasks</button>-->
-
-	<!--<button class="btn btn-default" ng-click="vm.parentUserService.addTaskToDatabase('mow grass!', 'Corbin' , '02/28/1969', 'ErnieDad', '903')">Test task</button>-->
-</div>
-
-<!--<div class="container col-md-12 text-center">-->
-	<!--<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>-->
-<!--</div>-->
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div class="container">
-	<div class="row">
-		<div>
-			<a class="btn btn-primary center-block" href="#!/parentUser" >Back to Admin Page</a>
-		</div>
-	</div>
-</div>
-

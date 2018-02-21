@@ -105,7 +105,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 						console.log('success on addUser post');
 						// Update user list object
 						self.getUsers();
-						$location.path('/parentUser');
+						// $location.path('/parentUser');
 					},
 					function (response) {
 						console.log('error');
@@ -306,6 +306,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		$http.put(`/api/user/editUser/`, editObj)
 			.then(function (response) {
 				self.getTasks();
+				$location.path('/parentEditUser');
 			})
 			.catch(function (response) {
 				console.log('error on put when editing user', response);

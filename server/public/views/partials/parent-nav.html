@@ -1,0 +1,31 @@
+<!--<header ng-include="'/views/partials/header.html'"></header>-->
+
+<div class="instructions  text-center" ng-app="myApp" ng-controller="ParentUserController as vm">
+	<div class="container">
+		<h1 class="lead text-capitalize">{{vm.parentUserService.userObject.userName}}'s Chore Award </h1>
+		<h2 class="lead text-capitalize">{{vm.parentUserService.userObject.role}} Administration </h2>
+	</div>
+</div>
+
+<div align="center" >
+	<div class="container">
+		<ul class="ul-nav">
+			<li><a class="li-nav" href="#!parentUser">Current Tasks</a></li>
+			<li><a class="li-nav" href="#!parentEditUser">View/Edit Users</a></li>
+			<li><a class="li-nav" href="#!parentAddUser">Add User</a></li>
+			<li><a class="li-nav" href="#!logout">Log Out</a></li>
+			<!--<li ng-click="vm.taskService.logout()"><a>Info Page</a></li>-->
+		</ul>
+	</div>
+</div>
+
+<!--<div class="navbar">-->
+	<!--<div class="container">-->
+		<!--<ul>-->
+			<!--<li><a href="#!parentUser">User Home</a></li>-->
+			<!--<li><a href="#!info">Info Page</a></li>-->
+			<!--<li><a href="#!logout">Log Out</a></li>-->
+			<!--&lt;!&ndash;<li ng-click="vm.taskService.logout()"><a>Info Page</a></li>&ndash;&gt;-->
+		<!--</ul>-->
+	<!--</div>-->
+<!--</div>-->
