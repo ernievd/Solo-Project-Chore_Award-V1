@@ -2,7 +2,20 @@ label{margin-left: 20px;}
 #datepicker{width:180px; margin: 0 20px 20px 20px;}
 #datepicker > span:hover{cursor: pointer;}
 
+/*body {*/
+    /*background: url("https://thumbs.dreamstime.com/z/dirty-dishes-pile-white-background-needing-washing-up-household-chore-concept-39104721.jpg") top center;*/
+    /*background-size: cover;*/
+/*}*/
 
+.body-login-page {
+    background: url("../assets/Chore-Image.jpg") top center;
+    background-size: cover;
+    height : 100vh;
+}
+
+.body-parentUser-page {
+    background: red;
+}
 
 .instructions .container h1 {
     font-size: 24px;

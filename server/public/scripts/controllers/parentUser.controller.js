@@ -2,6 +2,8 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	console.log('ParentUserController created');
 	//taskName, childName, dueDate, assignedBy, pointValue
 
+
+
 	let self = this;
 	self.userArray = [];
 
@@ -11,6 +13,8 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	self.parentUserService.getTasks();
 	self.parentUserService.userArray = [];
 	self.parentUserService.getUsers();
+
+
 
 	self.addUser = function (role) {
 		ParentUserService.addUserObject = self.addUserObject;

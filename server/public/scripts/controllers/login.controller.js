@@ -9,6 +9,7 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 	};
 	self.message = '';
 
+
 	self.login = function () {
 		if (self.user.username === '' || self.user.password === '') {
 			self.message = "Choose a username and password!";
