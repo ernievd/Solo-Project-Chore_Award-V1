@@ -9,6 +9,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	self.awardObject = {};
 	self.userArray = [];
 	self.updateUserObject = {};
+	self.userParentArray = [];
 
 	// ask the server if this user is logged in
 	self.getuser = function () {
@@ -85,7 +86,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	//add user
-	let promise =
+	// let promise =
 		self.addUser = function (role) {
 			// console.log('sending to server self.addUserObject...', self.addUserObject);
 			// console.log('sending to server self.userObject...', self.userObject);
@@ -101,7 +102,8 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				self.addUserObject.family = self.userObject.family;
 
 				// console.log('sending to server self.addUserObject...', self.addUserObject);
-				$http.post('/api/user/register', self.addUserObject).then(function (response) {
+				// return $http(....
+				let promise = $http.post('/api/user/register', self.addUserObject).then(function (response) {
 						console.log('success on addUser post');
 						// Update user list object
 						self.getUsers();
@@ -111,8 +113,10 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 						console.log('error');
 						self.message = "Something went wrong. Please try again."
 					});
+
+				return promise;
 			}
-			return promise;
+
 		};
 
 
@@ -128,7 +132,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	self.updateTask = function () {
-		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+		return $http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				// console.log('get response', response);
 				//Update the task list
@@ -162,18 +166,25 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	self.deleteUser = function (userToDelete) {
 		if (confirm("Confirm delete")) {
-			console.log('##########   Task to Delete is :', userToDelete.tasks);
-			//Delete all associated tasks
-			for (let i=0 ; i< userToDelete.tasks.length ; i++) {
-				console.log('##########   Task to Delete is :', userToDelete.tasks[i]);
-				$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
-					.then(function (response) {
-						console.log('Delete Success:', response);
-					})
-					.catch(function (response) {
-						console.log('error on Delete', response);
-					});
+			console.log('##########   User object to Delete is :', userToDelete);
+			//When we pass in a parent it comes in as parent.parent. We must change it to be able to reuse this function
+			if (userToDelete.parent != undefined){ userToDelete = userToDelete.parent}
+
+			//If this is a child user then we have to also delete all associated tasks
+			if (userToDelete.role === 'child'){
+				// Delete all associated tasks
+				for (let i=0 ; i< userToDelete.tasks.length ; i++) {
+					console.log('##########   Task to Delete is :', userToDelete.tasks[i]);
+					$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
+						.then(function (response) {
+							console.log('Delete Success:', response);
+						})
+						.catch(function (response) {
+							console.log('error on Delete', response);
+						});
+				}
 			}
+
 			//Delete the associated award
 			$http.delete(`/api/user/deleteAward/${userToDelete.award_id[0]._id}`, userToDelete)
 				.then(function (response) {
@@ -192,10 +203,11 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					console.log('error on Delete', response);
 				});
 		} else {
-			txt = "You pressed Cancel!";
+			$location.path('/parenEditUser');
 		}
 		self.getUsers();
 		self.getTasks();
+		$location.path('/parentEditUser');
 	};
 
 	self.getUsers = function () {
@@ -204,10 +216,15 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					// console.log('all users response.data is :', response.data);
 					//Clear the array so we do not keep appending it
 					self.userArray = [];
+					self.userParentArray = [];
 					for (let i = 0; i < response.data.length; i++) {
 						if (response.data[i].role === 'child') {
-							//Populate childrenObject for later use
+							//Populate userArray with children users for later use
 							self.userArray.push(response.data[i]);
+						}
+						else if(response.data[i].role === 'parent'){
+							//Populate userParentArray with parent users for later use
+							self.userParentArray.push(response.data[i]);
 						}
 					}
 					// console.log('all children are  :', self.userArray);
@@ -312,9 +329,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				console.log('error on put when editing user', response);
 			});
 	}//End self.editUser
-
-
-
 }]);
 
 
