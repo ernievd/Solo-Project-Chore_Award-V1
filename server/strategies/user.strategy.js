@@ -5,8 +5,6 @@ const Person = require('../models/User');
 
 passport.serializeUser((user, done) => {
 	done(null, user.id);
-
-	console.log('****user id is ***** ', user.id);
 });
 
 passport.deserializeUser((id, done) => {

@@ -81,20 +81,6 @@
 				       ng-model="vm.task.taskName">
 			</div>
 
-			<!--<div class="col-md-2">-->
-				<!--<select required ng-model="vm.childUserIndex">-->
-					<!--<option value="" disabled selected>Assigned Child</option>-->
-					<!--<option ng-repeat="child in vm.childUserService.userArray" value={{$index}}>-->
-						<!--{{child.username}}-->
-					<!--</option>-->
-				<!--</select>-->
-			<!--</div>-->
-
-			<!--<div class="col-md-2">-->
-				<!--<input type="Name" class="form-control" name="category" value="" placeholder="vm.childUserService.userObject"-->
-				       <!--ng-model="vm.childUserService.userObject">-->
-			<!--</div>-->
-
 
 			<div class="col-md-3">
 				<select required ng-model="vm.task.category">
@@ -111,11 +97,6 @@
 				       ng-model="vm.task.dueDate">
 			</div>
 
-			<!--<div class="col-md-2">-->
-				<!--<input type="number" class="form-control" name="pointValue" value="" placeholder="Point Value"-->
-				       <!--ng-model="vm.task.pointValue">-->
-			<!--</div>-->
-
 			<div class="col-md-3">
 				<span class="btn btn-primary" ng-click="vm.childAddTaskToDatabase(); child.userName = null"><span
 						class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
@@ -123,44 +104,3 @@
 		</div>
 	</div>
 </form>
-
-
-<!--Awards section-->
-<!--<div class="container">-->
-	<!--<div class="row">-->
-		<!--<div class="col-md-12">-->
-			<!--<h1 class="text-center" style="font-size:200%;">Awards</h1>-->
-			<!--<table class="table table-striped col-md-12">-->
-				<!--<thead>-->
-				<!--<tr>-->
-					<!--<th>Child</th>-->
-					<!--<th>Award Name</th>-->
-					<!--<th>Picture link</th>-->
-					<!--<th>Points Needed</th>-->
-					<!--<th></th>-->
-				<!--</tr>-->
-				<!--</thead>-->
-				<!--<tbody>-->
-				<!--<tr ng-repeat="child in vm.childUserService.userArray">-->
-					<!--<td>{{child.username}}</td>-->
-					<!--<td>{{child.award_id[0].awardname}}</td>-->
-					<!--<td>{{child.award_id[0].link}}</td>-->
-					<!--<td>{{child.award_id[0].pointvalue}}</td>-->
-					<!--<td><span class="btn btn-primary" ng-click="vm.childUserService.changeToEditView({child})"><span-->
-							<!--class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</span></td>-->
-					<!--&lt;!&ndash;ng-click="vm.childUserService.changeToEditTaskView({task})&ndash;&gt;-->
-					<!--&lt;!&ndash;<td>{{award.pointValue}}</td>&ndash;&gt;-->
-					<!--&lt;!&ndash;<td>{{award.link}}</td>&ndash;&gt;changeToEditView-->
-					<!--&lt;!&ndash;<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>&ndash;&gt;-->
-				<!--</tr>-->
-				<!--</tbody>-->
-			<!--</table>-->
-			<!--&lt;!&ndash;<td ng-if = "user.role==='child'">{{user.role}}</td>&ndash;&gt;-->
-			<!--&lt;!&ndash;<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>&ndash;&gt;-->
-			<!--&lt;!&ndash;<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>&ndash;&gt;-->
-			<!--&lt;!&ndash;<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>&ndash;&gt;-->
-
-		<!--</div>-->
-	<!--</div>-->
-<!--</div>-->
-

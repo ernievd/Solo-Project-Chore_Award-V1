@@ -17,11 +17,10 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 			console.log('sending to server...', self.user);
 			$http.post('/api/user/login', self.user).then(
 				function (response) {
-					console.log('******response is: ', response);
 
 					if (response.status === 200) {
 						console.log('success: ', response);
-						console.log('response.data is ', response.data);
+						// console.log('response.data is ', response.data);
 						//Direct the home page based on user
 						if (response.data.role === 'parent'){$location.path('/parentUser');}
 						else {

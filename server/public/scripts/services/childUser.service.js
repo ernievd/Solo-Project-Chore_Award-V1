@@ -54,21 +54,14 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 		//Clear out the array before we load it
 		$http.get('/api/user/gettasks')
 			.then(function (response) {
-					// console.log('response.data received in getTasks is :', response.data);
-					//  console.log('In GETTASKS - self.userObject is :', self.userObject);
-					// console.log('response.data name received in getTasks is :', response.data[0].assignedto)
 					self.taskArray = [];
 					//Loop to find only what the child user is responsible for
 					for (i=0; i< response.data.length; i++){
-						 // console.log('response.data name received in getTasks is :', response.data[0].assignedto);
-						 // console.log('username name received in getTasks is :', self.userObject.username);
 						if (response.data[i].assignedto === self.userObject.username){
 							// console.log('its a match!');
 							self.taskArray.push(response.data[i]);
 						}
 					}
-					// self.taskObject = response.data;
-					// console.log('In get tasks - self.taskArray is :', self.taskArray);
 				},
 				function (response) {
 					console.log('error in getting tasks from the router :', response);
@@ -164,9 +157,9 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 					self.userObject.points_earned -= self.editTaskObject.pointvalue;
 					console.log('self.userObject.points_earned after subtraction is ', self.userObject.points_earned);
 				}
-				self.editUser();
+				//self.editUser();
 				//Update the task list
-				self.getTasks();
+				// self.getTasks();
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);

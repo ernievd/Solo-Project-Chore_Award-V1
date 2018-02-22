@@ -92,7 +92,7 @@ router.get('/gettasks', (req, res) => {
 		}); // end find
 	} else {
 		// failure best handled on the server. do redirect here.
-		res.sendStatus(403);
+		// res.sendStatus(403);
 	}
 
 }); // end route
@@ -165,8 +165,6 @@ router.get('/logout', (req, res) => {
 
 // /updateTask/${editTaskObj._id}
 router.put('/updateTask/:id', (req, res) => {
-	console.log('update task req.params.id is :', req.params.id);
-	console.log('Update task req.body is : ', req.body);
 	let taskId = req.params.id;
 	let taskToUpdate = req.body;
 	// update in collection
@@ -178,7 +176,6 @@ router.put('/updateTask/:id', (req, res) => {
 				console.log('error on task update: ', error);
 				res.sendStatus(500);
 			} else {
-				console.log('it PASSED');
 				// console.log('Document before it was updated!: ', updatedDocument);
 				res.sendStatus(200);
 			}
@@ -276,7 +273,6 @@ router.put('/edit/', (req, res) => {
 router.put('/editUser/', (req, res) => {
 	let userId = req.body._id;
 	let userDataToUpdate = req.body;
-	console.log('####userDataToUpdate is :', userDataToUpdate);
 	// update in collection
 	User.findByIdAndUpdate(
 		{"_id": userId},
@@ -288,8 +284,6 @@ router.put('/editUser/', (req, res) => {
 			}
 			else {
 
-
-				console.log('**********userDataToUpdate.award_id[0] is :', userDataToUpdate.award_id[0]);
 				Awards.findByIdAndUpdate(
 					{"_id": userDataToUpdate.award_id[0]._id},
 					{$set: userDataToUpdate.award_id[0]},
@@ -304,8 +298,6 @@ router.put('/editUser/', (req, res) => {
 						// }
 					}
 				);
-
-				console.log('Document before it was updated!: ', updatedDocument);
 				res.sendStatus(200);
 			}
 		}
