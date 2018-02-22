@@ -16,5 +16,4 @@ const TasksSchema = new Schema({
 	family: {type: String, required: true}
 });
 
-
 module.exports = mongoose.model('Tasks', TasksSchema);

@@ -8,8 +8,8 @@
 <br>
 <br>
 
-<!--Edit User section-->
-<div class="container">
+<!--Edit Child User section-->
+<div class="container table-bordered">
 	<div class="row">
 		<div class="col-md-12">
 			<h1 class="text-center" style="font-size:200%;">Child User Details</h1>
@@ -35,6 +35,43 @@
 					<td>{{child.award_id[0].pointvalue}}</td>
 					<td><span class="btn btn-primary" ng-click="vm.parentUserService.changeToEditView({child})"><span
 							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Edit</span></td>
+					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
+					<!--<td>{{award.pointValue}}</td>-->
+					<!--<td>{{award.link}}</td>-->
+					<!--<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>-->
+				</tr>
+				</tbody>
+			</table>
+			<!--<td ng-if = "user.role==='child'">{{user.role}}</td>-->
+			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
+			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
+			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
+
+		</div>
+	</div>
+</div>
+
+
+<!--Edit Parent User section-->
+<div class="container table-bordered top-margin">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center" style="font-size:200%;">Parent User Details</h1>
+			<table class="table table-striped col-md-12">
+				<thead>
+				<tr>
+					<th>User Name</th>
+					<th>User Role</th>
+
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="parent in vm.parentUserService.userParentArray">
+					<td>{{parent.username}}</td>
+					<td>{{parent.role}}</td>
+					<td ng-if="parent.username !== vm.parentUserService.userObject.userName" ><span class="btn btn-primary" ng-click="vm.parentUserService.deleteUser({parent})"><span
+							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Delete</span></td>
 					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
 					<!--<td>{{award.pointValue}}</td>-->
 					<!--<td>{{award.link}}</td>-->

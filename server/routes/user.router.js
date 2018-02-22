@@ -78,15 +78,23 @@ router.post('/register', (req, res, next) => {
 
 // Get all the tasks in the database
 router.get('/gettasks', (req, res) => {
-	// Game is a reference to the collection when finding things in the DB
-	Tasks.find({ 'family' : req.user.family}, (error, foundTasks) => {
-		if (error) {
-			console.log('error on find: ', error);
-			res.sendStatus(500);
-		} else {
-			res.send(foundTasks);
-		}
-	}); // end find
+	//  (req.isAuthenticated() && req.user.role == 'parent'
+	if (req.isAuthenticated()) {
+		// send back user object from database
+		// Game is a reference to the collection when finding things in the DB
+		Tasks.find({ 'family' : req.user.family}, (error, foundTasks) => {
+			if (error) {
+				console.log('error on find: ', error);
+				res.sendStatus(500);
+			} else {
+				res.send(foundTasks);
+			}
+		}); // end find
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
+
 }); // end route
 
 // Handles POST request with new task
