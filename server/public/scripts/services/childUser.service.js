@@ -18,11 +18,10 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 					if (response.data.username && response.data.role ==='child' ) {
 						// user has a current session on the server and is of type parent
 						console.log('*** In getuser - response.data.role is :', response.data.role);
-						//Populate userObject for later use
-						// self.userObject.userName = response.data.username;
-						// self.userObject.family = response.data.family;
-						// self.userObject.role = response.data.role;
 						self.userObject = response.data;
+						console.log('self.userObject is :', self.userObject);
+						// console.log('self.awardObject is :', self.awardObject);
+						self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned
 					} else {
 						// unlikely to get here, but if we do, bounce them back to the login page
 						$location.path("/home");
@@ -130,14 +129,11 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 
 
 	self.changeToEditTaskView = function (editTaskObj) {
-		// console.log('The task object is :', editTaskObj);
 		$location.path('/editChildTask');
 		self.editTaskObject = editTaskObj.task;
-		// console.log('The self editTask object is ******:', self.editTaskObject);
 		self.editTaskObject.duedate = $filter('date')(self.editTaskObject.duedate, "MM-dd-yyyy");
 		self.editTaskObject.duedate = new Date(self.editTaskObject.duedate);
-		// var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
-		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
+
 	};
 
 	self.completeTask = function (editTaskObj) {
@@ -165,7 +161,6 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				console.log('error on put with updating task', response);
 			});
 	};
-
 
 
 	self.getUsers = function () {
@@ -212,19 +207,8 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
 				});
-	}//End self.editUser
+	};//End self.editUser
 
-	self.editUser = function(){
-		console.log('userObject is :', self.userObject);
-		$http.put(`/api/user/editUser/`, self.userObject)
-			.then(function (response) {
-				self.getTasks();
-			})
-			.catch(function (response) {
-				console.log('error on put when editing award', response);
-			});
-	}//End self.editUser
-	//editUser
 
 }]);
 

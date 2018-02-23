@@ -1,7 +1,20 @@
-label{margin-left: 20px;}
-#datepicker{width:180px; margin: 0 20px 20px 20px;}
-#datepicker > span:hover{cursor: pointer;}
 
+.kid-font{
+    /*font-family: 'Indie Flower', cursive;*/
+    /*font-family: 'Permanent Marker', cursive;*/
+    /*font-family: 'Boogaloo', cursive;*/
+    font-family: 'Cabin Sketch', cursive;
+    /*font-family: 'Lilita One', cursive;*/
+    /*font-family: 'Fontdiner Swanky', cursive;*/
+}
+
+.center-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+    border-radius: 8px;
+}
 .ul-nav {
     display: inline-block;
     list-style-type: none;
@@ -40,6 +53,12 @@ div.form {
     height : 100vh;
 }
 
+.body-setting {
+    background-color: #3f44692b;
+    background-size: cover;
+    height : 100vh;
+}
+
 .body-parentUser-page {
     background: red;
 }
@@ -50,8 +69,9 @@ div.form {
 }
 
 .instructions {
-    background-color: #333333;
-    color: #DDDDDD;
+    background-color: rgba(31, 78, 61, 0.5);
+    color: #ecefec;
+    border-radius: 60px;
 }
 
 #entryForm {
@@ -87,10 +107,10 @@ div.form {
 }
 
 .navbar {
-  background-color: #333333;
-  width: 100%;
-  border-radius: 0px;
-
+    background-color: #2d41ad91;
+    width: 100%;
+    border-radius: 60px;
+    font-size: 110%;
 }
 
 ul {
