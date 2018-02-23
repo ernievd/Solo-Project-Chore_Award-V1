@@ -329,6 +329,45 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				console.log('error on put when editing user', response);
 			});
 	}//End self.editUser
+
+	self.editAward = function(editObj){
+		console.log('edit award object is :', editObj);
+		$http.put(`/api/user/editAward`, editObj)
+			.then(function (response) {
+				//self.getTasks();
+			})
+			.catch(function (response) {
+				console.log('error on put when editing award', response);
+			});
+	};//End self.editAward
+
+
+	var fsClient = filestack.init('Ax2kts5B6SyWczF8XeHOEz');
+	self.uploadPicture = function(childData) {
+		fsClient.pick({
+			fromSources:["local_file_system","imagesearch","facebook","instagram","dropbox"],
+			accept:["image/*"]
+		}).then(function(response) {
+			// declare this function to handle response
+			console.log('picture response is ', response);
+			// let myLink = self.addPhoto(response.filesUploaded[0].url);
+			let pictureLink = response.filesUploaded[0].url;
+			console.log('my link is ', pictureLink);
+			console.log('self.editTaskObject is ', self.editTaskObject);
+			console.log('child data passed in is ', childData);
+			//let awardId = req.body.award_id[0]._id;
+			awardObj = childData.child.award_id[0];
+			awardObj.link = pictureLink;
+			console.log('awardObj is ', awardObj);
+			self.editAward(awardObj);
+		});
+	};
+
+	self.addPhoto = function (response) {
+		return response.filesUploaded[0].url
+
+	}
+
 }]);
 
 

@@ -1,6 +1,5 @@
 <<div ng-include="'views/partials/parent-nav.html'"></div>
 
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -17,9 +16,9 @@
 					<th>User Name</th>
 					<!--<th>User Role</th>-->
 					<th>Points Earned</th>
-					<th>Childs Award</th>
+					<th>Childs Award Description</th>
 					<th>Picture link</th>
-					<th>Points Needed</th>
+					<th>Total Points Needed for Award</th>
 					<th></th>
 				</tr>
 				</thead>
@@ -45,7 +44,6 @@
 						<input type="text" class="form-control" name="Picture Link" value=""
 						       ng-model="vm.parentUserService.awardObject.award_id[0].link">
 					</td>
-
 					<td>
 						<input type="number" class="form-control" name="Point Value" value=""
 						       ng-model="vm.parentUserService.awardObject.award_id[0].pointvalue">

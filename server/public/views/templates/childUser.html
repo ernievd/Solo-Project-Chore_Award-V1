@@ -1,24 +1,26 @@
+<div class="kid-font">
+
 <div ng-include="'views/partials/childNav.html'"></div>
 
-
-<!--<div> <p>{{vm.childUserService.userObject}}</p></div>-->
-<!--<div> <p>{{vm.childUserService.userArray}}</p></div>-->
-<!--<div> <p>{{vm.childUserService.userObject.tasks}}</p></div>-->
-
 <!--Award area-->
-<div class="container">
-	<div class="col-md-12">
-		<h1 class="text-center" style="font-size:200%;">AWARD</h1>
+<div class="container table-bordered col-md-12">
+	<div>
+		<h1 class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} wants to earn points to get </h1>
+		<img class="center-image" src={{vm.childUserService.userObject.award_id[0].link}}>
+	</div>
+	<div>
+		<h3 class="text-center"> The total points {{vm.childUserService.userObject.username}} has earned is :{{vm.childUserService.userObject.points_earned}}</h3>
+		<h3 class="text-center"> The remaining points needed to earn the award is :{{vm.childUserService.userObject.pointsRemaining}}</h3>
+
+
 	</div>
 </div>
-
-
 
 <!--Tasks listing table-->
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
-			<h1 class="text-center" style="font-size:200%;">Task List</h1>
+		<div class="col-md-12 top-margin">
+			<h2 class="text-center" style="font-size:200%;">{{vm.childUserService.userObject.username}}'s list of things to do are:</h2>
 			<table class="table table-striped col-md-12">
 				<thead>
 				<tr>
@@ -68,8 +70,8 @@
 
 
 <!--Add a task-->
-<form name="childTask">
-	<div class="container">
+<form name="childTask" class="table-bordered">
+	<div class="container" style="margin-top:20px;">
 		<div class="container form-group row input-group">
 			<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
 			<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
@@ -101,6 +103,9 @@
 				<span class="btn btn-primary" ng-click="vm.childAddTaskToDatabase(); child.userName = null"><span
 						class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
 			</div>
+
 		</div>
 	</div>
 </form>
+
+</div>

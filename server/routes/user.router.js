@@ -7,12 +7,35 @@ const Awards = require('../models/Awards');
 
 const router = express.Router();
 
+// router.get('/getUsers', (req, res) => {
+//
+// 	User.find({'_id' : req.user.id}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
+// 		if (error) {
+// 			console.log('error on find: ', error);
+// 			res.sendStatus(500);
+// 		} else {
+// 			// console.log('found user Documents: ', foundUsers);
+// 			res.send(foundUsers);
+// 		}
+// 	})
+// }); // end route
 // Handles Ajax request for user information if user is authenticated
 router.get('/', (req, res) => {
 	// check if logged in
 	if (req.isAuthenticated()) {
+		console.log(req.user.id);
+		User.find({'_id' : req.user.id}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
+			if (error) {
+				console.log('error on find: ', error);
+				res.sendStatus(500);
+			} else {
+				 console.log('found user Documents: ', foundUsers);
+
+				res.send(foundUsers[0]);
+			}
+		})
 		// send back user object from database
-		res.send(req.user);
+		// res.send(req.user);
 	} else {
 		// failure best handled on the server. do redirect here.
 		res.sendStatus(403);
@@ -248,6 +271,7 @@ router.get('/getUsers', (req, res) => {
 
 }); // end route
 
+//TODO - Try and remove this!
 router.put('/edit/', (req, res) => {
 	// console.log('EDIT AWARD req.params.id is :', req.body.award_id[0]._id);
 	// console.log('EDIT AWARD req.body is : ', req.body);
@@ -267,7 +291,28 @@ router.put('/edit/', (req, res) => {
 			}
 		}
 	)
+});
 
+
+router.put('/editAward', (req, res) => {
+	 console.log('EDIT AWARD req.params.id is :', req.body._id);
+	 console.log('EDIT AWARD req.body is : ', req.body);
+	let awardId = req.body._id;
+	let awardToUpdate = req.body;
+	// update in collection
+	Awards.findByIdAndUpdate(
+		{"_id": awardId},
+		{$set: awardToUpdate},
+		(error, updatedDocument) => {
+			if (error) {
+				console.log('error on award update: ', error);
+				res.sendStatus(500);
+			} else {
+				// console.log('Document before it was updated!: ', updatedDocument);
+				res.sendStatus(200);
+			}
+		}
+	)
 });
 
 router.put('/editUser/', (req, res) => {
