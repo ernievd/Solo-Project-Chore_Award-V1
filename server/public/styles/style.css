@@ -8,11 +8,20 @@
     /*font-family: 'Fontdiner Swanky', cursive;*/
 }
 
+.welcome-font{
+    /*font-family: 'Indie Flower', cursive;*/
+    /*font-family: 'Permanent Marker', cursive;*/
+    /*font-family: 'Boogaloo', cursive;*/
+    /*font-family: 'Cabin Sketch', cursive;*/
+    font-family: 'Lilita One', cursive;
+    /*font-family: 'Fontdiner Swanky', cursive;*/
+}
+
 .center-image {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 25%;
+    width: 15%;
     border-radius: 8px;
 }
 .ul-nav {
@@ -45,7 +54,7 @@ div.form {
 }
 
 .top-margin {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 .body-login-page {
     background: url("../assets/Chore-Image2.jpg") top center;

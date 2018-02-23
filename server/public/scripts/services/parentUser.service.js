@@ -251,11 +251,13 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	self.editUser = function(){
 		self.getTasks();
+		// console.log('awardObject is :', self.awardObject);
+		// $http.put(`/api/user/editUser/`, self.awardObject)
 		console.log('awardObject is :', self.awardObject);
 		$http.put(`/api/user/editUser/`, self.awardObject)
 			.then(function (response) {
 				self.getTasks();
-				// $location.path('/parentUser');
+				$location.path('/parentEditUser');
 			})
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
@@ -307,28 +309,19 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	};
 
-	// self.editUser = function(){
-	// 	console.log('self.updateUserObject is :', self.updateUserObject);
-	// 	$http.put(`/api/user/editUser/`, self.updateUserObject)
+
+
+	// self.editUser = function(editObj){
+	// 	console.log('ernie object is :', editObj);
+	// 	$http.put(`/api/user/editUser/`, editObj)
 	// 		.then(function (response) {
 	// 			self.getTasks();
+	// 			$location.path('/parentEditUser');
 	// 		})
 	// 		.catch(function (response) {
 	// 			console.log('error on put when editing user', response);
 	// 		});
 	// }//End self.editUser
-
-	self.editUser = function(editObj){
-		console.log('ernie object is :', editObj);
-		$http.put(`/api/user/editUser/`, editObj)
-			.then(function (response) {
-				self.getTasks();
-				$location.path('/parentEditUser');
-			})
-			.catch(function (response) {
-				console.log('error on put when editing user', response);
-			});
-	}//End self.editUser
 
 	self.editAward = function(editObj){
 		console.log('edit award object is :', editObj);

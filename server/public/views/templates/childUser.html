@@ -5,7 +5,7 @@
 <!--Award area-->
 <div class="container table-bordered col-md-12">
 	<div>
-		<h1 class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} wants to earn points to get </h1>
+		<h1 class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} is working hard to get </h1>
 		<img class="center-image" src={{vm.childUserService.userObject.award_id[0].link}}>
 	</div>
 	<div>
@@ -59,7 +59,7 @@
 						</div>
 					</td>
 					<td><span class="btn btn-primary" ng-click="vm.childUserService.completeTask({task})">
-						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Mark as Completed</span>
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> I Did It!!</span>
 					</td>
 				</tr>
 				</tbody>
@@ -73,7 +73,7 @@
 <form name="childTask" class="table-bordered">
 	<div class="container" style="margin-top:20px;">
 		<div class="container form-group row input-group">
-			<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
+			<h1 class="text-center" style="font-size:160%;">I Found Something I Want to Add To My List:</h1>
 			<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
 			<!--TODO - add popup when a field is empty-->
 			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>

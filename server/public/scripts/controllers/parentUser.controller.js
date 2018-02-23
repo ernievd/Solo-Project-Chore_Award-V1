@@ -21,6 +21,7 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 		self.parentUserService.addUser(role);
 		//Add a promise and .then to this
 		self.addUserObject = {};
+		// $location.path('/parentEditUser');
 	};
 
 	self.task = {

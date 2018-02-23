@@ -13,11 +13,11 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 	self.login = function () {
 		if (self.user.username === '' || self.user.password === '') {
 			self.message = "Choose a username and password!";
-		} else {
+		} else
+			{
 			console.log('sending to server...', self.user);
 			$http.post('/api/user/login', self.user).then(
 				function (response) {
-
 					if (response.status === 200) {
 						console.log('success: ', response);
 						// console.log('response.data is ', response.data);
@@ -31,12 +31,12 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 					}
 					else {
 						console.log('failure error: ', response);
-						self.message = "Incorrect credentials. Please try again.";
+						self.alertMessage('Login failure - Invalid username and/or password');
 					}
 				},
 				function (response) {
 					console.log('failure error: ', response);
-					self.message = "Incorrect credentials. Please try again.";
+					self.alertMessage ('Login failure - Invalid username and/or password');
 				});
 		}
 	};
@@ -51,12 +51,16 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 			console.log('sending to server...', self.user);
 			$http.post('/api/user/register', self.user).then(function (response) {
 					console.log('success');
-					$location.path('/home');
+					$location.path('/welcome');
 				},
 				function (response) {
 					console.log('error');
-					self.message = "Something went wrong. Please try again."
+					self.alertMessage("Something went wrong. Please try again.");
 				});
 		}
+	};
+	
+	self.alertMessage = function (message) {
+		alert(message);
 	}
 }]);
