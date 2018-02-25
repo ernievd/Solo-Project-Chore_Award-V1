@@ -19,7 +19,7 @@
 					<th></th>
 				</tr>
 				</thead>
-				<tbody>
+				<tbody>child in vm.parentUserService.userArray
 				<tr ng-repeat="task in vm.parentUserService.taskObject">
 					<!--<th scope="row">1</th>-->
 					<td>{{task.taskname}}</td>
@@ -30,14 +30,14 @@
 					<td>{{task.pointvalue}}</td>
 					<td>
 						<label class="radio-inline">
-							<input type="checkbox" ng-model="task.confirmed" value="task.confirmed"
+							<input type="checkbox" disabled="disabled" ng-model="task.confirmed" value="task.confirmed"
 							       ng-checked="task.confirmed"/>
 						</label>
 					</td>
 					<td>
 						<div>
 							<label class="radio-inline">
-								<input type="checkbox" ng-model="task.completed" value="task.completed"
+								<input type="checkbox" disabled="disabled" ng-model="task.completed" value="task.completed"
 								       ng-checked="task.completed"/>
 							</label>
 						</div>

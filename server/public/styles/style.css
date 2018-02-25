@@ -1,10 +1,11 @@
 
 .kid-font{
-    /*font-family: 'Indie Flower', cursive;*/
+    font-family: 'Indie Flower', cursive;
+    font-weight: 900;
     /*font-family: 'Permanent Marker', cursive;*/
-    /*font-family: 'Boogaloo', cursive;*/
-    font-family: 'Cabin Sketch', cursive;
-    /*font-family: 'Lilita One', cursive;*/
+    /*font-family: 'Boogaloo', cursive;*!*/
+    /*font-family: 'Cabin Sketch', cursive;*/
+    /*font-family: 'Lilita One', cursive;*!*/
     /*font-family: 'Fontdiner Swanky', cursive;*/
 }
 
@@ -17,6 +18,19 @@
     /*font-family: 'Fontdiner Swanky', cursive;*/
 }
 
+input[type=checkbox] {
+    transform: scale(2) !important;
+}
+
+.right-pad{
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top:9px
+}
+.h1-no-pad{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
 .center-image {
     display: block;
     margin-left: auto;
@@ -57,7 +71,7 @@ div.form {
     margin-top: 30px;
 }
 .body-login-page {
-    background: url("../assets/Chore-Image2.jpg") top center;
+    background: url("../assets/Background2.jpeg") top center;
     background-size: cover;
     height : 100vh;
 }

@@ -7,13 +7,13 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 	self.addUserObject = {};
 	self.editTaskObject = {};
 	self.awardObject = {};
-	self.userArray = [];
-	self.taskArray = [];
+	// self.userArray = [];
+
 
 
 	// ask the server if this user is logged in
 	self.getuser = function () {
-		$http.get('/api/user')
+		return $http.get('/api/user')
 			.then(function (response) {
 					if (response.data.username && response.data.role ==='child' ) {
 						// user has a current session on the server and is of type parent
@@ -22,6 +22,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 						console.log('self.userObject is :', self.userObject);
 						// console.log('self.awardObject is :', self.awardObject);
 						self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned
+						return "I sent this from the return";
 					} else {
 						// unlikely to get here, but if we do, bounce them back to the login page
 						$location.path("/home");
@@ -31,11 +32,15 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				function (response) {
 					// user has no session, bounce them back to the login page
 					$location.path("/home");
-
 				});
+
 	};
 //Get all the user data upon service startup-
-	self.getuser();
+// 	self.getuser().then(
+// 		function (response) {
+// 			console.log('the get user is done!!');
+// 			console.log('the response is -', response );
+// 		});
 
 	self.logout = function () {
 		$http.get('/api/user/logout')
@@ -51,6 +56,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 
 	self.getTasks = function () {
 		//Clear out the array before we load it
+		// self.taskArray = [];
 		$http.get('/api/user/gettasks')
 			.then(function (response) {
 					self.taskArray = [];
@@ -68,7 +74,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 	};
 
 	// Run upon service load to get all current tasks loaded in
-	self.getTasks();
+	// self.getTasks();   NOW WE RUN IT ON LOGIN
 
 	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
 	self.addTaskToDatabase = function (dataObj) {
@@ -153,7 +159,8 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 					self.userObject.points_earned -= self.editTaskObject.pointvalue;
 					console.log('self.userObject.points_earned after subtraction is ', self.userObject.points_earned);
 				}
-				//self.editUser();
+				// Now go to edit user and update the new user points
+				self.editUser(self.userObject);
 				//Update the task list
 				// self.getTasks();
 			})
@@ -183,7 +190,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 	};
 
-	self.getUsers();
+	// self.getUsers();
 
 	self.changeToEditView = function(award){
 		self.awardObject = award.child;
@@ -197,12 +204,12 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 		// console.log('self.award object is :', self.awardObject);
 	};
 
-	self.editUser = function(){
-		console.log('awardObject is :', self.awardObject);
-		$http.put(`/api/user/editUser/`, self.awardObject)
+	self.editUser = function(userObject){
+		console.log(' Passed in userObject is :', userObject);
+		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getTasks();
-				$location.path('/parentUser');
+				// $location.path('/parentUser');
 			})
 				.catch(function (response) {
 					console.log('error on put when editing award', response);

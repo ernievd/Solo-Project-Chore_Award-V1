@@ -34,9 +34,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 			resolve: {
 				getuser: function (ChildUserService) {
 					// update the task list before loading
-					ChildUserService.getTasks();
-					return ChildUserService.getuser();
+					// ChildUserService.getTasks();
 					//####get child user to check!!!!!
+
+
 
 				}
 			}

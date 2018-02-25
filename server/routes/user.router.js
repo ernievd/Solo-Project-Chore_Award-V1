@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 				console.log('error on find: ', error);
 				res.sendStatus(500);
 			} else {
-				 console.log('found user Documents: ', foundUsers);
+				 // console.log('found user Documents: ', foundUsers);
 
 				res.send(foundUsers[0]);
 			}
@@ -258,7 +258,7 @@ router.delete('/deleteAward/:id', (req, res) => {
 });
 
 router.get('/getUsers', (req, res) => {
-
+	//TODO prevent /getusers from running before login
 	User.find({'family' : req.user.family}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 		if (error) {
 			console.log('error on find: ', error);

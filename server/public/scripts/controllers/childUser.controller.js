@@ -6,10 +6,15 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 
 	self.childUserService = ChildUserService;
 	self.userObjectObject = ChildUserService.userObject;
-	//
-	// self.childUserService.taskArray = [];
-	// self.childUserService.getTasks();
-	// //reload the tasks on each page load
+
+	self.childUserService.getuser();
+	self.childUserService.taskArray = [];
+	self.childUserService.getTasks();
+	//reload the tasks on each page load
+	// ChildUserService.getuser();
+	// ChildUserService.getTasks();
+
+
 
 	self.task = {
 		taskName: '',

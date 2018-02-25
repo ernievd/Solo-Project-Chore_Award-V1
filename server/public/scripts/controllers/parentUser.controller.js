@@ -18,10 +18,12 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 
 	self.addUser = function (role) {
 		ParentUserService.addUserObject = self.addUserObject;
-		self.parentUserService.addUser(role);
-		//Add a promise and .then to this
-		self.addUserObject = {};
-		// $location.path('/parentEditUser');
+		// self.parentUserService.addUser(role);
+		self.parentUserService.addUser(role).then(function (response) {
+			self.addUserObject = {};
+			// $location.path('/parentEditUser');
+		});
+
 	};
 
 	self.task = {

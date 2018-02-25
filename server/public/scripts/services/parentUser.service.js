@@ -13,7 +13,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	// ask the server if this user is logged in
 	self.getuser = function () {
-		$http.get('/api/user')
+		let promise = $http.get('/api/user')
 			.then(function (response) {
 					if (response.data.username && response.data.role ==='parent' ) {
 						// user has a current session on the server and is of type parent
@@ -32,6 +32,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					$location.path("/home");
 
 				});
+		return promise;
 	};
 
 	self.logout = function () {
@@ -58,7 +59,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	// Run upon service load to get all current tasks loaded in
-	self.getTasks();
+	// self.getTasks();
 
 	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
 	self.addTaskToDatabase = function (dataObj) {
@@ -86,12 +87,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	//add user
-	// let promise =
 		self.addUser = function (role) {
-			// console.log('sending to server self.addUserObject...', self.addUserObject);
-			// console.log('sending to server self.userObject...', self.userObject);
-			// console.log('sending to server self...', self);
-
 			if (self.addUserObject.username === '' || self.addUserObject.password === '') {
 				//TODO - change this message to a popup - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 				self.message = "Username and password must all be entered!";
@@ -106,7 +102,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				let promise = $http.post('/api/user/register', self.addUserObject).then(function (response) {
 						console.log('success on addUser post');
 						// Update user list object
-						self.getUsers();
+						return self.getUsers();
 						// $location.path('/parentUser');
 					},
 					function (response) {
@@ -122,16 +118,22 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 
 	self.changeToEditTaskView = function (editTaskObj) {
 		// console.log('The task object is :', editTaskObj);
-		$location.path('/editTask');
-		self.editTaskObject = editTaskObj.task;
+		// $location.path('/editTask');
+		// self.editTaskObject = editTaskObj.task;
 		// console.log('The self editTask object is ******:', self.editTaskObject);
 		self.editTaskObject.duedate = $filter('date')(self.editTaskObject.duedate, "MM-dd-yyyy");
 		self.editTaskObject.duedate = new Date(self.editTaskObject.duedate);
 		// var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
 		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
+		$location.path('/editTask');
+		self.editTaskObject = editTaskObj.task;
+		console.log('The self.editTaskObject is :', self.editTaskObject);
+		$location.path('/editTask');
 	};
 
 	self.updateTask = function () {
+		//
+
 		return $http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				// console.log('get response', response);
@@ -211,7 +213,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	};
 
 	self.getUsers = function () {
-		$http.get('/api/user/getUsers')
+		let promise = $http.get('/api/user/getUsers')
 			.then(function (response) {
 					// console.log('all users response.data is :', response.data);
 					//Clear the array so we do not keep appending it
@@ -227,18 +229,22 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 							self.userParentArray.push(response.data[i]);
 						}
 					}
+					return true;
 					// console.log('all children are  :', self.userArray);
-
 				},
 				function (response) {
 					console.log('error in getting users from the router :', response);
+					return false;
 				});
+		return promise;
 	};
 
-	self.getUsers();
+	// self.getUsers();  PUT THIS IN THE SUCCESSFULL LOGIN CLICK
 
 	self.changeToEditView = function(award){
+		//TODO - shecge awardObjet name to something else
 		self.awardObject = award.child;
+		console.log('###############In change the self.awardObject is ', self.awardObject);
 		$location.path('/editUser');
 		// console.log('self.award object is :', self.awardObject);
 	};
@@ -249,12 +255,12 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		// console.log('self.award object is :', self.awardObject);
 	};
 
-	self.editUser = function(){
+	self.editUser = function(userObject){
 		self.getTasks();
 		// console.log('awardObject is :', self.awardObject);
 		// $http.put(`/api/user/editUser/`, self.awardObject)
-		console.log('awardObject is :', self.awardObject);
-		$http.put(`/api/user/editUser/`, self.awardObject)
+		console.log('awardObject is :', userObject);
+		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getTasks();
 				$location.path('/parentEditUser');
@@ -264,40 +270,100 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				});
 	};//End self.editUser
 
-	self.completeTask = function () {
-		//finduser set up the associated child user to updateUserObject
-		self.findUser(self.editTaskObject.assignedto);
-		console.log('#########self.editTaskObject is :', self.editTaskObject);
-		// console.log('#########self.updateUserObject is :', self.updateUserObject);
-		console.log('######### BEFORE self.editTaskObject.completed is :', self.editTaskObject.completed);
+	// self.completeTask = function () {
+	// 	//finduser set up the associated child user to updateUserObject
+	// 	self.findUser(self.editTaskObject.assignedto);
+	// 	console.log('#########self.editTaskObject is :', self.editTaskObject);
+	// 	// console.log('#########self.updateUserObject is :', self.updateUserObject);
+	// 	console.log('######### BEFORE self.editTaskObject.completed is :', self.editTaskObject.completed);
+	// 	// self.editTaskObject = editTaskObj.task;
+	// 	self.editTaskObject.completed = !self.editTaskObject.completed;
+	// 	console.log('######### AFTER self.editTaskObject.completed is :', self.editTaskObject.completed);
+	//
+	// 	console.log('#########self.editTaskObject.pointvalue is :', self.editTaskObject.pointvalue);
+	// 	$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+	// 		.then(function (response) {
+	// 			// console.log('get response', response);
+	// 			if (self.editTaskObject.completed === true){
+	// 				console.log('*********self.userObject.points_earned is ', self.updateUserObject.points_earned);
+	// 				self.updateUserObject.points_earned += self.editTaskObject.pointvalue;
+	// 				console.log('self.updateUserObject.points_earned after addition is ', self.updateUserObject.points_earned);
+	// 			}
+	// 			else{
+	// 				console.log('*********self.userObject.points_earned is ', self.updateUserObject.points_earned);
+	// 				self.updateUserObject.points_earned -= self.editTaskObject.pointvalue;
+	// 				console.log('self.updateUserObject.points_earned after subtraction is ', self.updateUserObject.points_earned);
+	// 			}
+	//
+	//
+	// 			self.editUser();
+	// 			//Update the task list
+	// 			// self.getTasks();
+	// 		})
+	// 		.catch(function (response) {
+	// 			console.log('error on put with updating task', response);
+	// 		});
+	// };
 
-		// self.editTaskObject = editTaskObj.task;
-		// self.editTaskObject.completed = !self.editTaskObject.completed;
-		console.log('######### AFTER self.editTaskObject.completed is :', self.editTaskObject.completed);
+	// self.completeTask = function (editTaskObject) {
+	// 	self.editTaskObject = editTaskObject.task;
+	// 	console.log('self.editTaskObject is :', self.editTaskObject);
+	// 	self.editTaskObject.completed = !self.editTaskObject.completed;
+	// 	console.log('self.editTaskObject.pointvalue is :', self.editTaskObject.pointvalue);
+	// 	$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+	// 		.then(function (response) {
+	// 			// console.log('get response', response);
+	// 			if (self.editTaskObject.completed === true){
+	// 				console.log('*********self.userObject.points_earned is ', editTaskObject.points_earned);
+	// 				self.userObject.points_earned += self.editTaskObject.pointvalue;
+	// 				console.log('self.userObject.points_earned after addition is ', editTaskObject.points_earned);
+	// 			}
+	// 			else{
+	// 				console.log('*********self.userObject.points_earned is ', editTaskObject.points_earned);
+	// 				self.userObject.points_earned -= self.editTaskObject.pointvalue;
+	// 				console.log('self.userObject.points_earned after subtraction is ', editTaskObject.points_earned);
+	// 			}
+	// 			self.editUser(self.userObject);
+	// 			//Update the task list
+	// 			// self.getTasks();
+	// 		})
+	// 		.catch(function (response) {
+	// 			console.log('error on put with updating task', response);
+	// 		});
+	// };
 
-		console.log('#########self.editTaskObject.pointvalue is :', self.editTaskObject.pointvalue);
+	self.completeTask = function (editTaskObj) {
+		console.log('editTaskObj is :', editTaskObj);
+		console.log('self.awardObjst is :', self.awardObject);
+		console.log();
+		self.editTaskObject = editTaskObj;
+		self.editTaskObject.completed = !self.editTaskObject.completed;
+		console.log('self.editTaskObject.pointvalue is :', self.editTaskObject.pointvalue);
 		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				// console.log('get response', response);
+
 				if (self.editTaskObject.completed === true){
-					console.log('*********self.userObject.points_earned is ', self.updateUserObject.points_earned);
-					self.updateUserObject.points_earned += self.editTaskObject.pointvalue;
-					console.log('self.updateUserObject.points_earned after addition is ', self.updateUserObject.points_earned);
+					console.log('*********self.awardObject.points_earned is ', self.awardObject.points_earned);
+					self.awardObject.points_earned += self.editTaskObject.pointvalue;
+					console.log('self.userawardObject.points_earned after addition is ', self.awardObject.points_earned);
 				}
 				else{
-					console.log('*********self.userObject.points_earned is ', self.updateUserObject.points_earned);
-					self.updateUserObject.points_earned -= self.editTaskObject.pointvalue;
-					console.log('self.updateUserObject.points_earned after subtraction is ', self.updateUserObject.points_earned);
+					console.log('*********self.awardObject.points_earned is ', self.awardObject.points_earned);
+					self.awardObject.points_earned -= self.editTaskObject.pointvalue;
+					console.log('self.awardObject.points_earned after subtraction is ', self.awardObject.points_earned);
 				}
-
-				self.editUser();
+				// Now go to edit user and update the new user points
+				self.editUser(self.userObject);
 				//Update the task list
-				self.getTasks();
+				// self.getTasks();
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
 	};
+
+
 
 	self.findUser = function (name) {
 		for (let i=0; i< self.userArray.length; i++){
