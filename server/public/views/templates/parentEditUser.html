@@ -12,12 +12,12 @@
 <div class="container table-bordered">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="text-center" style="font-size:200%;">Child User Details</h1>
+			<h1 class="text-center" style="font-size:200%;">Child Users</h1>
 			<table class="table table-striped col-md-12">
 				<thead>
 				<tr>
 					<th>User Name</th>
-					<th>User Role</th>
+					<!--<th>User Role</th>-->
 					<th>Points Earned</th>
 					<th>Childs Award</th>
 					<th>Picture link</th>
@@ -28,7 +28,7 @@
 				<tbody>
 				<tr ng-repeat="child in vm.parentUserService.userArray">
 					<td>{{child.username}}</td>
-					<td>{{child.role}}</td>
+					<!--<td>{{child.role}}</td>-->
 					<td>{{child.points_earned}}</td>
 					<td>{{child.award_id[0].awardname}}</td>
 					<td>{{child.award_id[0].link}}</td>
@@ -57,14 +57,13 @@
 <!--Edit Parent User section-->
 <div class="container table-bordered top-margin">
 	<div class="row">
-		<div class="col-md-12">
-			<h1 class="text-center" style="font-size:200%;">Parent User Details</h1>
-			<table class="table table-striped col-md-12">
+		<div class="">
+			<h1 class="text-center" style="font-size:200%;">Parent Users</h1>
+			<table class="table table-striped col-md-6">
 				<thead>
 				<tr>
 					<th>User Name</th>
 					<th>User Role</th>
-
 					<th></th>
 				</tr>
 				</thead>
@@ -72,8 +71,9 @@
 				<tr ng-repeat="parent in vm.parentUserService.userParentArray">
 					<td>{{parent.username}}</td>
 					<td>{{parent.role}}</td>
-					<td ng-if="parent.username !== vm.parentUserService.userObject.userName" ><span class="btn btn-primary" ng-click="vm.parentUserService.deleteUser({parent})"><span
-							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Delete</span></td>
+					<td ng-if="parent.username !== vm.parentUserService.userObject.userName" ><span class="btn btn-danger" ng-click="vm.parentUserService.deleteUser({parent})"><span
+							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Delete User</span></td>
+					<td></td>
 					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
 					<!--<td>{{award.pointValue}}</td>-->
 					<!--<td>{{award.link}}</td>-->

@@ -1,7 +1,7 @@
 
 .kid-font{
     /*font-family: 'Indie Flower', cursive;*/
-    font-weight: 900;
+    font-weight: 800;
     /*font-family: 'Permanent Marker', cursive;*/
     /*font-family: 'Boogaloo', cursive;*!*/
     /*font-family: 'Cabin Sketch', cursive;*/
@@ -80,9 +80,10 @@ div.form {
 }
 
 .body-setting {
-    background-color: #3f44692b;
+    background: url("../assets/Border1.jpg") top center;
+    /*background-color: white;*/
     background-size: cover;
-    height : 100vh;
+    height : 130vh;
 }
 
 .body-parentUser-page {

@@ -16,13 +16,19 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	self.parentUserService.getUsers();
 
 	self.addUser = function (role) {
-		ParentUserService.addUserObject = self.addUserObject;
-		// self.parentUserService.addUser(role);
-		self.parentUserService.addUser(role).then(function (response) {
-			self.addUserObject = {};
-			// $location.path('/parentEditUser');
-		});
+		console.log('role - :', role);
 
+		if (typeof self.addUserObject === 'undefined' || typeof role === 'undefined') {
+			alert('All fields must be entered!');
+		}
+		else {
+			ParentUserService.addUserObject = self.addUserObject;
+			// self.parentUserService.addUser(role);
+			self.parentUserService.addUser(role).then(function (response) {
+				self.addUserObject = {};
+				// $location.path('/parentEditUser');
+			});
+		}
 	};
 
 	self.task = {
