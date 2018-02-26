@@ -16,6 +16,7 @@
 					<th>Point Value</th>
 					<th>Confirmed</th>
 					<th>Completed</th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -68,10 +69,14 @@
 					</td>
 					<td>
 						<label class="radio-inline">
-							<input style="font-size:16px" disabled="disabled" type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed"
+							<input ng-change="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)" style="font-size:16px" type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed"
 							       value="vm.parentUserService.editTaskObject.completed"
 							       ng-checked="vm.parentUserService.editTaskObject.completed"/>
 						</label>
+					</td>
+					<td>
+							<span class="btn btn-primary" ng-click="vm.parentUserService.updateTask()"><span
+									class="glyphicon glyphicon-edit"></span> Update Task</span>
 					</td>
 				</tr>
 				</tbody>
@@ -86,20 +91,23 @@
 </div>
 
 
-<div class="container col-md-12 text-center">
-	<!--vm.childUserService.completeTask({task})-->
-	<span class="btn btn-primary" ng-click="vm.parentUserService.updateTask()"><span
-			class="glyphicon glyphicon-edit"></span> Update Task</span>
-	<span class="btn btn-primary" ng-click="vm.parentUserService.deleteTask()"><span
+<div class="container text-center">
+	<span class="btn btn-danger right-pad" ng-click="vm.parentUserService.deleteTask()"><span
 			class="glyphicon glyphicon-remove-sign"></span> Delete Task</span>
-		<span class="btn btn-primary" ng-click="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)">
-		<span class="glyphicon glyphicon-remove-sign"></span> Mark task as completed</span>
-</div>
-<br>
-<br>
 
-<div class="container col-md-12 text-center">
-	<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>
+	<span class="btn btn-warning left-pad" ng-click="vm.parentUserService.vm.parentUserService.goToParentView()"><span
+			class="glyphicon glyphicon-remove-sign"></span> Cancel Edit</span>
+
+		<!--<span class="btn btn-warning glyphicon glyphicon-remove-sign" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>-->
+
+
+		<!--<span ng-if="vm.parentUserService.editTaskObject.completed" class="btn btn-primary" ng-click="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)">-->
+			<!--<span class="glyphicon glyphicon-remove-sign"></span> Mark task as completed</span>-->
+
+	<!--<span ng-if="!vm.parentUserService.editTaskObject.completed" class="btn btn-primary" ng-click="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)">-->
+			<!--<span class="glyphicon glyphicon-remove-sign"></span> Mark task as not completed</span>-->
 </div>
+
+
 
 

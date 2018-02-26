@@ -272,7 +272,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getTasks();
-				$location.path('/parentEditUser');
+				// $location.path('/parentEditUser');
 			})
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
@@ -285,8 +285,8 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		console.log('the task is - ', task);
 		//assign the userToEditObject to the user we are updating - use the finduser function
 		userToEditObject = self.findUser(task.assignedto);
-		task.completed = !task.completed;
-
+		//task.completed = !task.completed;
+		console.log('task.completed is ', task.completed);
 		console.log('#########task.pointvalue is :', task.pointvalue);
 		$http.put(`/api/user/updateTask/${task._id}`, task)
 			.then(function (response) {
