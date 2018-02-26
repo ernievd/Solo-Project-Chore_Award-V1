@@ -5,16 +5,18 @@
 <!--Award area-->
 <div class="container table-bordered col-md-12">
 	<div>
-		<h1 class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} is working hard to get </h1>
+		<h1 ng-if="vm.childUserService.userObject.awardEarnedFlag" class="text-center alert-success" style="font-size:250%;">{{vm.childUserService.userObject.username}} has earned enough points now to get the award!! </h1>
+		<h1 ng-if="!vm.childUserService.userObject.awardEarnedFlag" class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} is working hard to get </h1>
 		<img class="center-image" src={{vm.childUserService.userObject.award_id[0].link}}>
 	</div>
 	<div>
-		<h3 class="text-center"> The total points {{vm.childUserService.userObject.username}} has earned is :{{vm.childUserService.userObject.points_earned}}</h3>
-		<h3 class="text-center"> The remaining points needed to earn the award is :{{vm.childUserService.userObject.pointsRemaining}}</h3>
-
+		<h3 class="text-center">{{vm.childUserService.userObject.username}} has earned {{vm.childUserService.userObject.points_earned}} points towards the {{vm.childUserService.userObject.award_id[0].pointvalue}} points needed</h3>
+		<!--<h3 class="text-center"> The remaining points needed to earn the award is :{{vm.childUserService.userObject.pointsRemaining}}</h3>-->
 
 	</div>
 </div>
+<p> AWARD STATE IS - {{vm.childUserService.userObject.awardEarnedFlag}}</p>
+	<!--<p ng-change="">IS THE PRIZE EARNED = {{vm.childUserService.userObject.awardEarnedFlag}}</p>-->
 
 <!--Tasks listing table-->
 <div class="container">
@@ -30,7 +32,7 @@
 					<th>Due Date</th>
 					<th>Assigned By</th>
 					<th>Point Value</th>
-					<th>Confirmed</th>
+					<th>Parent Confirmed</th>
 					<th>Completed</th>
 					<th></th>
 				</tr>
@@ -45,7 +47,7 @@
 					<td>{{task.assignedby}}</td>
 					<td>{{task.pointvalue}}</td>
 					<td>
-						<label class="radio-inline">
+						<label class="radio-inline text-center">
 							<input type="checkbox" disabled="disabled" ng-model="task.confirmed" value="task.confirmed"
 							       ng-checked="task.confirmed"/>
 						</label>

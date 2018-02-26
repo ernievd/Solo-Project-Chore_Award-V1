@@ -35,12 +35,6 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 
 	};
-//Get all the user data upon service startup-
-// 	self.getuser().then(
-// 		function (response) {
-// 			console.log('the get user is done!!');
-// 			console.log('the response is -', response );
-// 		});
 
 	self.logout = function () {
 		$http.get('/api/user/logout')
@@ -73,8 +67,6 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 	};
 
-	// Run upon service load to get all current tasks loaded in
-	// self.getTasks();   NOW WE RUN IT ON LOGIN
 
 	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
 	self.addTaskToDatabase = function (dataObj) {
@@ -160,9 +152,15 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 					console.log('self.userObject.points_earned after subtraction is ', self.userObject.points_earned);
 				}
 				// Now go to edit user and update the new user points
+				//Check to see if award has need earned and set the awardEarnedFlag
+				if ((self.userObject.award_id[0].pointvalue - self.userObject.points_earned) <= 0){
+					self.userObject.awardEarnedFlag = true;
+				}
+				else {
+					self.userObject.awardEarnedFlag = false;
+				}
 				self.editUser(self.userObject);
-				//Update the task list
-				// self.getTasks();
+
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
@@ -216,6 +214,16 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 	};//End self.editUser
 
+	// self.giveAward = false;
+	// self.checkForAwardCompletion = function (){
+	// 	self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned;
+	//
+	// 	if (self.childUserService.userObject.pointsRemaining <= 0){
+	// 		console.log('AWARD CAN BE GIVEN!!');
+	// 		self.giveAward = true;
+	// 	}
+	// }//End self.checkForAwardCompletion
+	// //self.checkForAwardCompletion();
 
 }]);
 

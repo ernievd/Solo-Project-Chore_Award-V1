@@ -5,14 +5,13 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 	let self = this;
 
 	self.childUserService = ChildUserService;
+
+	//TODO - Can we reove this?
 	self.userObjectObject = ChildUserService.userObject;
 
 	self.childUserService.getuser();
 	self.childUserService.taskArray = [];
 	self.childUserService.getTasks();
-	//reload the tasks on each page load
-	// ChildUserService.getuser();
-	// ChildUserService.getTasks();
 
 
 
@@ -21,9 +20,9 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 		childName: '',
 		category: '',
 		dueDate: '',
-		// assignedBy: '',
 		pointValue: '',
-	};
+	};//End self.task
+
 	self.childAddTaskToDatabase = function () {
 		// console.log('childUserIndex is :', self.childUserIndex);
 		// console.log('self.task object is : ', self.task);
@@ -50,5 +49,11 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 			// self.parentTask.$setPristine();
 		}
 	};
+
+	// self.checkForAwardCompletion = function (){
+	// 	if (self.childUserService.userObject.pointsRemaining <= 0){
+	// 		console.log('AWARD CAN BE GIVEN!!');
+	// 	}
+	// };//End self.checkForAwardCompletion
 
 }]);

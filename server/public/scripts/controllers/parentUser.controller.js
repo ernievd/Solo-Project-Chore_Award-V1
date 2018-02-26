@@ -8,13 +8,12 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	self.userArray = [];
 
 	self.parentUserService = ParentUserService;
+	//TODO - Can we reove this?
 	self.userObjectObject = ParentUserService.userObject;
 
 	self.parentUserService.getTasks();
 	self.parentUserService.userArray = [];
 	self.parentUserService.getUsers();
-
-
 
 	self.addUser = function (role) {
 		ParentUserService.addUserObject = self.addUserObject;
@@ -55,16 +54,6 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 		}
 	};
 
-	// self.changeToEditView = function(award){
-	// 	self.parentUserService.awardObject = award;
-	// 	self.award = award;
-	// 	$location.path('/editAward');
-	// 	console.log('self.award object is :', self.award);
-	// };
 
-	// self.editAward = function (awardObject) {
-	// 	$location.path('/parentUser');
-	// 	self.parentUserService.editAward(awardObject);
-	// }
 
 }]);

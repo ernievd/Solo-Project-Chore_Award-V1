@@ -42,7 +42,6 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 				}
 			}
 		})
-
 		.when('/editTask', {
 			templateUrl: '/views/templates/editTask.html',
 			controller: 'ParentUserController as vm',

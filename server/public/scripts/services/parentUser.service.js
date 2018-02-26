@@ -10,6 +10,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	self.userArray = [];
 	self.updateUserObject = {};
 	self.userParentArray = [];
+	self.awardedArray = [];
 
 	//self.getUser
 	// Ask the server if this user is logged in and populate the self.userObject with the current logged in user data
@@ -79,8 +80,8 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		taskObj.completed = false;
 		//Add the current logged in family name to the task object data so we have that proper family associated with the task
 		taskObj.family = self.userObject.family;
-
-		$http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function (response) {
+		console.log('#### The task object is - ',taskObj);
+		$http.post(`/api/user/addTask/${taskObj.user_id}`, taskObj).then(function (response) {
 				console.log('success');
 				//Keeping this for now. Used to redirect if you want after the post
 				// $location.path('/home');
@@ -139,6 +140,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		return $http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				//Update the task list
+
 				self.getTasks();
 				$location.path('/parentUser');
 			})
@@ -222,10 +224,16 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 					//Clear the arrays so we do not keep appending them
 					self.userArray = [];
 					self.userParentArray = [];
+					self.awardedArray = [];
 					for (let i = 0; i < response.data.length; i++) {
 						if (response.data[i].role === 'child') {
 							//Populate userArray with children users for later use
 							self.userArray.push(response.data[i]);
+
+							//If a child has earned an award add it to the awardedArray so we can show it on the main page
+							if (response.data[i].awardEarnedFlag === true){
+								self.awardedArray.push(response.data[i]);
+							}
 						}
 						else if(response.data[i].role === 'parent'){
 							//Populate userParentArray with parent users for later use
@@ -293,6 +301,15 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 					userToEditObject.points_earned -= task.pointvalue;
 					console.log('userToEditObject.points_earned after subtraction is ', userToEditObject.points_earned);
 				}
+				console.log('userToEditObject is :',userToEditObject)
+				userToEditObject.pointsRemaining = userToEditObject.award_id[0].pointvalue  - userToEditObject.points_earned;
+				//Check to see if award has need earned and set the awardEarnedFlag
+				if ((userToEditObject.award_id[0].pointvalue - userToEditObject.points_earned) <= 0){
+					userToEditObject.awardEarnedFlag = true;
+				}
+				else {
+					userToEditObject.awardEarnedFlag = false;
+				}
 
 				self.editUser(userToEditObject);
 				//Update the task list
@@ -353,6 +370,23 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	self.addPhoto = function (response) {
 		return response.filesUploaded[0].url
 	} // End self.addPhoto
+
+
+	// self.giveAward = false;
+	// self.checkForAwardCompletion = function (){
+	// 	console.log(self.childUserService.userObject);
+	// 	self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned;
+	//
+	// 	if (self.childUserService.userObject.pointsRemaining <= 0){
+	// 		console.log('AWARD CAN BE GIVEN!!');
+	// 		self.giveAward = true;
+	// 	}
+	// }//End self.checkForAwardCompletion
+
+
+	//self.checkForAwardCompletion();
+
+
 }]);
 
 

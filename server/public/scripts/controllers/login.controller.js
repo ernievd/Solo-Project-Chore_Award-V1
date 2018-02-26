@@ -25,11 +25,13 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 						if (response.data.role === 'parent'){
 							ParentUserService.getUsers();
 							ParentUserService.getTasks();
+							//ParentUserService.checkForAwardCompletion();
 							$location.path('/parentUser');}
 						else {
 							//refresh the tasks before we load the child user page
 							ChildUserService.getUsers();
 							ChildUserService.getTasks();
+							//ChildUserService.checkForAwardCompletion();
 							$location.path('/childUser');
 						}
 					}

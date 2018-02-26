@@ -1,5 +1,10 @@
 <div ng-include="'views/partials/parent-nav.html'"></div>
 
+<!--<p> awardedArray is {{vm.parentUserService.awardedArray}}</p>-->
+<div ng-repeat="awarded in vm.parentUserService.awardedArray ">
+<h1 ng-if="awarded.awardEarnedFlag" class="text-center alert-success" style="font-size:250%;">{{awarded.username}} has reached the award goal points!! </h1>
+</div>
+
 <!--Tasks listing table-->
 <div class="container table-bordered">
 	<div class="row">
@@ -19,7 +24,7 @@
 					<th></th>
 				</tr>
 				</thead>
-				<tbody>child in vm.parentUserService.userArray
+				<tbody>
 				<tr ng-repeat="task in vm.parentUserService.taskObject">
 					<!--<th scope="row">1</th>-->
 					<td>{{task.taskname}}</td>

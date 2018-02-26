@@ -1,12 +1,16 @@
 
 .kid-font{
-    font-family: 'Indie Flower', cursive;
+    /*font-family: 'Indie Flower', cursive;*/
     font-weight: 900;
     /*font-family: 'Permanent Marker', cursive;*/
     /*font-family: 'Boogaloo', cursive;*!*/
     /*font-family: 'Cabin Sketch', cursive;*/
     /*font-family: 'Lilita One', cursive;*!*/
     /*font-family: 'Fontdiner Swanky', cursive;*/
+    /*font-family: 'Kalam', cursive;*/
+    font-family: 'Fredoka One', cursive;
+    /*font-family: 'Caveat Brush', cursive;*/
+    /*font-family: 'Carter One', cursive;*/
 }
 
 .welcome-font{
