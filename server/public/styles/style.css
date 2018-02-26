@@ -25,12 +25,16 @@
 input[type=checkbox] {
     transform: scale(2) !important;
 }
+.left-pad {
+    margin-top: 9px;
+    margin-left: 30px;
+}
 
 .right-pad{
-    margin-left: auto;
-    margin-right: 20px;
-    margin-top:9px
+    margin-top: 9px;
+    margin-right: 30px;
 }
+
 .h1-no-pad{
     margin-top: 0px;
     margin-bottom: 0px;
@@ -64,11 +68,6 @@ div.form {
     display: block;
     text-align: center;
     margin-top: 50px;
-}
-
-.left-pad {
-    margin-top: 10px;
-    margin-left: 30px;
 }
 
 .top-margin {
