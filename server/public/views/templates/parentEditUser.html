@@ -8,6 +8,25 @@
 <br>
 <br>
 
+
+<h2>Modal Example</h2>
+
+<!-- Trigger/Open The Modal -->
+<button ng-click="vm.openModal()" id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content">
+		<span ng-click="vm.closeModal()" class="close">&times;</span>
+		<p>Some text in the Modal..</p>
+	</div>
+
+</div>
+
+
+
 <!--Edit Child User section-->
 <div class="container table-bordered">
 	<div class="row">
