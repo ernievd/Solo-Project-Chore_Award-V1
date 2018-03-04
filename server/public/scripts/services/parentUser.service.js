@@ -158,7 +158,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 			$http.delete(`/api/user/deleteTask/${self.editTaskObject._id}`, self.editTaskObject)
 				.then(function (response) {
 					//Update the task list
-					console.log('Delete Success:', response);
 					self.getTasks();
 					$location.path('/parentUser');
 				})

@@ -4,21 +4,8 @@ const User = require('../models/User');
 const userStrategy = require('../strategies/user.strategy');
 const Tasks = require('../models/Tasks');
 const Awards = require('../models/Awards');
-
 const router = express.Router();
 
-// router.get('/getUsers', (req, res) => {
-//
-// 	User.find({'_id' : req.user.id}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
-// 		if (error) {
-// 			console.log('error on find: ', error);
-// 			res.sendStatus(500);
-// 		} else {
-// 			// console.log('found user Documents: ', foundUsers);
-// 			res.send(foundUsers);
-// 		}
-// 	})
-// }); // end route
 // Handles Ajax request for user information if user is authenticated
 router.get('/', (req, res) => {
 	// check if logged in
@@ -29,18 +16,14 @@ router.get('/', (req, res) => {
 				console.log('error on find: ', error);
 				res.sendStatus(500);
 			} else {
-				 // console.log('found user Documents: ', foundUsers);
-
 				res.send(foundUsers[0]);
 			}
 		})
-		// send back user object from database
-		// res.send(req.user);
 	} else {
 		// failure best handled on the server. do redirect here.
 		res.sendStatus(403);
 	}
-});
+});//End router.get '/'
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
@@ -51,7 +34,6 @@ router.post('/register', (req, res, next) => {
 	const role = req.body.role;
 	const password = encryptLib.encryptPassword(req.body.password);
 	const points_earned = 0;
-
 	const newUser = new User({username, family, role, password, points_earned});
 	newUser.save((error, userDoc) => {
 		if (error) {
@@ -76,35 +58,20 @@ router.post('/register', (req, res, next) => {
 								console.log('error on push : ', pusherror);
 								res.sendStatus(500);
 							} else {
-								// console.log('updated user document: ', doc);
-								// console.log('-----------------------------');
 								res.sendStatus(201);
 							}
 						}
 					);
-					//update user collection with the award id
-					//award_id: { type: Schema.Types.ObjectId, ref: 'awards' },
 				}
-
 			})
-
-			// awardname: { type: Number, required: true },
-			// pointvalue: { type: Number, required: true },
-			// link: { type: String, required: false }
-
-
 		}
 	})
-
-});
+});//End router.post '/register'
 
 
 // Get all the tasks in the database
 router.get('/gettasks', (req, res) => {
-	//  (req.isAuthenticated() && req.user.role == 'parent'
 	if (req.isAuthenticated()) {
-		// send back user object from database
-		// Game is a reference to the collection when finding things in the DB
 		Tasks.find({ 'family' : req.user.family}, (error, foundTasks) => {
 			if (error) {
 				console.log('error on find: ', error);
@@ -118,18 +85,16 @@ router.get('/gettasks', (req, res) => {
 		// res.sendStatus(403);
 	}
 
-}); // end route
+}); //End router.get '/gettasks'
 
 // Handles POST request with new task
 router.post('/addTask/:userId', (req, res, next) => {
-	// console.log('in the router - req.body is :', req.body);
 	const taskname = req.body.taskName;
 	const category = req.body.category;
 	const duedate = req.body.dueDate;
 	const assignedto = req.body.childName;
 	const assignedby = req.body.assignedby;
 	const pointvalue = req.body.pointValue;
-	// confirmed is true if the parent assigns it
 	const confirmed = req.body.confirmed;
 	const completed = req.body.completed;
 	const taskId = req.body._id;
@@ -140,11 +105,6 @@ router.post('/addTask/:userId', (req, res, next) => {
 			res.sendStatus(500);
 		}
 		else {
-			// console.log('saved new task: ', taskDoc);
-			// console.log('-----------------------------');
-			// console.log('req.params.userId is ***', req.params.userId);
-			// // added the new rating, add it to the game document
-			// console.log('taskDoc._id is :', taskDoc._id);
 			User.findByIdAndUpdate(
 				{
 					"_id": req.params.userId
@@ -155,28 +115,22 @@ router.post('/addTask/:userId', (req, res, next) => {
 						console.log('error on push to user task array: ', pusherror);
 						res.sendStatus(500);
 					} else {
-						// console.log('updated user document: ', doc);
-						// console.log('-----------------------------');
 						res.sendStatus(201);
 					}
 				}
 			);
 		}
 	});
-});
+});//End router.post '/addTask/:userId'
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-	// res.sendStatus(200);
-
-	//Changes to now send req.user which has all the user info
+	// send req.user which has all the user info
 	res.send(req.user);
-	// console.log('req.user is :', req.user);
-
-});
+});//End router.post '/login'
 
 
 // clear all server session information about this user
@@ -184,9 +138,9 @@ router.get('/logout', (req, res) => {
 	// Use passport's built-in method to log out the user
 	req.logout();
 	res.sendStatus(200);
-});
+}); //End router.get '/logout'
 
-// /updateTask/${editTaskObj._id}
+// update a task using its ID
 router.put('/updateTask/:id', (req, res) => {
 	let taskId = req.params.id;
 	let taskToUpdate = req.body;
@@ -204,12 +158,10 @@ router.put('/updateTask/:id', (req, res) => {
 			}
 		}
 	)
+}); //End router.put '/updateTask/:id'
 
-});
-
+// delete a task using its ID
 router.delete('/deleteTask/:id', (req, res) => {
-	console.log('in ROUTER TASK DELETE - req.params is :', req.params);
-
 	Tasks.findByIdAndRemove(
 		{"_id": req.params.id},
 		(error, deletedTask) => {
@@ -222,8 +174,9 @@ router.delete('/deleteTask/:id', (req, res) => {
 			}
 		}
 	)
-});
+}); //End router.delete '/deleteTask/:id'
 
+// delete a user using its ID
 router.delete('/deleteUser/:id', (req, res) => {
 	console.log('in ROUTER USER DELETE - req.params is :', req.params);
 	 User.findByIdAndRemove(
@@ -238,11 +191,10 @@ router.delete('/deleteUser/:id', (req, res) => {
 			}
 		}
 	)
-});
+}); //End router.delete '/deleteUser/:id'
 
+// delete an award using its ID
 router.delete('/deleteAward/:id', (req, res) => {
-	console.log('in ROUTER AWARD DELETE - req.params is :', req.params);
-
 	Awards.findByIdAndRemove(
 		{"_id": req.params.id},
 		(error, deletedUser) => {
@@ -255,10 +207,10 @@ router.delete('/deleteAward/:id', (req, res) => {
 			}
 		}
 	)
-});
+}); //End router.delete '/deleteAward/:id'
 
+// get all users
 router.get('/getUsers', (req, res) => {
-	//TODO prevent /getusers from running before login
 	User.find({'family' : req.user.family}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 		if (error) {
 			console.log('error on find: ', error);
@@ -269,34 +221,10 @@ router.get('/getUsers', (req, res) => {
 		}
 	})
 
-}); // end route
+});//End router.get '/getUsers'
 
-//TODO - Try and remove this!
-router.put('/edit/', (req, res) => {
-	// console.log('EDIT AWARD req.params.id is :', req.body.award_id[0]._id);
-	// console.log('EDIT AWARD req.body is : ', req.body);
-	let awardId = req.body.award_id[0]._id;
-	let awardToUpdate = req.body.award_id[0];
-	// update in collection
-	Awards.findByIdAndUpdate(
-		{"_id": awardId},
-		{$set: awardToUpdate},
-		(error, updatedDocument) => {
-			if (error) {
-				console.log('error on award update: ', error);
-				res.sendStatus(500);
-			} else {
-				// console.log('Document before it was updated!: ', updatedDocument);
-				res.sendStatus(200);
-			}
-		}
-	)
-});
-
-
+// edit an award
 router.put('/editAward', (req, res) => {
-	 console.log('EDIT AWARD req.params.id is :', req.body._id);
-	 console.log('EDIT AWARD req.body is : ', req.body);
 	let awardId = req.body._id;
 	let awardToUpdate = req.body;
 	// update in collection
@@ -313,8 +241,9 @@ router.put('/editAward', (req, res) => {
 			}
 		}
 	)
-});
+}); //End router.put '/editAward'
 
+// edit a user
 router.put('/editUser/', (req, res) => {
 	let userId = req.body._id;
 	let userDataToUpdate = req.body;
@@ -328,7 +257,6 @@ router.put('/editUser/', (req, res) => {
 				res.sendStatus(500);
 			}
 			else {
-
 				Awards.findByIdAndUpdate(
 					{"_id": userDataToUpdate.award_id[0]._id},
 					{$set: userDataToUpdate.award_id[0]},
@@ -337,19 +265,13 @@ router.put('/editUser/', (req, res) => {
 							console.log('error on award update: ', error);
 							res.sendStatus(500);
 						}
-						// else {
-						// 	// console.log('Document before it was updated!: ', updatedDocument);
-						// 	res.sendStatus(200);
-						// }
 					}
 				);
 				res.sendStatus(200);
 			}
 		}
 	)
-
-
-});
+}); //End router.put '/editUser/'
 
 
 module.exports = router;
