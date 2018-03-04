@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
 	// check if logged in
 	if (req.isAuthenticated()) {
-		console.log(req.user.id);
+		// console.log(req.user.id);
 		User.find({'_id' : req.user.id}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 			if (error) {
 				console.log('error on find: ', error);

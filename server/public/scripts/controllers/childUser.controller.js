@@ -1,4 +1,4 @@
-myApp.controller('ChildUserController', ['ChildUserService' , '$location', function (ChildUserService, $location) {
+myApp.controller('ChildUserController', ['ChildUserService' , '$location', function (ChildUserService,) {
 	console.log('ChildUserController created');
 
 	let self = this;
@@ -17,7 +17,7 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 		pointValue: '',
 	};//End self.task
 
-	self.childAddTaskToDatabase = function () {
+	self.childAddTask = function () {
 		index = self.childUserIndex;
 		self.task.childName = self.childUserService.userObject.username;
 		self.task.user_id = self.childUserService.userObject._id;
@@ -29,10 +29,10 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 			self.message = "All task fields must be be completed";
 		}
 		else {
-			self.childUserService.addTaskToDatabase(self.task);
+			self.childUserService.addChildTaskToDatabase(self.task);
 			self.task = {};
 			self.childUserIndex = null;
 		}
-	};//End self.childAddTaskToDatabase
+	};//End self.childAddTask
 
 }]);
