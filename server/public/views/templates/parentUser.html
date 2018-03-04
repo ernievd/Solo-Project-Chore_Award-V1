@@ -2,8 +2,21 @@
 
 <!--<p> awardedArray is {{vm.parentUserService.awardedArray}}</p>-->
 <div ng-repeat="awarded in vm.parentUserService.awardedArray ">
-<h1 ng-if="awarded.awardEarnedFlag" class="text-center alert-success" style="font-size:250%;">{{awarded.username}} has reached the award goal points!! </h1>
+	<h1 ng-if="awarded.awardEarnedFlag" class="text-center alert-success" style="font-size:250%;">{{awarded.username}} has reached the award goal points!! </h1>
+
+	<!--<h2>Modal Example</h2>-->
+	<!--&lt;!&ndash; Trigger/Open The Modal &ndash;&gt;-->
+	<!--<button ng-click="vm.openModal()" id="myBtn">Open Modal</button>-->
+	<!--&lt;!&ndash; The Modal &ndash;&gt;-->
+	<!--<div id="myModal" class="modal">-->
+		<!--&lt;!&ndash; Modal content &ndash;&gt;-->
+		<!--<div class="modal-content">-->
+			<!--<span ng-click="vm.closeModal()" class="close">&times;</span>-->
+			<!--<p>Some text in the Modal..</p>-->
+		<!--</div>-->
+	<!--</div>-->
 </div>
+
 
 <!--Tasks listing table-->
 <div class="container table-bordered">
