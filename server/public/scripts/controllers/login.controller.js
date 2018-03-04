@@ -18,7 +18,6 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 			$http.post('/api/user/login', self.user).then(
 				function (response) {
 					if (response.status === 200) {
-						console.log('success: ', response);
 						//Direct the home page based on user
 						if (response.data.role === 'parent'){
 							ParentUserService.getUsers();
@@ -26,7 +25,7 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 							$location.path('/parentUser');}
 						else {
 							//refresh the tasks before we load the child user page
-							ChildUserService.getUsers();
+							ChildUserService.getAllChildUsers();
 							ChildUserService.getChildTasks();
 							$location.path('/childUser');
 						}

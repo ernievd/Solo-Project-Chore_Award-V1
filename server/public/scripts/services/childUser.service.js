@@ -1,17 +1,21 @@
-myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($http, $location, $filter,) {
+myApp.service('ChildUserService', ['$http', '$location', 'ParentUserService', function ($http, $location, ParentUserService,) {
 	console.log('ChildUserService Loaded');
 	let self = this;
 
 	self.userObject = {};
 	self.editTaskObject = {};
+	self.logout = ParentUserService.logout();
 
-	// ask the server if this user is logged in
+
+	//self.getChildUser
+	// Ask the server if this user is logged in and populate the self.userObject with the current logged in user data
+	//  Also ensures that only users with the role of child can access this area
 	self.getChildUser = function () {
 		return $http.get('/api/user')
 			.then(function (response) {
 					if (response.data.username && response.data.role ==='child' ) {
 						self.userObject = response.data;
-						self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned
+						self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned;
 						return "I sent this from the return";
 					} else {
 						// unlikely to get here, but if we do, bounce them back to the login page
@@ -25,17 +29,6 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 	};//END self.getChildUser
 
-	self.logout = function () {
-		$http.get('/api/user/logout')
-			.then(function (response) {
-					console.log('logged out');
-					$location.path("/home");
-				},
-				function (response) {
-					console.log('logged out error');
-					$location.path("/home");
-				});
-	};//End self.logout
 
 	self.getChildTasks = function () {
 		$http.get('/api/user/gettasks')
@@ -53,8 +46,10 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				});
 	};//End self.getChildTasks
 
-
-	self.addTaskToDatabase = function (dataObj) {
+	//self.addChildTaskToDatabase
+	// Adds a new task to the database when assigned by a child user
+	// Requires a task object to be passed in with a task schema that has the task data to be added to the database
+	self.addChildTaskToDatabase = function (dataObj) {
 		dataObj.family = self.userObject.family;
 		$http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function (response) {
 				//update the tasks listed in the DOM
@@ -65,10 +60,11 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				console.log('error is', response);
 				self.message = "Something went wrong. Please try again."
 			});
-	};//End self.addTaskToDatabase
+	};//End self.addChildTaskToDatabase
 
-
-	self.completeTask = function (editTaskObj) {
+	//self.childCompleteTask
+	// Toggles the task complete, updates the point totals and then updates the task data and user data in the database
+	self.childCompleteTask = function (editTaskObj) {
 		self.editTaskObject = editTaskObj.task;
 		//Update the completed flag to indicate that the task is done
 		self.editTaskObject.completed = !self.editTaskObject.completed;
@@ -89,15 +85,16 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 					self.userObject.awardEarnedFlag = false;
 				}
 				//Update the user with the new points and award earned flag
-				self.editUser(self.userObject);
+				self.editChildUser(self.userObject);
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
-	};//End self.completeTask
+	};//End self.childCompleteTask
 
-
-	self.getUsers = function () {
+	//self.getAllChildUsers
+	// Get all the child users in the database and add them to self.userArray
+	self.getAllChildUsers = function () {
 		//Clear the array so we do not keep appending it
 		self.userArray = [];
 		$http.get('/api/user/getUsers')
@@ -112,10 +109,11 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				function (response) {
 					console.log('error in getting users from the router :', response);
 				});
-	};//End self.getUsers
+	};//End self.getAllChildUsers
 
-
-	self.editUser = function(userObject){
+	//self.editChildUser
+	// Takes in an object with the user schema and updates the database  with the data it the object has in it
+	self.editChildUser = function(userObject){
 		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getChildTasks();
@@ -124,8 +122,7 @@ myApp.service('ChildUserService', ['$http', '$location', '$filter', function ($h
 				.catch(function (response) {
 					console.log('error on put when editing award', response);
 				});
-	};//End self.editUser
-
+	};//End self.editChildUser
 
 }]);
 
