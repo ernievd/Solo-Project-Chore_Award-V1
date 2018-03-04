@@ -3,7 +3,6 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	//taskName, childName, dueDate, assignedBy, pointValue
 
 
-
 	let self = this;
 	self.userArray = [];
 
@@ -16,13 +15,19 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	self.parentUserService.getUsers();
 
 	self.addUser = function (role) {
-		ParentUserService.addUserObject = self.addUserObject;
-		// self.parentUserService.addUser(role);
-		self.parentUserService.addUser(role).then(function (response) {
-			self.addUserObject = {};
-			// $location.path('/parentEditUser');
-		});
+		console.log('role - :', role);
 
+		if (typeof self.addUserObject === 'undefined' || typeof role === 'undefined') {
+			alert('All fields must be entered!');
+		}
+		else {
+			ParentUserService.addUserObject = self.addUserObject;
+			// self.parentUserService.addUser(role);
+			self.parentUserService.addUser(role).then(function (response) {
+				self.addUserObject = {};
+				// $location.path('/parentEditUser');
+			});
+		}
 	};
 
 	self.task = {
@@ -55,5 +60,25 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	};
 
 
+	//// To use if we add a modal
+	//let modal = document.getElementById('myModal');
+	//// Get the button that opens the modal
+	//let btn = document.getElementById("myBtn");
+	//// Get the <span> element that closes the modal
+	//let span = document.getElementsByClassName("close")[0];
+	//// When the user clicks the button, open the modal
+	// self.openModal = function() {
+	// 	modal.style.display = "block";
+	// };
+
+	// When the user clicks anywhere outside of the modal, close it
+	// self.closeModal = function(event) {
+	// 	// if (event.target == modal) {
+	// 		modal.style.display = "none";
+	// 	// }
+	// }
+
 
 }]);
+
+
