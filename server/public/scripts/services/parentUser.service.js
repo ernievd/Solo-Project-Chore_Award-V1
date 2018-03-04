@@ -100,7 +100,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	self.addUser = function (role) {
 			if (self.addUserObject.username === '' || self.addUserObject.password === '') {
 				//TODO - change this message to a popup - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
-				self.message = "Username and password must all be entered!";
+				alert('Username and password must all be entered!');
 
 			} else {
 				// a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
@@ -111,8 +111,10 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 				// return $http(....
 				let promise = $http.post('/api/user/register', self.addUserObject).then(function (response) {
 						console.log('success on addUser post');
+						alert('User added successfully');
 						// Update user list object
 						return self.getUsers();
+
 						// $location.path('/parentUser');
 					},
 					function (response) {
@@ -272,7 +274,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getTasks();
-				// $location.path('/parentEditUser');
+				$location.path('/parentEditUser');
 			})
 				.catch(function (response) {
 					console.log('error on put when editing award', response);

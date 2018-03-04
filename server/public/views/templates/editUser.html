@@ -20,6 +20,7 @@
 					<th>Picture link</th>
 					<th>Total Points Needed for Award</th>
 					<th></th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -48,6 +49,10 @@
 						<input type="number" class="form-control" name="Point Value" value=""
 						       ng-model="vm.parentUserService.awardObject.award_id[0].pointvalue">
 					</td>
+					<td>
+							<span class="btn btn-primary" ng-click="vm.parentUserService.editUser(vm.parentUserService.awardObject)"><span
+									class="glyphicon glyphicon-edit"></span> Update User</span>
+					</td>
 				</tr>
 				</tbody>
 			</table>
@@ -56,15 +61,24 @@
 	</div>
 </div>
 
-<div class="container col-md-12 text-center">
-	<span class="btn btn-primary" ng-click="vm.parentUserService.editUser(vm.parentUserService.awardObject)"><span
-			class="glyphicon glyphicon-edit"></span> Update User</span>
-</div>
+<!--<div class="container col-md-12 text-center">-->
+	<!--<span class="btn btn-primary" ng-click="vm.parentUserService.editUser(vm.parentUserService.awardObject)"><span-->
+			<!--class="glyphicon glyphicon-edit"></span> Update User</span>-->
+<!--</div>-->
 <br>
 <br>
 
-<div class="container col-md-12 text-center">
-	<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>
-	<span class="btn btn-primary" ng-click="vm.parentUserService.deleteUser(vm.parentUserService.awardObject)"><span></span> Delete User</span>
+<!--<div class="container col-md-12 text-center">-->
+	<!--<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>-->
+	<!--<span class="btn btn-primary" ng-click="vm.parentUserService.deleteUser(vm.parentUserService.awardObject)"><span></span> Delete User</span>-->
+<!--</div>-->
+
+<div class="container text-center">
+	<span class="btn btn-danger right-pad" ng-click="vm.parentUserService.deleteUser(vm.parentUserService.awardObject)"><span
+			class="glyphicon glyphicon-remove-sign"></span> Delete User</span>
+
+	<span class="btn btn-warning left-pad" ng-click="vm.parentUserService.goToParentView()"><span
+			class="glyphicon glyphicon-remove-sign"></span> Cancel Edit</span>
 </div>
+
 

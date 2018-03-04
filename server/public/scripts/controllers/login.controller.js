@@ -12,7 +12,7 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 
 	self.login = function () {
 		if (self.user.username === '' || self.user.password === '') {
-			self.message = "Choose a username and password!";
+			alert('Choose a username and password!');
 		} else
 			{
 			console.log('sending to server...', self.user);
@@ -42,14 +42,15 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 				},
 				function (response) {
 					console.log('failure error: ', response);
-					self.alertMessage ('Login failure - Invalid username and/or password');
+					alert ('Login failure - Invalid username and/or password');
 				});
 		}
 	};
 
 	self.registerUser = function () {
 		if (self.user.username === '' || self.user.password === '' || self.user.family === '') {
-			self.message = "Username, family and password must all be entered!";
+			// self.message = "Username, family and password must all be entered!";
+			alert('Username, family and password must all be entered!');
 
 		} else {
 			// a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
