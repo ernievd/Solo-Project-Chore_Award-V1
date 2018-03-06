@@ -1,5 +1,22 @@
 <div ng-include="'views/partials/parent-nav.html'"></div>
 
+<div ng-repeat="awarded in vm.parentUserService.awardedArray ">
+	<h1 ng-if="awarded.awardEarnedFlag" class="text-center alert-success" style="font-size:250%;">{{awarded.username}} has reached the award goal points!! </h1>
+
+	<!--<h2>Modal Example</h2>-->
+	<!--&lt;!&ndash; Trigger/Open The Modal &ndash;&gt;-->
+	<!--<button ng-click="vm.openModal()" id="myBtn">Open Modal</button>-->
+	<!--&lt;!&ndash; The Modal &ndash;&gt;-->
+	<!--<div id="myModal" class="modal">-->
+		<!--&lt;!&ndash; Modal content &ndash;&gt;-->
+		<!--<div class="modal-content">-->
+			<!--<span ng-click="vm.closeModal()" class="close">&times;</span>-->
+			<!--<p>Some text in the Modal..</p>-->
+		<!--</div>-->
+	<!--</div>-->
+</div>
+
+
 <!--Tasks listing table-->
 <div class="container table-bordered">
 	<div class="row">
@@ -30,14 +47,14 @@
 					<td>{{task.pointvalue}}</td>
 					<td>
 						<label class="radio-inline">
-							<input type="checkbox" ng-model="task.confirmed" value="task.confirmed"
+							<input type="checkbox" disabled="disabled" ng-model="task.confirmed" value="task.confirmed"
 							       ng-checked="task.confirmed"/>
 						</label>
 					</td>
 					<td>
 						<div>
 							<label class="radio-inline">
-								<input type="checkbox" ng-model="task.completed" value="task.completed"
+								<input type="checkbox" disabled="disabled" ng-model="task.completed" value="task.completed"
 								       ng-checked="task.completed"/>
 							</label>
 						</div>
@@ -48,10 +65,6 @@
 				</tr>
 				</tbody>
 			</table>
-			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
-
 		</div>
 	</div>
 </div>
@@ -61,7 +74,6 @@
 	<div class="container table-bordered top-margin">
 		<div class="container form-group row input-group">
 			<h1 class="text-center" style="font-size:160%;">Add a Task</h1>
-			<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
 			<!--TODO - add popup when a field is empty-->
 
 			<div class="col-md-2">
@@ -80,7 +92,6 @@
 
 			<div class="col-md-2">
 				<select required ng-model="vm.task.category">
-					<!--TODO - capitalize output-->
 					<option value="" disabled selected hidden>Category</option>
 					<option value="chore">Chore</option>
 					<option value="homework">Homework</option>
@@ -101,7 +112,6 @@
 			<div class="col-md-2">
 				<span class="btn btn-primary" ng-click="vm.addTaskToDatabase(); child.userName = null"><span
 						class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
-				<!--{{f = forecast[day.iso]; ""}}-->
 			</div>
 		</div>
 	</div>

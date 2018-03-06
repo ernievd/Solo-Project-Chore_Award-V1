@@ -1,4 +1,4 @@
-myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($http, $location, $filter,) {
+myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($http, $location, $filter,) {
 	console.log('ParentUserService Loaded');
 	let self = this;
 
@@ -10,10 +10,13 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 	self.userArray = [];
 	self.updateUserObject = {};
 	self.userParentArray = [];
+	self.awardedArray = [];
 
-	// ask the server if this user is logged in
+	//self.getUser
+	// Ask the server if this user is logged in and populate the self.userObject with the current logged in user data
+	//  Also ensures that only users with the role of parent can access this area
 	self.getuser = function () {
-		$http.get('/api/user')
+		let promise = $http.get('/api/user')
 			.then(function (response) {
 					if (response.data.username && response.data.role ==='parent' ) {
 						// user has a current session on the server and is of type parent
@@ -32,8 +35,11 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					$location.path("/home");
 
 				});
-	};
+		return promise;
+	}; // End self.getUser
 
+	//self.logout
+	// Log out the current user
 	self.logout = function () {
 		$http.get('/api/user/logout')
 			.then(function (response) {
@@ -44,8 +50,10 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 					console.log('logged out error');
 					$location.path("/home");
 				});
-	};
+	};//End self.logout
 
+	//self.getTasks
+	// Get all the current tasks from all current users and populate the self.taskObject with the data
 	self.getTasks = function () {
 		$http.get('/api/user/gettasks')
 			.then(function (response) {
@@ -55,27 +63,26 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				function (response) {
 					console.log('error in getting tasks from the router :', response);
 				});
-	};
+	}; //End self.GetTasks
 
-	// Run upon service load to get all current tasks loaded in
-	self.getTasks();
 
-	// self.addTaskToDatabase = function (taskName, childName, dueDate, assignedBy, pointValue ) {
-	self.addTaskToDatabase = function (dataObj) {
-		//Add the user to the object so we have that user that added the task
-		dataObj.assignedby = self.userObject.userName;
-		//if parent added then confirmed is true - ** TODO- Check later to see if a parent role or child role
-		dataObj.confirmed = true;
-		//new task therefore completed is false
-		dataObj.completed = false;
-		dataObj.family = self.userObject.family;
-
-		// console.log('sending to server...', dataObj);
-		//$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
-		$http.post(`/api/user/addTask/${dataObj.user_id}`, dataObj).then(function (response) {
+	//self.addTaskToDatabase
+	// Adds a new task to the database
+	// Requires a task object to be passed in with a task schema that has the task data to be added to the database
+	//  Since self.userObject has the current logged in parent username and family last name we
+	//      can use it in this function to populate the assigned by and family data
+	self.addTaskToDatabase = function (taskObj) {
+		//Add the current logged in username to the task object data so we have that user that assigned the task
+		taskObj.assignedby = self.userObject.userName;
+		//Since a parent added it then it is assumed that confirmed is true
+		taskObj.confirmed = true;
+		//This is a new task therefore completed is false by default.
+		taskObj.completed = false;
+		//Add the current logged in family name to the task object data so we have that proper family associated with the task
+		taskObj.family = self.userObject.family;
+		console.log('#### The task object is - ',taskObj);
+		$http.post(`/api/user/addTask/${taskObj.user_id}`, taskObj).then(function (response) {
 				console.log('success');
-				//Keeping this for now. Used to redirect if you want after the post
-				// $location.path('/home');
 			},
 			function (response) {
 				console.log('error');
@@ -83,31 +90,25 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			});
 		//update the tasks listed in the DOM
 		self.getTasks();
-	};
+	};//End self.addTaskToDatabase
 
-	//add user
-	// let promise =
-		self.addUser = function (role) {
-			// console.log('sending to server self.addUserObject...', self.addUserObject);
-			// console.log('sending to server self.userObject...', self.userObject);
-			// console.log('sending to server self...', self);
-
+	//self.addUser function
+	// Adds a new user to the database
+	// Requires a role type to be passed in
+	self.addUser = function (role) {
 			if (self.addUserObject.username === '' || self.addUserObject.password === '') {
-				//TODO - change this message to a popup - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
-				self.message = "Username and password must all be entered!";
+				//TODO - change this message to a popup later- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+				alert('Username and password must all be entered!');
 
 			} else {
 				// a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
 				self.addUserObject.role = role;
 				self.addUserObject.family = self.userObject.family;
-
-				// console.log('sending to server self.addUserObject...', self.addUserObject);
-				// return $http(....
 				let promise = $http.post('/api/user/register', self.addUserObject).then(function (response) {
 						console.log('success on addUser post');
+						alert('User added successfully');
 						// Update user list object
-						self.getUsers();
-						// $location.path('/parentUser');
+						return self.getUsers();
 					},
 					function (response) {
 						console.log('error');
@@ -117,42 +118,38 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				return promise;
 			}
 
-		};
+		};//End self.addUser
 
-
+	//self.changeToEditTaskView
+	// Update the self.editTaskObjects data with the passed in data and also update the date so it is a Date object
 	self.changeToEditTaskView = function (editTaskObj) {
-		// console.log('The task object is :', editTaskObj);
-		$location.path('/editTask');
 		self.editTaskObject = editTaskObj.task;
-		// console.log('The self editTask object is ******:', self.editTaskObject);
 		self.editTaskObject.duedate = $filter('date')(self.editTaskObject.duedate, "MM-dd-yyyy");
 		self.editTaskObject.duedate = new Date(self.editTaskObject.duedate);
-		// var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
-		// (binding("1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'"))
-	};
+		$location.path('/editTask');
+	};//End self.changeToEditTaskView
 
+	//self.updateTask
+	// Update the the task currently loaded into the self.editTaskObject
 	self.updateTask = function () {
 		return $http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
-				// console.log('get response', response);
 				//Update the task list
 				self.getTasks();
-				// //if compltedtask has changed
-				// self.completeTask(editTaskObj)
 				$location.path('/parentUser');
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
-		self.getTasks();
-	};
+	};//End self.updateTask
 
+	//self.deleteTask
+	// Delete the task currently loaded into the self.editTaskObject
 	self.deleteTask = function () {
 		if (confirm("Confirm delete")) {
 			$http.delete(`/api/user/deleteTask/${self.editTaskObject._id}`, self.editTaskObject)
 				.then(function (response) {
 					//Update the task list
-					console.log('Delete Success:', response);
 					self.getTasks();
 					$location.path('/parentUser');
 				})
@@ -162,11 +159,13 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		} else {
 			txt = "You pressed Cancel!";
 		}
-	};
+	};//End self.deleteTask
 
+	//self.deleteUser
+	// Delete the user that is passed in
+	// Requires a user object with a user Schema
 	self.deleteUser = function (userToDelete) {
 		if (confirm("Confirm delete")) {
-			console.log('##########   User object to Delete is :', userToDelete);
 			//When we pass in a parent it comes in as parent.parent. We must change it to be able to reuse this function
 			if (userToDelete.parent != undefined){ userToDelete = userToDelete.parent}
 
@@ -174,7 +173,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 			if (userToDelete.role === 'child'){
 				// Delete all associated tasks
 				for (let i=0 ; i< userToDelete.tasks.length ; i++) {
-					console.log('##########   Task to Delete is :', userToDelete.tasks[i]);
 					$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
 						.then(function (response) {
 							console.log('Delete Success:', response);
@@ -208,53 +206,59 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 		self.getUsers();
 		self.getTasks();
 		$location.path('/parentEditUser');
-	};
+	};//End self.deleteUser
 
+	//self.getUsers
+	// Get all the users in the database and add the parents to self.userParentArray and the children to self.userArray
 	self.getUsers = function () {
-		$http.get('/api/user/getUsers')
+		let promise = $http.get('/api/user/getUsers')
 			.then(function (response) {
-					// console.log('all users response.data is :', response.data);
-					//Clear the array so we do not keep appending it
+					//Clear the arrays so we do not keep appending them
 					self.userArray = [];
 					self.userParentArray = [];
+					self.awardedArray = [];
 					for (let i = 0; i < response.data.length; i++) {
 						if (response.data[i].role === 'child') {
 							//Populate userArray with children users for later use
 							self.userArray.push(response.data[i]);
+
+							//If a child has earned an award add it to the awardedArray so we can show it on the main page
+							if (response.data[i].awardEarnedFlag === true){
+								self.awardedArray.push(response.data[i]);
+							}
 						}
 						else if(response.data[i].role === 'parent'){
 							//Populate userParentArray with parent users for later use
 							self.userParentArray.push(response.data[i]);
 						}
 					}
-					// console.log('all children are  :', self.userArray);
-
+					return true;
 				},
 				function (response) {
 					console.log('error in getting users from the router :', response);
+					return false;
 				});
-	};
+		return promise;
+	};//End self.getUsers
 
-	self.getUsers();
-
+	//self.changeToEditView
+	// Update the self.awardObject with the passed in award object and direct the user to the edituser view
 	self.changeToEditView = function(award){
 		self.awardObject = award.child;
 		$location.path('/editUser');
-		// console.log('self.award object is :', self.awardObject);
-	};
+	};//End self.changeToEditView
 
+	//self.changeToEditView
+	// Direct the user to the parentuser view
 	self.goToParentView = function(){
-		// self.awardObject = award.child;
 		$location.path('/parentUser');
-		// console.log('self.award object is :', self.awardObject);
-	};
+	};//End self.changeToEditView
 
-	self.editUser = function(){
+	//self.editUser
+	// Takes in an object with the user schema and updates the database  with the data it the object has in it
+	self.editUser = function(userObject){
 		self.getTasks();
-		// console.log('awardObject is :', self.awardObject);
-		// $http.put(`/api/user/editUser/`, self.awardObject)
-		console.log('awardObject is :', self.awardObject);
-		$http.put(`/api/user/editUser/`, self.awardObject)
+		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getTasks();
 				$location.path('/parentEditUser');
@@ -264,102 +268,84 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter', function ($
 				});
 	};//End self.editUser
 
-	self.completeTask = function () {
-		//finduser set up the associated child user to updateUserObject
-		self.findUser(self.editTaskObject.assignedto);
-		console.log('#########self.editTaskObject is :', self.editTaskObject);
-		// console.log('#########self.updateUserObject is :', self.updateUserObject);
-		console.log('######### BEFORE self.editTaskObject.completed is :', self.editTaskObject.completed);
-
-		// self.editTaskObject = editTaskObj.task;
-		// self.editTaskObject.completed = !self.editTaskObject.completed;
-		console.log('######### AFTER self.editTaskObject.completed is :', self.editTaskObject.completed);
-
-		console.log('#########self.editTaskObject.pointvalue is :', self.editTaskObject.pointvalue);
-		$http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
+	//self.completeTask
+	// Toggles the task complete, updates the point totals and then updates the task data and user data in the database
+	self.completeTask = function (task) {
+		console.log('the task is - ', task);
+		//assign the userToEditObject to the user we are updating - use the finduser function
+		userToEditObject = self.findUser(task.assignedto);
+		$http.put(`/api/user/updateTask/${task._id}`, task)
 			.then(function (response) {
-				// console.log('get response', response);
-				if (self.editTaskObject.completed === true){
-					console.log('*********self.userObject.points_earned is ', self.updateUserObject.points_earned);
-					self.updateUserObject.points_earned += self.editTaskObject.pointvalue;
-					console.log('self.updateUserObject.points_earned after addition is ', self.updateUserObject.points_earned);
+				if (task.completed === true){
+					userToEditObject.points_earned += task.pointvalue;
 				}
 				else{
-					console.log('*********self.userObject.points_earned is ', self.updateUserObject.points_earned);
-					self.updateUserObject.points_earned -= self.editTaskObject.pointvalue;
-					console.log('self.updateUserObject.points_earned after subtraction is ', self.updateUserObject.points_earned);
+					userToEditObject.points_earned -= task.pointvalue;
 				}
-
-				self.editUser();
-				//Update the task list
-				self.getTasks();
+				userToEditObject.pointsRemaining = userToEditObject.award_id[0].pointvalue  - userToEditObject.points_earned;
+				//Check to see if award has need earned and set the awardEarnedFlag
+				if ((userToEditObject.award_id[0].pointvalue - userToEditObject.points_earned) <= 0){
+					userToEditObject.awardEarnedFlag = true;
+				}
+				else {
+					userToEditObject.awardEarnedFlag = false;
+				}
+				self.editUser(userToEditObject);
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
-	};
+	};//End self.completeTask
 
+	//self.findUser function
+	// Goes through the array that holds all the child users and when it finds a match it returns an object with the matches users data
 	self.findUser = function (name) {
 		for (let i=0; i< self.userArray.length; i++){
 			if ( self.userArray[i].username === name){
-				self.updateUserObject = self.userArray[i];
-				console.log('self.updateUserObject is ', self.updateUserObject);
+				userMatch = self.userArray[i];
 			}
 		}
+		return userMatch;
+	}; // End self.findUSer
 
-	};
-
-
-
-	// self.editUser = function(editObj){
-	// 	console.log('ernie object is :', editObj);
-	// 	$http.put(`/api/user/editUser/`, editObj)
-	// 		.then(function (response) {
-	// 			self.getTasks();
-	// 			$location.path('/parentEditUser');
-	// 		})
-	// 		.catch(function (response) {
-	// 			console.log('error on put when editing user', response);
-	// 		});
-	// }//End self.editUser
-
+	//self.editAward function
+	// Requires an object using the award schema and updates the database with the objects data
 	self.editAward = function(editObj){
 		console.log('edit award object is :', editObj);
 		$http.put(`/api/user/editAward`, editObj)
 			.then(function (response) {
-				//self.getTasks();
 			})
 			.catch(function (response) {
 				console.log('error on put when editing award', response);
 			});
 	};//End self.editAward
 
-
-	var fsClient = filestack.init('Ax2kts5B6SyWczF8XeHOEz');
+	//self.uploadPicture
+	// Uploads a picture to FileStack to use for the award and then updates the award in the database with the link of the picture.
+	//  assigning the fsClient as the API key for use with FileStack
+	//TODO - should this key be in the .env? Will this prevent users from uploading when live?
+	//let fsClient = process.env.FILESTACK-API_KEY;
+	let fsClient = filestack.init('Ax2kts5B6SyWczF8XeHOEz');
 	self.uploadPicture = function(childData) {
 		fsClient.pick({
 			fromSources:["local_file_system","imagesearch","facebook","instagram","dropbox"],
 			accept:["image/*"]
 		}).then(function(response) {
-			// declare this function to handle response
-			console.log('picture response is ', response);
-			// let myLink = self.addPhoto(response.filesUploaded[0].url);
 			let pictureLink = response.filesUploaded[0].url;
 			console.log('my link is ', pictureLink);
 			console.log('self.editTaskObject is ', self.editTaskObject);
 			console.log('child data passed in is ', childData);
-			//let awardId = req.body.award_id[0]._id;
 			awardObj = childData.child.award_id[0];
 			awardObj.link = pictureLink;
-			console.log('awardObj is ', awardObj);
+			//update the award with the new picture link
 			self.editAward(awardObj);
 		});
-	};
+	};//End self.uploadPicture
+
 
 	self.addPhoto = function (response) {
 		return response.filesUploaded[0].url
-
-	}
+	} // End self.addPhoto
 
 }]);
 

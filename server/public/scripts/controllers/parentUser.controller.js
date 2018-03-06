@@ -1,42 +1,39 @@
 myApp.controller('ParentUserController', ['ParentUserService' , '$location', function (ParentUserService, $location) {
 	console.log('ParentUserController created');
-	//taskName, childName, dueDate, assignedBy, pointValue
-
-
 
 	let self = this;
 	self.userArray = [];
 
 	self.parentUserService = ParentUserService;
+	//TODO - Can we reove this?
 	self.userObjectObject = ParentUserService.userObject;
 
 	self.parentUserService.getTasks();
 	self.parentUserService.userArray = [];
 	self.parentUserService.getUsers();
 
-
-
 	self.addUser = function (role) {
-		ParentUserService.addUserObject = self.addUserObject;
-		self.parentUserService.addUser(role);
-		//Add a promise and .then to this
-		self.addUserObject = {};
-		// $location.path('/parentEditUser');
-	};
+		if (typeof self.addUserObject === 'undefined' || typeof role === 'undefined') {
+			alert('All fields must be entered!');
+		}
+		else {
+			ParentUserService.addUserObject = self.addUserObject;
+			self.parentUserService.addUser(role).then(function (response) {
+				self.addUserObject = {};
+			});
+		}
+	}; //End self.addUser
 
 	self.task = {
 		taskName: '',
 		childName: '',
 		category: '',
 		dueDate: '',
-		// assignedBy: '',
 		pointValue: '',
 	};
-	self.addTaskToDatabase = function () {
-		// console.log('childUserIndex is :', self.childUserIndex);
-		// console.log('self.task object is : ', self.task);
-		index = self.childUserIndex;
 
+	self.addTaskToDatabase = function () {
+		index = self.childUserIndex;
 		self.task.childName = self.parentUserService.userArray[index].username;
 		self.task.user_id = self.parentUserService.userArray[index]._id;
 		if (self.task.taskName === '' || self.task.childName === '' || self.task.category === '' || self.task.dueDate === ''
@@ -45,24 +42,30 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 		}
 		else {
 			self.parentUserService.addTaskToDatabase(self.task);
-			//clear the fields TODO - set up a promise
 			self.task = {};
 			self.childUserIndex = null;
-			// self.parentTask.$setPristine();
-
 		}
 	};
 
-	// self.changeToEditView = function(award){
-	// 	self.parentUserService.awardObject = award;
-	// 	self.award = award;
-	// 	$location.path('/editAward');
-	// 	console.log('self.award object is :', self.award);
+
+	//// To use if we add a modal
+	//let modal = document.getElementById('myModal');
+	//// Get the button that opens the modal
+	//let btn = document.getElementById("myBtn");
+	//// Get the <span> element that closes the modal
+	//let span = document.getElementsByClassName("close")[0];
+	//// When the user clicks the button, open the modal
+	// self.openModal = function() {
+	// 	modal.style.display = "block";
 	// };
 
-	// self.editAward = function (awardObject) {
-	// 	$location.path('/parentUser');
-	// 	self.parentUserService.editAward(awardObject);
+	// When the user clicks anywhere outside of the modal, close it
+	// self.closeModal = function(event) {
+	// 	// if (event.target == modal) {
+	// 		modal.style.display = "none";
+	// 	// }
 	// }
 
 }]);
+
+

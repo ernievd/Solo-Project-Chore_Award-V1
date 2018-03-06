@@ -12,15 +12,15 @@
 					<th>Child</th>
 					<th>Category</th>
 					<th>Due Date</th>
-					<th>Assigned By</th>
+					<!--<th>Assigned By</th>-->
 					<th>Point Value</th>
 					<th>Confirmed</th>
 					<th>Completed</th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<!--<th scope="row">1</th>-->
 					<td>
 						<input type="text" class="form-control" name="task" value=""
 						       placeholder="{{vm.parentUserService.editTaskObject.taskname}}"
@@ -48,11 +48,6 @@
 						       ng-model="vm.parentUserService.editTaskObject.duedate">
 					</td>
 					<td>
-						<input type="text" class="form-control" name="assignedby" value=""
-						       placeholder="{{vm.parentUserService.editTaskObject.assignedby}}"
-						       ng-model="vm.parentUserService.editTaskObject.assignedby">
-					</td>
-					<td>
 						<input type="number" class="form-control" name="pointValue" value=""
 						       placeholder="{{vm.parentUserService.editTaskObject.pointvalue}}"
 						       ng-model="vm.parentUserService.editTaskObject.pointvalue">
@@ -68,33 +63,31 @@
 					</td>
 					<td>
 						<label class="radio-inline">
-							<input type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed" ng-change="vm.parentUserService.completeTask()" value="vm.parentUserService.editTaskObject.completed" ng-checked="vm.parentUserService.editTaskObject.completed"/>
+							<input ng-change="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)" style="font-size:16px" type="checkbox" ng-model="vm.parentUserService.editTaskObject.completed"
+							       value="vm.parentUserService.editTaskObject.completed"
+							       ng-checked="vm.parentUserService.editTaskObject.completed"/>
 						</label>
+					</td>
+					<td>
+							<span class="btn btn-primary" ng-click="vm.parentUserService.updateTask()"><span
+									class="glyphicon glyphicon-edit"></span> Update Task</span>
 					</td>
 				</tr>
 				</tbody>
 			</table>
-			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
-
 		</div>
 	</div>
 </div>
 
 
-<div class="container col-md-12 text-center">
-	<!--vm.childUserService.completeTask({task})-->
-	<span class="btn btn-primary" ng-click="vm.parentUserService.updateTask()"><span
-			class="glyphicon glyphicon-edit"></span> Update Task</span>
-	<span class="btn btn-primary" ng-click="vm.parentUserService.deleteTask()"><span
+<div class="container text-center">
+	<span class="btn btn-danger right-pad" ng-click="vm.parentUserService.deleteTask()"><span
 			class="glyphicon glyphicon-remove-sign"></span> Delete Task</span>
-</div>
-<br>
-<br>
 
-<div class="container col-md-12 text-center">
-	<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>
+	<span class="btn btn-warning left-pad" ng-click="vm.parentUserService.goToParentView()"><span
+			class="glyphicon glyphicon-remove-sign"></span> Cancel Edit</span>
 </div>
+
+
 
 

@@ -27,21 +27,14 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 				}
 			}
 		})
-
 		.when('/childUser', {
 			templateUrl: '/views/templates/childUser.html',
 			controller: 'ChildUserController as vm',
 			resolve: {
-				getuser: function (ChildUserService) {
-					// update the task list before loading
-					ChildUserService.getTasks();
-					return ChildUserService.getuser();
-					//####get child user to check!!!!!
-
+				getChildUser: function (ChildUserService) {
 				}
 			}
 		})
-
 		.when('/editTask', {
 			templateUrl: '/views/templates/editTask.html',
 			controller: 'ParentUserController as vm',

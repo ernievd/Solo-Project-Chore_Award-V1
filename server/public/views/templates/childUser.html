@@ -5,14 +5,12 @@
 <!--Award area-->
 <div class="container table-bordered col-md-12">
 	<div>
-		<h1 class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} is working hard to get </h1>
+		<h1 ng-if="vm.childUserService.userObject.awardEarnedFlag" class="text-center alert-success" style="font-size:250%;">{{vm.childUserService.userObject.username}} has earned enough points now to get the award!! </h1>
+		<h1 ng-if="!vm.childUserService.userObject.awardEarnedFlag" class="text-center" style="font-size:250%;">{{vm.childUserService.userObject.username}} is working hard to get </h1>
 		<img class="center-image" src={{vm.childUserService.userObject.award_id[0].link}}>
 	</div>
 	<div>
-		<h3 class="text-center"> The total points {{vm.childUserService.userObject.username}} has earned is :{{vm.childUserService.userObject.points_earned}}</h3>
-		<h3 class="text-center"> The remaining points needed to earn the award is :{{vm.childUserService.userObject.pointsRemaining}}</h3>
-
-
+		<h3 class="text-center">{{vm.childUserService.userObject.username}} has earned {{vm.childUserService.userObject.points_earned}} points towards the {{vm.childUserService.userObject.award_id[0].pointvalue}} points needed</h3>
 	</div>
 </div>
 
@@ -30,7 +28,7 @@
 					<th>Due Date</th>
 					<th>Assigned By</th>
 					<th>Point Value</th>
-					<th>Confirmed</th>
+					<th>Parent Confirmed</th>
 					<th>Completed</th>
 					<th></th>
 				</tr>
@@ -45,20 +43,20 @@
 					<td>{{task.assignedby}}</td>
 					<td>{{task.pointvalue}}</td>
 					<td>
-						<label class="radio-inline">
-							<input type="checkbox" ng-model="task.confirmed" value="task.confirmed"
+						<label class="radio-inline text-center">
+							<input type="checkbox" disabled="disabled" ng-model="task.confirmed" value="task.confirmed"
 							       ng-checked="task.confirmed"/>
 						</label>
 					</td>
 					<td>
 						<div>
 							<label class="radio-inline">
-								<input type="checkbox" ng-model="task.completed" value="task.completed"
+								<input type="checkbox" disabled="disabled" ng-model="task.completed" value="task.completed"
 								       ng-checked="task.completed"/>
 							</label>
 						</div>
 					</td>
-					<td><span class="btn btn-primary" ng-click="vm.childUserService.completeTask({task})">
+					<td><span class="btn btn-primary" ng-click="vm.childUserService.childCompleteTask({task})">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> I Did It!!</span>
 					</td>
 				</tr>
@@ -73,8 +71,7 @@
 <form name="childTask" class="table-bordered">
 	<div class="container" style="margin-top:20px;">
 		<div class="container form-group row input-group">
-			<h1 class="text-center" style="font-size:160%;">I Found Something I Want to Add To My List:</h1>
-			<!--<h1 class="lead alert alert-success" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>-->
+			<h1 class="text-center" style="font-size:160%;">I found something that I know I can do:</h1>
 			<!--TODO - add popup when a field is empty-->
 			<h2 class="bg-primary" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
 
@@ -100,7 +97,7 @@
 			</div>
 
 			<div class="col-md-3">
-				<span class="btn btn-primary" ng-click="vm.childAddTaskToDatabase(); child.userName = null"><span
+				<span class="btn btn-primary" ng-click="vm.childAddTask(); child.userName = null"><span
 						class="glyphicon glyphicon-upload" aria-hidden="true"></span>Add Task</span>
 			</div>
 
