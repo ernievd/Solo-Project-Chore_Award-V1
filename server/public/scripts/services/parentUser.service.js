@@ -83,8 +83,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		console.log('#### The task object is - ',taskObj);
 		$http.post(`/api/user/addTask/${taskObj.user_id}`, taskObj).then(function (response) {
 				console.log('success');
-				//Keeping this for now. Used to redirect if you want after the post
-				// $location.path('/home');
 			},
 			function (response) {
 				console.log('error');
@@ -99,23 +97,18 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	// Requires a role type to be passed in
 	self.addUser = function (role) {
 			if (self.addUserObject.username === '' || self.addUserObject.password === '') {
-				//TODO - change this message to a popup - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+				//TODO - change this message to a popup later- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 				alert('Username and password must all be entered!');
 
 			} else {
 				// a new user is creating a new  and therefore defaults to registering user is defaulted as a parent and will add children users under there account
 				self.addUserObject.role = role;
 				self.addUserObject.family = self.userObject.family;
-
-				// console.log('sending to server self.addUserObject...', self.addUserObject);
-				// return $http(....
 				let promise = $http.post('/api/user/register', self.addUserObject).then(function (response) {
 						console.log('success on addUser post');
 						alert('User added successfully');
 						// Update user list object
 						return self.getUsers();
-
-						// $location.path('/parentUser');
 					},
 					function (response) {
 						console.log('error');
@@ -142,7 +135,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		return $http.put(`/api/user/updateTask/${self.editTaskObject._id}`, self.editTaskObject)
 			.then(function (response) {
 				//Update the task list
-
 				self.getTasks();
 				$location.path('/parentUser');
 			})
@@ -158,7 +150,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 			$http.delete(`/api/user/deleteTask/${self.editTaskObject._id}`, self.editTaskObject)
 				.then(function (response) {
 					//Update the task list
-					console.log('Delete Success:', response);
 					self.getTasks();
 					$location.path('/parentUser');
 				})
@@ -182,7 +173,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 			if (userToDelete.role === 'child'){
 				// Delete all associated tasks
 				for (let i=0 ; i< userToDelete.tasks.length ; i++) {
-					console.log('##########   Task to Delete is :', userToDelete.tasks[i]);
 					$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
 						.then(function (response) {
 							console.log('Delete Success:', response);
@@ -254,7 +244,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	//self.changeToEditView
 	// Update the self.awardObject with the passed in award object and direct the user to the edituser view
 	self.changeToEditView = function(award){
-		//TODO - Change awardObjet name to something else
 		self.awardObject = award.child;
 		$location.path('/editUser');
 	};//End self.changeToEditView
@@ -262,7 +251,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	//self.changeToEditView
 	// Direct the user to the parentuser view
 	self.goToParentView = function(){
-		// self.awardObject = award.child;
 		$location.path('/parentUser');
 	};//End self.changeToEditView
 
@@ -270,7 +258,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	// Takes in an object with the user schema and updates the database  with the data it the object has in it
 	self.editUser = function(userObject){
 		self.getTasks();
-		console.log('userObject is :', userObject);
 		$http.put(`/api/user/editUser/`, userObject)
 			.then(function (response) {
 				self.getTasks();
@@ -287,23 +274,14 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		console.log('the task is - ', task);
 		//assign the userToEditObject to the user we are updating - use the finduser function
 		userToEditObject = self.findUser(task.assignedto);
-		//task.completed = !task.completed;
-		console.log('task.completed is ', task.completed);
-		console.log('#########task.pointvalue is :', task.pointvalue);
 		$http.put(`/api/user/updateTask/${task._id}`, task)
 			.then(function (response) {
-				// console.log('get response', response);
 				if (task.completed === true){
-					console.log('*********self.userObject.points_earned is ', userToEditObject.points_earned);
 					userToEditObject.points_earned += task.pointvalue;
-					console.log('userToEditObject.points_earned after addition is ', userToEditObject.points_earned);
 				}
 				else{
-					console.log('*********self.userObject.points_earned is ', userToEditObject.points_earned);
 					userToEditObject.points_earned -= task.pointvalue;
-					console.log('userToEditObject.points_earned after subtraction is ', userToEditObject.points_earned);
 				}
-				console.log('userToEditObject is :',userToEditObject)
 				userToEditObject.pointsRemaining = userToEditObject.award_id[0].pointvalue  - userToEditObject.points_earned;
 				//Check to see if award has need earned and set the awardEarnedFlag
 				if ((userToEditObject.award_id[0].pointvalue - userToEditObject.points_earned) <= 0){
@@ -312,17 +290,14 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 				else {
 					userToEditObject.awardEarnedFlag = false;
 				}
-
 				self.editUser(userToEditObject);
-				//Update the task list
-				// self.getTasks();
 			})
 			.catch(function (response) {
 				console.log('error on put with updating task', response);
 			});
 	};//End self.completeTask
 
-	//self.finduser function
+	//self.findUser function
 	// Goes through the array that holds all the child users and when it finds a match it returns an object with the matches users data
 	self.findUser = function (name) {
 		for (let i=0; i< self.userArray.length; i++){
@@ -339,7 +314,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		console.log('edit award object is :', editObj);
 		$http.put(`/api/user/editAward`, editObj)
 			.then(function (response) {
-				//self.getTasks();
 			})
 			.catch(function (response) {
 				console.log('error on put when editing award', response);
@@ -350,7 +324,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	// Uploads a picture to FileStack to use for the award and then updates the award in the database with the link of the picture.
 	//  assigning the fsClient as the API key for use with FileStack
 	//TODO - should this key be in the .env? Will this prevent users from uploading when live?
-	//const fsClient = process.env.FILESTACK-API_KEY;
+	//let fsClient = process.env.FILESTACK-API_KEY;
 	let fsClient = filestack.init('Ax2kts5B6SyWczF8XeHOEz');
 	self.uploadPicture = function(childData) {
 		fsClient.pick({
@@ -372,22 +346,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 	self.addPhoto = function (response) {
 		return response.filesUploaded[0].url
 	} // End self.addPhoto
-
-
-	// self.giveAward = false;
-	// self.checkForAwardCompletion = function (){
-	// 	console.log(self.childUserService.userObject);
-	// 	self.userObject.pointsRemaining = self.userObject.award_id[0].pointvalue - self.userObject.points_earned;
-	//
-	// 	if (self.childUserService.userObject.pointsRemaining <= 0){
-	// 		console.log('AWARD CAN BE GIVEN!!');
-	// 		self.giveAward = true;
-	// 	}
-	// }//End self.checkForAwardCompletion
-
-
-	//self.checkForAwardCompletion();
-
 
 }]);
 

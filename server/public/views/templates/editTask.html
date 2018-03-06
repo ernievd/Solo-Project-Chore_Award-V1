@@ -21,7 +21,6 @@
 				</thead>
 				<tbody>
 				<tr>
-					<!--<th scope="row">1</th>-->
 					<td>
 						<input type="text" class="form-control" name="task" value=""
 						       placeholder="{{vm.parentUserService.editTaskObject.taskname}}"
@@ -48,11 +47,6 @@
 						       placeholder="{{vm.parentUserService.editTaskObject.duedate}}"
 						       ng-model="vm.parentUserService.editTaskObject.duedate">
 					</td>
-					<!--<td>-->
-						<!--<input type="text" class="form-control" name="assignedby" value=""-->
-						       <!--placeholder="{{vm.parentUserService.editTaskObject.assignedby}}"-->
-						       <!--ng-model="vm.parentUserService.editTaskObject.assignedby">-->
-					<!--</td>-->
 					<td>
 						<input type="number" class="form-control" name="pointValue" value=""
 						       placeholder="{{vm.parentUserService.editTaskObject.pointvalue}}"
@@ -81,11 +75,6 @@
 				</tr>
 				</tbody>
 			</table>
-			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
-			<!--ng-change="vm.parentUserService.completeTask()"-->
-
 		</div>
 	</div>
 </div>
@@ -95,17 +84,8 @@
 	<span class="btn btn-danger right-pad" ng-click="vm.parentUserService.deleteTask()"><span
 			class="glyphicon glyphicon-remove-sign"></span> Delete Task</span>
 
-	<span class="btn btn-warning left-pad" ng-click="vm.parentUserService.vm.parentUserService.goToParentView()"><span
+	<span class="btn btn-warning left-pad" ng-click="vm.parentUserService.goToParentView()"><span
 			class="glyphicon glyphicon-remove-sign"></span> Cancel Edit</span>
-
-		<!--<span class="btn btn-warning glyphicon glyphicon-remove-sign" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>-->
-
-
-		<!--<span ng-if="vm.parentUserService.editTaskObject.completed" class="btn btn-primary" ng-click="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)">-->
-			<!--<span class="glyphicon glyphicon-remove-sign"></span> Mark task as completed</span>-->
-
-	<!--<span ng-if="!vm.parentUserService.editTaskObject.completed" class="btn btn-primary" ng-click="vm.parentUserService.completeTask(vm.parentUserService.editTaskObject)">-->
-			<!--<span class="glyphicon glyphicon-remove-sign"></span> Mark task as not completed</span>-->
 </div>
 
 

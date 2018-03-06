@@ -1,7 +1,5 @@
 myApp.controller('ParentUserController', ['ParentUserService' , '$location', function (ParentUserService, $location) {
 	console.log('ParentUserController created');
-	//taskName, childName, dueDate, assignedBy, pointValue
-
 
 	let self = this;
 	self.userArray = [];
@@ -15,34 +13,27 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	self.parentUserService.getUsers();
 
 	self.addUser = function (role) {
-		console.log('role - :', role);
-
 		if (typeof self.addUserObject === 'undefined' || typeof role === 'undefined') {
 			alert('All fields must be entered!');
 		}
 		else {
 			ParentUserService.addUserObject = self.addUserObject;
-			// self.parentUserService.addUser(role);
 			self.parentUserService.addUser(role).then(function (response) {
 				self.addUserObject = {};
-				// $location.path('/parentEditUser');
 			});
 		}
-	};
+	}; //End self.addUser
 
 	self.task = {
 		taskName: '',
 		childName: '',
 		category: '',
 		dueDate: '',
-		// assignedBy: '',
 		pointValue: '',
 	};
-	self.addTaskToDatabase = function () {
-		// console.log('childUserIndex is :', self.childUserIndex);
-		// console.log('self.task object is : ', self.task);
-		index = self.childUserIndex;
 
+	self.addTaskToDatabase = function () {
+		index = self.childUserIndex;
 		self.task.childName = self.parentUserService.userArray[index].username;
 		self.task.user_id = self.parentUserService.userArray[index]._id;
 		if (self.task.taskName === '' || self.task.childName === '' || self.task.category === '' || self.task.dueDate === ''
@@ -51,11 +42,8 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 		}
 		else {
 			self.parentUserService.addTaskToDatabase(self.task);
-			//clear the fields TODO - set up a promise
 			self.task = {};
 			self.childUserIndex = null;
-			// self.parentTask.$setPristine();
-
 		}
 	};
 
@@ -77,7 +65,6 @@ myApp.controller('ParentUserController', ['ParentUserService' , '$location', fun
 	// 		modal.style.display = "none";
 	// 	// }
 	// }
-
 
 }]);
 

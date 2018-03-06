@@ -1,19 +1,13 @@
-myApp.controller('ChildUserController', ['ChildUserService' , '$location', function (ChildUserService, $location) {
+myApp.controller('ChildUserController', ['ChildUserService' , '$location', function (ChildUserService,) {
 	console.log('ChildUserController created');
-	//taskName, childName, dueDate, assignedBy, pointValue
 
 	let self = this;
 
 	self.childUserService = ChildUserService;
 
-	//TODO - Can we reove this?
-	self.userObjectObject = ChildUserService.userObject;
-
-	self.childUserService.getuser();
+	self.childUserService.getChildUser();
 	self.childUserService.taskArray = [];
-	self.childUserService.getTasks();
-
-
+	self.childUserService.getChildTasks();
 
 	self.task = {
 		taskName: '',
@@ -23,15 +17,8 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 		pointValue: '',
 	};//End self.task
 
-	self.childAddTaskToDatabase = function () {
-		// console.log('childUserIndex is :', self.childUserIndex);
-		// console.log('self.task object is : ', self.task);
+	self.childAddTask = function () {
 		index = self.childUserIndex;
-
-		// self.task.childName = self.childUserService.userArray[index].username;
-		console.log('self.childUserService.userObject is', self.childUserService.userObject);
-		console.log('self.childUserService.userObject name is', self.childUserService.userObject.username);
-
 		self.task.childName = self.childUserService.userObject.username;
 		self.task.user_id = self.childUserService.userObject._id;
 		self.task.pointValue = 0;
@@ -42,18 +29,10 @@ myApp.controller('ChildUserController', ['ChildUserService' , '$location', funct
 			self.message = "All task fields must be be completed";
 		}
 		else {
-			self.childUserService.addTaskToDatabase(self.task);
-			//clear the fields TODO - set up a promise
+			self.childUserService.addChildTaskToDatabase(self.task);
 			self.task = {};
 			self.childUserIndex = null;
-			// self.parentTask.$setPristine();
 		}
-	};
-
-	// self.checkForAwardCompletion = function (){
-	// 	if (self.childUserService.userObject.pointsRemaining <= 0){
-	// 		console.log('AWARD CAN BE GIVEN!!');
-	// 	}
-	// };//End self.checkForAwardCompletion
+	};//End self.childAddTask
 
 }]);
