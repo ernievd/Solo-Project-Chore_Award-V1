@@ -10,6 +10,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 			templateUrl: '/views/templates/home.html',
 			controller: 'LoginController as vm',
 		})
+		.when('/welcome', {
+			templateUrl: '/views/templates/welcome.html',
+			controller: 'LoginController as vm',
+		})
 		.when('/register', {
 			templateUrl: '/views/templates/register.html',
 			controller: 'LoginController as vm'
@@ -23,21 +27,14 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 				}
 			}
 		})
-
 		.when('/childUser', {
 			templateUrl: '/views/templates/childUser.html',
 			controller: 'ChildUserController as vm',
 			resolve: {
-				getuser: function (ChildUserService) {
-					// update the task list before loading
-					ChildUserService.getTasks();
-					return ChildUserService.getuser();
-					//####get child user to check!!!!!
-
+				getChildUser: function (ChildUserService) {
 				}
 			}
 		})
-
 		.when('/editTask', {
 			templateUrl: '/views/templates/editTask.html',
 			controller: 'ParentUserController as vm',

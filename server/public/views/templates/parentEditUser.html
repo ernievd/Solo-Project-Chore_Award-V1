@@ -1,34 +1,47 @@
 <<div ng-include="'views/partials/parent-nav.html'"></div>
 
+<br>
+<br>
 
-<!--<div class="container col-md-12 text-center">-->
-	<!--<span class="btn btn-primary" ng-click="vm.parentUserService.editAward()"><span-->
-			<!--class="glyphicon glyphicon-edit"></span> Update Award</span>-->
+<!--<h2>Modal Example</h2>-->
+
+<!--&lt;!&ndash; Trigger/Open The Modal &ndash;&gt;-->
+<!--<button ng-click="vm.openModal()" id="myBtn">Open Modal</button>-->
+
+<!--&lt;!&ndash; The Modal &ndash;&gt;-->
+<!--<div id="myModal" class="modal">-->
+
+	<!--&lt;!&ndash; Modal content &ndash;&gt;-->
+	<!--<div class="modal-content">-->
+		<!--<span ng-click="vm.closeModal()" class="close">&times;</span>-->
+		<!--<p>Some text in the Modal..</p>-->
+	<!--</div>-->
+
 <!--</div>-->
-<br>
-<br>
+
+
 
 <!--Edit Child User section-->
 <div class="container table-bordered">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="text-center" style="font-size:200%;">Child User Details</h1>
+			<h1 class="text-center" style="font-size:200%;">Child Users</h1>
 			<table class="table table-striped col-md-12">
 				<thead>
 				<tr>
 					<th>User Name</th>
-					<th>User Role</th>
+					<!--<th>User Role</th>-->
 					<th>Points Earned</th>
 					<th>Childs Award</th>
 					<th>Picture link</th>
-					<th>Points Needed</th>
+					<th>The Awards Value</th>
 					<th></th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr ng-repeat="child in vm.parentUserService.userArray">
 					<td>{{child.username}}</td>
-					<td>{{child.role}}</td>
+					<!--<td>{{child.role}}</td>-->
 					<td>{{child.points_earned}}</td>
 					<td>{{child.award_id[0].awardname}}</td>
 					<td>{{child.award_id[0].link}}</td>
@@ -37,18 +50,9 @@
 							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Edit</span></td>
 					<td><span class="btn btn-primary" ng-click="vm.parentUserService.uploadPicture({child})"><span
 							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Add Award Picture</span></td>
-					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
-					<!--<td>{{award.pointValue}}</td>-->
-					<!--<td>{{award.link}}</td>-->
-					<!--<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>-->
 				</tr>
 				</tbody>
 			</table>
-			<!--<td ng-if = "user.role==='child'">{{user.role}}</td>-->
-			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
-
 		</div>
 	</div>
 </div>
@@ -57,14 +61,13 @@
 <!--Edit Parent User section-->
 <div class="container table-bordered top-margin">
 	<div class="row">
-		<div class="col-md-12">
-			<h1 class="text-center" style="font-size:200%;">Parent User Details</h1>
-			<table class="table table-striped col-md-12">
+		<div class="">
+			<h1 class="text-center" style="font-size:200%;">Parent Users</h1>
+			<table class="table table-striped col-md-6">
 				<thead>
 				<tr>
 					<th>User Name</th>
 					<th>User Role</th>
-
 					<th></th>
 				</tr>
 				</thead>
@@ -72,20 +75,12 @@
 				<tr ng-repeat="parent in vm.parentUserService.userParentArray">
 					<td>{{parent.username}}</td>
 					<td>{{parent.role}}</td>
-					<td ng-if="parent.username !== vm.parentUserService.userObject.userName" ><span class="btn btn-primary" ng-click="vm.parentUserService.deleteUser({parent})"><span
-							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Delete</span></td>
-					<!--ng-click="vm.parentUserService.changeToEditTaskView({task})-->
-					<!--<td>{{award.pointValue}}</td>-->
-					<!--<td>{{award.link}}</td>-->
-					<!--<td> class="btn btn-primary" ng-click="vm.getAwards()"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Edit Award</td>-->
+					<td ng-if="parent.username !== vm.parentUserService.userObject.userName" ><span class="btn btn-danger" ng-click="vm.parentUserService.deleteUser({parent})"><span
+							class="glyphicon glyphicon-upload" aria-hidden="true"></span> Delete User</span></td>
+					<td></td>
 				</tr>
 				</tbody>
 			</table>
-			<!--<td ng-if = "user.role==='child'">{{user.role}}</td>-->
-			<!--<button ng-click="vm.updateGame(game)" class="btn btn-default">Update</button>-->
-			<!--<button ng-click="vm.deleteGame(game._id)" class="btn btn-danger">Delete</button>-->
-			<!--<button ng-click="vm.updateVotes(game)" class="btn btn-info">Up Vote!</button>-->
-
 		</div>
 	</div>
 </div>

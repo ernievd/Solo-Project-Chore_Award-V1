@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container body-login-page col-md-12 welcome-font">
 	<h1 class="lead">Register User</h1>
 	<h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h1>
 	<form ng-submit="vm.registerUser()">
@@ -15,7 +15,7 @@
 			<input type="password" ng-model="vm.user.password"/>
 		</div>
 		<input class="btn btn-default" type="submit" name="submit" value="Register"/>
-		<a href="#home">Cancel</a>
+		<a href="#!home">Cancel</a>
 	</form>
 
 </div>

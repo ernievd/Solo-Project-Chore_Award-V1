@@ -6,19 +6,13 @@
 			<h1 class="text-center" style="font-size:200%;">Edit User</h1>
 			<table class="table table-striped col-md-12">
 				<thead>
-				<!--<tr>-->
-					<!--<th>Child</th>-->
-					<!--<th>Award</th>-->
-					<!--<th>Picture Link</th>-->
-					<!--<th>Point Value</th>-->
-				<!--</tr>-->
 				<tr>
 					<th>User Name</th>
-					<!--<th>User Role</th>-->
 					<th>Points Earned</th>
 					<th>Childs Award Description</th>
 					<th>Picture link</th>
 					<th>Total Points Needed for Award</th>
+					<th></th>
 					<th></th>
 				</tr>
 				</thead>
@@ -28,10 +22,6 @@
 						<input type="text" class="form-control" name="Username" value=""
 						       ng-model="vm.parentUserService.awardObject.username">
 					</td>
-					<!--<td>-->
-						<!--<input type="text" class="form-control" name="Role" value=""-->
-						       <!--ng-model="vm.parentUserService.awardObject.role">-->
-					<!--</td>-->
 					<td>
 						<input type="text" class="form-control" name="PointsEarned" value=""
 						       ng-model="vm.parentUserService.awardObject.points_earned">
@@ -48,6 +38,10 @@
 						<input type="number" class="form-control" name="Point Value" value=""
 						       ng-model="vm.parentUserService.awardObject.award_id[0].pointvalue">
 					</td>
+					<td>
+							<span class="btn btn-primary" ng-click="vm.parentUserService.editUser(vm.parentUserService.awardObject)"><span
+									class="glyphicon glyphicon-edit"></span> Update User</span>
+					</td>
 				</tr>
 				</tbody>
 			</table>
@@ -56,15 +50,16 @@
 	</div>
 </div>
 
-<div class="container col-md-12 text-center">
-	<span class="btn btn-primary" ng-click="vm.parentUserService.editUser(vm.parentUserService.awardObject)"><span
-			class="glyphicon glyphicon-edit"></span> Update User</span>
-</div>
 <br>
 <br>
 
-<div class="container col-md-12 text-center">
-	<span class="btn btn-primary" ng-click="vm.parentUserService.goToParentView()"><span></span> Cancel Edit</span>
-	<span class="btn btn-primary" ng-click="vm.parentUserService.deleteUser(vm.parentUserService.awardObject)"><span></span> Delete User</span>
+
+<div class="container text-center">
+	<span class="btn btn-danger right-pad" ng-click="vm.parentUserService.deleteUser(vm.parentUserService.awardObject)"><span
+			class="glyphicon glyphicon-remove-sign"></span> Delete User</span>
+
+	<span class="btn btn-warning left-pad" ng-click="vm.parentUserService.goToParentView()"><span
+			class="glyphicon glyphicon-remove-sign"></span> Cancel Edit</span>
 </div>
+
 

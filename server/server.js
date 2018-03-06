@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const sessionMiddleware = require('./modules/session-middleware');
 
+
 // start up the mongo database
 require('./modules/database');
 
