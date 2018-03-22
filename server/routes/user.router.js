@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 	// check if logged in
 	if (req.isAuthenticated()) {
 		// console.log(req.user.id);
-		User.find({'_id' : req.user.id}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
+		User.find({'_id': req.user.id}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
 			if (error) {
 				console.log('error on find: ', error);
 				res.sendStatus(500);
@@ -72,7 +72,7 @@ router.post('/register', (req, res, next) => {
 // Get all the tasks in the database
 router.get('/gettasks', (req, res) => {
 	if (req.isAuthenticated()) {
-		Tasks.find({ 'family' : req.user.family}, (error, foundTasks) => {
+		Tasks.find({'family': req.user.family}, (error, foundTasks) => {
 			if (error) {
 				console.log('error on find: ', error);
 				res.sendStatus(500);
@@ -82,45 +82,61 @@ router.get('/gettasks', (req, res) => {
 		}); // end find
 	} else {
 		// failure best handled on the server. do redirect here.
-		// res.sendStatus(403);
+		res.sendStatus(403);
 	}
 
 }); //End router.get '/gettasks'
 
 // Handles POST request with new task
 router.post('/addTask/:userId', (req, res, next) => {
-	const taskname = req.body.taskName;
-	const category = req.body.category;
-	const duedate = req.body.dueDate;
-	const assignedto = req.body.childName;
-	const assignedby = req.body.assignedby;
-	const pointvalue = req.body.pointValue;
-	const confirmed = req.body.confirmed;
-	const completed = req.body.completed;
-	const taskId = req.body._id;
-	const family = req.body.family;
-	const newTask = new Tasks({taskname, category, duedate, assignedto, assignedby, pointvalue, confirmed, completed, family});
-	newTask.save((error, taskDoc) => {
-		if (error) {
-			res.sendStatus(500);
-		}
-		else {
-			User.findByIdAndUpdate(
-				{
-					"_id": req.params.userId
-				},
-				{$push: {tasks: taskDoc._id}},
-				(pusherror, doc) => {
-					if (pusherror) {
-						console.log('error on push to user task array: ', pusherror);
-						res.sendStatus(500);
-					} else {
-						res.sendStatus(201);
+	if (req.isAuthenticated()) {
+		const taskname = req.body.taskName;
+		const category = req.body.category;
+		const duedate = req.body.dueDate;
+		const assignedto = req.body.childName;
+		const assignedby = req.body.assignedby;
+		const pointvalue = req.body.pointValue;
+		const confirmed = req.body.confirmed;
+		const completed = req.body.completed;
+		const taskId = req.body._id;
+		const family = req.body.family;
+		const newTask = new Tasks({
+			taskname,
+			category,
+			duedate,
+			assignedto,
+			assignedby,
+			pointvalue,
+			confirmed,
+			completed,
+			family
+		});
+		newTask.save((error, taskDoc) => {
+			if (error) {
+				res.sendStatus(500);
+			}
+			else {
+				User.findByIdAndUpdate(
+					{
+						"_id": req.params.userId
+					},
+					{$push: {tasks: taskDoc._id}},
+					(pusherror, doc) => {
+						if (pusherror) {
+							console.log('error on push to user task array: ', pusherror);
+							res.sendStatus(500);
+						} else {
+							res.sendStatus(201);
+						}
 					}
-				}
-			);
-		}
-	});
+				);
+			}
+		});
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
+
 });//End router.post '/addTask/:userId'
 
 // Handles login form authenticate/login POST
@@ -142,135 +158,174 @@ router.get('/logout', (req, res) => {
 
 // update a task using its ID
 router.put('/updateTask/:id', (req, res) => {
-	let taskId = req.params.id;
-	let taskToUpdate = req.body;
-	// update in collection
-	Tasks.findByIdAndUpdate(
-		{"_id": taskId},
-		{$set: taskToUpdate},
-		(error, updatedDocument) => {
-			if (error) {
-				console.log('error on task update: ', error);
-				res.sendStatus(500);
-			} else {
-				// console.log('Document before it was updated!: ', updatedDocument);
-				res.sendStatus(200);
-			}
+		if (req.isAuthenticated()) {
+			let taskId = req.params.id;
+			let taskToUpdate = req.body;
+			// update in collection
+			Tasks.findByIdAndUpdate(
+				{"_id": taskId},
+				{$set: taskToUpdate},
+				(error, updatedDocument) => {
+					if (error) {
+						console.log('error on task update: ', error);
+						res.sendStatus(500);
+					} else {
+						// console.log('Document before it was updated!: ', updatedDocument);
+						res.sendStatus(200);
+					}
+				}
+			)
+
+		} else {
+			// failure best handled on the server. do redirect here.
+			res.sendStatus(403);
 		}
-	)
-}); //End router.put '/updateTask/:id'
+	}
+); //End router.put '/updateTask/:id'
+
 
 // delete a task using its ID
 router.delete('/deleteTask/:id', (req, res) => {
-	Tasks.findByIdAndRemove(
-		{"_id": req.params.id},
-		(error, deletedTask) => {
-			if (error) {
-				console.log('error on remove:', error);
-				res.sendStatus(500);
-			} else {
-				console.log('task removed:', deletedTask);
-				res.sendStatus(200);
+	if (req.isAuthenticated()) {
+		Tasks.findByIdAndRemove(
+			{"_id": req.params.id},
+			(error, deletedTask) => {
+				if (error) {
+					console.log('error on remove:', error);
+					res.sendStatus(500);
+				} else {
+					console.log('task removed:', deletedTask);
+					res.sendStatus(200);
+				}
 			}
-		}
-	)
+		)
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
+
 }); //End router.delete '/deleteTask/:id'
 
 // delete a user using its ID
 router.delete('/deleteUser/:id', (req, res) => {
-	console.log('in ROUTER USER DELETE - req.params is :', req.params);
-	 User.findByIdAndRemove(
-		{"_id": req.params.id},
-		(error, deletedUser) => {
-			if (error) {
-				console.log('error on remove:', error);
-				res.sendStatus(500);
-			} else {
-				console.log('task removed:', deletedUser);
-				res.sendStatus(200);
+	if (req.isAuthenticated()) {
+		console.log('in ROUTER USER DELETE - req.params is :', req.params);
+		User.findByIdAndRemove(
+			{"_id": req.params.id},
+			(error, deletedUser) => {
+				if (error) {
+					console.log('error on remove:', error);
+					res.sendStatus(500);
+				} else {
+					console.log('task removed:', deletedUser);
+					res.sendStatus(200);
+				}
 			}
-		}
-	)
+		)
+
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
 }); //End router.delete '/deleteUser/:id'
 
 // delete an award using its ID
 router.delete('/deleteAward/:id', (req, res) => {
-	Awards.findByIdAndRemove(
-		{"_id": req.params.id},
-		(error, deletedUser) => {
-			if (error) {
-				console.log('error on remove:', error);
-				res.sendStatus(500);
-			} else {
-				console.log('task removed:', deletedUser);
-				res.sendStatus(200);
+	if (req.isAuthenticated()) {
+		Awards.findByIdAndRemove(
+			{"_id": req.params.id},
+			(error, deletedUser) => {
+				if (error) {
+					console.log('error on remove:', error);
+					res.sendStatus(500);
+				} else {
+					console.log('task removed:', deletedUser);
+					res.sendStatus(200);
+				}
 			}
-		}
-	)
+		)
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
 }); //End router.delete '/deleteAward/:id'
 
 // get all users
 router.get('/getUsers', (req, res) => {
-	User.find({'family' : req.user.family}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
-		if (error) {
-			console.log('error on find: ', error);
-			res.sendStatus(500);
-		} else {
-			// console.log('found user Documents: ', foundUsers);
-			res.send(foundUsers);
-		}
-	})
-
+	if (req.isAuthenticated()) {
+		User.find({'family': req.user.family}).populate({path: 'award_id', model: Awards}).exec((error, foundUsers) => {
+			if (error) {
+				console.log('error on find: ', error);
+				res.sendStatus(500);
+			} else {
+				// console.log('found user Documents: ', foundUsers);
+				res.send(foundUsers);
+			}
+		})
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
 });//End router.get '/getUsers'
 
 // edit an award
 router.put('/editAward', (req, res) => {
-	let awardId = req.body._id;
-	let awardToUpdate = req.body;
-	// update in collection
-	Awards.findByIdAndUpdate(
-		{"_id": awardId},
-		{$set: awardToUpdate},
-		(error, updatedDocument) => {
-			if (error) {
-				console.log('error on award update: ', error);
-				res.sendStatus(500);
-			} else {
-				// console.log('Document before it was updated!: ', updatedDocument);
-				res.sendStatus(200);
+	if (req.isAuthenticated()) {
+		let awardId = req.body._id;
+		let awardToUpdate = req.body;
+		// update in collection
+		Awards.findByIdAndUpdate(
+			{"_id": awardId},
+			{$set: awardToUpdate},
+			(error, updatedDocument) => {
+				if (error) {
+					console.log('error on award update: ', error);
+					res.sendStatus(500);
+				} else {
+					// console.log('Document before it was updated!: ', updatedDocument);
+					res.sendStatus(200);
+				}
 			}
-		}
-	)
+		)
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
 }); //End router.put '/editAward'
 
 // edit a user
 router.put('/editUser/', (req, res) => {
-	let userId = req.body._id;
-	let userDataToUpdate = req.body;
-	// update in collection
-	User.findByIdAndUpdate(
-		{"_id": userId},
-		{$set: userDataToUpdate},
-		(error, updatedDocument) => {
-			if (error) {
-				console.log('error on user update: ', error);
-				res.sendStatus(500);
-			}
-			else {
-				Awards.findByIdAndUpdate(
-					{"_id": userDataToUpdate.award_id[0]._id},
-					{$set: userDataToUpdate.award_id[0]},
-					(error, updatedDocument) => {
-						if (error) {
-							console.log('error on award update: ', error);
-							res.sendStatus(500);
+	if (req.isAuthenticated()) {
+		let userId = req.body._id;
+		let userDataToUpdate = req.body;
+		// update in collection
+		User.findByIdAndUpdate(
+			{"_id": userId},
+			{$set: userDataToUpdate},
+			(error, updatedDocument) => {
+				if (error) {
+					console.log('error on user update: ', error);
+					res.sendStatus(500);
+				}
+				else {
+					Awards.findByIdAndUpdate(
+						{"_id": userDataToUpdate.award_id[0]._id},
+						{$set: userDataToUpdate.award_id[0]},
+						(error, updatedDocument) => {
+							if (error) {
+								console.log('error on award update: ', error);
+								res.sendStatus(500);
+							}
 						}
-					}
-				);
-				res.sendStatus(200);
+					);
+					res.sendStatus(200);
+				}
 			}
-		}
-	)
+		)
+	} else {
+		// failure best handled on the server. do redirect here.
+		res.sendStatus(403);
+	}
 }); //End router.put '/editUser/'
 
 
