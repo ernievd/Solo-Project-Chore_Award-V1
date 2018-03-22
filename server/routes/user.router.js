@@ -47,7 +47,7 @@ router.post('/register', (req, res, next) => {
 					res.sendStatus(500);
 				}
 				else {
-					console.log('userDoc._Id in update user is :', userDoc._id);
+					//console.log('userDoc._Id in update user is :', userDoc._id);
 					User.findByIdAndUpdate(
 						{
 							"_id": userDoc._id
@@ -187,18 +187,20 @@ router.put('/updateTask/:id', (req, res) => {
 // delete a task using its ID
 router.delete('/deleteTask/:id', (req, res) => {
 	if (req.isAuthenticated()) {
-		Tasks.findByIdAndRemove(
-			{"_id": req.params.id},
-			(error, deletedTask) => {
-				if (error) {
-					console.log('error on remove:', error);
-					res.sendStatus(500);
-				} else {
-					console.log('task removed:', deletedTask);
-					res.sendStatus(200);
+		if (req.user.role === 'parent') {
+			Tasks.findByIdAndRemove(
+				{"_id": req.params.id},
+				(error, deletedTask) => {
+					if (error) {
+						console.log('error on remove:', error);
+						res.sendStatus(500);
+					} else {
+						console.log('task removed:', deletedTask);
+						res.sendStatus(200);
+					}
 				}
-			}
-		)
+			)
+		}
 	} else {
 		// failure best handled on the server. do redirect here.
 		res.sendStatus(403);
@@ -208,21 +210,21 @@ router.delete('/deleteTask/:id', (req, res) => {
 
 // delete a user using its ID
 router.delete('/deleteUser/:id', (req, res) => {
-	if (req.isAuthenticated()) {
-		console.log('in ROUTER USER DELETE - req.params is :', req.params);
-		User.findByIdAndRemove(
-			{"_id": req.params.id},
-			(error, deletedUser) => {
-				if (error) {
-					console.log('error on remove:', error);
-					res.sendStatus(500);
-				} else {
-					console.log('task removed:', deletedUser);
-					res.sendStatus(200);
+	if (req.user.role === 'parent') {
+		if (req.isAuthenticated()) {
+			User.findByIdAndRemove(
+				{"_id": req.params.id},
+				(error, deletedUser) => {
+					if (error) {
+						console.log('error on remove:', error);
+						res.sendStatus(500);
+					} else {
+						console.log('task removed:', deletedUser);
+						res.sendStatus(200);
+					}
 				}
-			}
-		)
-
+			)
+		}
 	} else {
 		// failure best handled on the server. do redirect here.
 		res.sendStatus(403);
@@ -231,19 +233,21 @@ router.delete('/deleteUser/:id', (req, res) => {
 
 // delete an award using its ID
 router.delete('/deleteAward/:id', (req, res) => {
-	if (req.isAuthenticated()) {
-		Awards.findByIdAndRemove(
-			{"_id": req.params.id},
-			(error, deletedUser) => {
-				if (error) {
-					console.log('error on remove:', error);
-					res.sendStatus(500);
-				} else {
-					console.log('task removed:', deletedUser);
-					res.sendStatus(200);
+	if (req.user.role === 'parent') {
+		if (req.isAuthenticated()) {
+			Awards.findByIdAndRemove(
+				{"_id": req.params.id},
+				(error, deletedUser) => {
+					if (error) {
+						console.log('error on remove:', error);
+						res.sendStatus(500);
+					} else {
+						console.log('task removed:', deletedUser);
+						res.sendStatus(200);
+					}
 				}
-			}
-		)
+			)
+		}
 	} else {
 		// failure best handled on the server. do redirect here.
 		res.sendStatus(403);

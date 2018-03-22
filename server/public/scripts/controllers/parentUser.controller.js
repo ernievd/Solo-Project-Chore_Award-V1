@@ -1,5 +1,5 @@
 myApp.controller('ParentUserController', ['ParentUserService' , '$location', function (ParentUserService, $location) {
-	console.log('ParentUserController created');
+	//console.log('ParentUserController created');
 
 	let self = this;
 	self.userArray = [];

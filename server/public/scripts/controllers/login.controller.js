@@ -52,7 +52,6 @@ myApp.controller('LoginController', ['$http', '$location', 'ParentUserService', 
 			self.user.role = 'parent';
 			console.log('sending to server...', self.user);
 			$http.post('/api/user/register', self.user).then(function (response) {
-					console.log('success');
 					$location.path('/welcome');
 				},
 				function (response) {
