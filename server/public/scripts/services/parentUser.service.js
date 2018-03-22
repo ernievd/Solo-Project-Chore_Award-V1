@@ -80,7 +80,6 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 		taskObj.completed = false;
 		//Add the current logged in family name to the task object data so we have that proper family associated with the task
 		taskObj.family = self.userObject.family;
-		console.log('#### The task object is - ',taskObj);
 		$http.post(`/api/user/addTask/${taskObj.user_id}`, taskObj).then(function (response) {
 				console.log('success');
 			},
@@ -175,7 +174,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 				for (let i=0 ; i< userToDelete.tasks.length ; i++) {
 					$http.delete(`/api/user/deleteTask/${userToDelete.tasks[i]}`, userToDelete.tasks[i])
 						.then(function (response) {
-							console.log('Delete Success:', response);
+
 						})
 						.catch(function (response) {
 							console.log('error on Delete', response);
@@ -186,7 +185,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 			//Delete the associated award
 			$http.delete(`/api/user/deleteAward/${userToDelete.award_id[0]._id}`, userToDelete)
 				.then(function (response) {
-					console.log('Delete Success:', response);
+
 				})
 				.catch(function (response) {
 					console.log('error on Delete', response);
@@ -195,7 +194,7 @@ myApp.service('ParentUserService', ['$http', '$location', '$filter' ,function ($
 			//Delete the user
 			$http.delete(`/api/user/deleteUser/${userToDelete._id}`, userToDelete)
 				.then(function (response) {
-					console.log('Delete Success:', response);
+
 				})
 				.catch(function (response) {
 					console.log('error on Delete', response);
