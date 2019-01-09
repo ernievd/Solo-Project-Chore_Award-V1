@@ -8,7 +8,7 @@ awards points for the completion of the tasks. Children and parents agree on an 
  Chore awards main goal is to help motivate children towards performing and finishing chores without the parent 
  having to constantly remind them.
  
- E
+
 ## Built With
 
 MongoDB, Express.js, AngularJS, Node.js, Javascript, Bootstrap, Passport
